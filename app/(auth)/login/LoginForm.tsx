@@ -9,6 +9,8 @@ import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { Input } from '@/components/ui/input';
+import { ProvidersButtons } from './ProvidersButtons';
+import { Preloader } from '@/components/Preloader/Preloader';
 
 enum LoginFormInputs {
   EMAIL = 'email',
@@ -30,8 +32,8 @@ export const LoginForm = () => {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      [LoginFormInputs.EMAIL]: '',
-      [LoginFormInputs.PASSWORD]: ''
+      [LoginFormInputs.EMAIL]: 'test@gmail.com',
+      [LoginFormInputs.PASSWORD]: '1234'
     }
   });
 
@@ -40,11 +42,10 @@ export const LoginForm = () => {
   const onSubmit = async ({ email, password }: z.infer<typeof loginFormSchema>) => {
     setLoading(true);
 
-    // const user = await getUserOrCreate(email, username);
-
-    // await signIn('credentials', {
-    //   email: user.email,
-    // });
+    await signIn('credentials', {
+      email,
+      password
+    });
   };
 
   return (
@@ -96,6 +97,7 @@ export const LoginForm = () => {
           </Button>
         </form>
       </Form>
+      <Preloader isLoading={loading} />
     </section>
   );
 };

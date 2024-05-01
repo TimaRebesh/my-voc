@@ -13,11 +13,11 @@ declare module 'next-auth' {
 
   interface LoginInputs {
     email: string;
-    username: string;
+    password: string;
   }
 
   interface LoginError {
-    type: 'email' | 'username';
+    type: 'email' | 'password';
     message: string;
   }
 }

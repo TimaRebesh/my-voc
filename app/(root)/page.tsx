@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default async function RootPage() {
+export default async function () {
   return (
-    <div>Roo</div>
+    <div>Root</div>
   );
 }

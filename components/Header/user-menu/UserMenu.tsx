@@ -1,4 +1,5 @@
 'use client';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,12 +11,20 @@ import {
 import { UserCogIcon, InfoIcon, LogOutIcon, LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { UserType } from '@/lib/database/models/user.model';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { User } from 'next-auth';
-import { AppRouterPath } from '@/constants/constants';
+import { AppRouterPath } from '@/constants';
 import { CustomAvatar } from '@/components/ui/custom-avatar';
 
-export const UserMenu = ({ user }: { user: User }) => {
+export const UserMenu = ({ serverUser }: { serverUser?: any; }) => {
+  console.log(serverUser);
+  const { data } = useSession();
+  if (!data)
+    return <div>no user</div>;
+  console.log(data.user);
+  const user = data.user;
+
+
   const onLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     signOut();
@@ -28,7 +37,7 @@ export const UserMenu = ({ user }: { user: User }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-4">
         <DropdownMenuLabel className="font-medium relative text-xl leading-tight text-gray-900">
-          {user.username}
+          {user.name}
         </DropdownMenuLabel>
         <DropdownMenuLabel className="font-normal text-base leading-tight text-gray-500 truncate">
           {user.email}
@@ -68,7 +77,7 @@ const MenuElement = ({
   );
 };
 
-const UserIcon = ({ user }: { user: UserType }) => {
+const UserIcon = ({ user }: { user: UserType; }) => {
   const getColor = (username: string): string => {
     const firstLetter = username.charAt(0).toLowerCase();
     const colorRanges = [
@@ -84,19 +93,14 @@ const UserIcon = ({ user }: { user: UserType }) => {
     return `bg-${colorRange ? colorRange.color : 'gray'}-500`;
   };
 
-  const getInitials = () => {
-    const firstNameInitial = user.first_name.charAt(0);
-    const lastNameInitial = user.last_name.charAt(0);
-    return firstNameInitial + lastNameInitial;
-  };
 
-  const avatarFallbackBackground = `text-xl text-white uppercase bg-orange-500 bg-purple-500 bg-red-500 bg-green-500 bg-blue-500 bg-gray-500 ${getColor(user.first_name)}`;
+  const avatarFallbackBackground = `text-xl text-white uppercase bg-orange-500 bg-purple-500 bg-red-500 bg-green-500 bg-blue-500 bg-gray-500 ${getColor(user.name)}`;
 
   return (
     <CustomAvatar
-      src={user.photo}
+      src={user.avatar}
       tooltipText="Open menu"
-      fallback={getInitials()}
+      fallback={user.name.charAt(0)}
       className={avatarFallbackBackground}
     />
   );
