@@ -2,8 +2,9 @@ export enum AppRouterPath {
   HOME = '/',
   LOGIN = '/login',
   REGISTER = '/register',
-  PROFILE = '/profile',
+  // PROFILE = '/profile',
   ABOUT = '/about',
+  SETTINGS = '/settings',
 }
 
 export enum UserFields {

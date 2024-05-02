@@ -15,16 +15,16 @@ export async function Header() {
   return (
     <header className="w-full h-12 text-gray-700 body-font flex justify-between items-center px-4">
       <div className="flex items-center">
-        <Link href={AppRouterPath.HOME} className="cursor-pointer">
+        {/* <Link href={AppRouterPath.HOME} className="cursor-pointer">
           <Image src="/images/monday.png" alt="monday" width={40} height={40} />
-        </Link>
+        </Link> */}
+        <UserMenu user={user as User} />
       </div>
 
       <div className="flex  items-center space-x-2">
         <p className="text-sm opacity-80">Timothy Rebesh</p>
         <ThemeToggle />
         <Separator orientation="vertical" className="mx-2 h-10" />
-        <UserMenu user={user as User} />
       </div>
     </header>
   );

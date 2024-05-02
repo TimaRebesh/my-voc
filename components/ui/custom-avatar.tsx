@@ -4,8 +4,7 @@ import { TooltipWrapper } from './tooltip-wrapper';
 
 interface CustomAvatarProps {
   src?: string;
-  width?: number;
-  height?: number;
+  size?: number;
   fallback?: string | JSX.Element;
   tooltipText?: string;
   className?: string;
@@ -13,8 +12,7 @@ interface CustomAvatarProps {
 
 export const CustomAvatar = ({
   src,
-  width = 10,
-  height = 10,
+  size = 10,
   fallback,
   tooltipText,
   className,
@@ -24,8 +22,8 @@ export const CustomAvatar = ({
       <div
         className={cn(
           'flex items-center justify-center bg-secondary rounded-full overflow-hidden',
-          `w-${width}`,
-          `h-${height}`,
+          `w-${size}`,
+          `h-${size}`,
           className
         )}
       >
@@ -34,8 +32,8 @@ export const CustomAvatar = ({
         ) : (
           <div
             className={cn(
-              `w-${width}`,
-              `h-${height}`,
+              `w-${size}`,
+              `h-${size}`,
               'flex items-center justify-center'
             )}
           >

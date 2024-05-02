@@ -1,13 +1,5 @@
 'use client';
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { UserCogIcon, InfoIcon, LogOutIcon, LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { UserType } from '@/lib/database/models/user.model';
@@ -15,6 +7,8 @@ import { signOut } from 'next-auth/react';
 import { User } from 'next-auth';
 import { AppRouterPath } from '@/constants';
 import { CustomAvatar } from '@/components/ui/custom-avatar';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
 
 export const UserMenu = ({ user }: { user: User; }) => {
   const onLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -23,53 +17,76 @@ export const UserMenu = ({ user }: { user: User; }) => {
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
+    <Sheet>
+      <SheetTrigger>
         <UserIcon user={user as UserType} />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="mr-4">
-        <DropdownMenuLabel className="font-medium relative text-xl leading-tight text-gray-900">
-          {user.name}
-        </DropdownMenuLabel>
-        <DropdownMenuLabel className="font-normal text-base leading-tight text-gray-500 truncate">
-          {user.email}
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <MenuElement
-          label="My profile"
-          icon={UserCogIcon}
-          href={AppRouterPath.PROFILE}
-        />
-        <MenuElement label="About" icon={InfoIcon} href={AppRouterPath.ABOUT} />
-        <DropdownMenuSeparator />
-        <MenuElement label="LogOut" icon={LogOutIcon} onClick={onLogout} />
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </SheetTrigger>
+      <SheetContent side='left'>
+        <div className="flex flex-col gap-4 py-4 h-full">
+          <UserIcon user={user as UserType} size={20} />
+          <div>
+            <p className="font-medium relative text-xl leading-tight text-gray-900">
+              {user.name}
+            </p>
+            <p className="font-normal text-sm leading-tight text-gray-500 truncate">
+              {user.email}
+            </p>
+          </div>
+          <Separator />
+          <SheeElement
+            label="Shared Vocabularies"
+            icon={UserCogIcon}
+            href={AppRouterPath.SETTINGS}
+          />
+          <SheeElement
+            label="Settings"
+            icon={UserCogIcon}
+            href={AppRouterPath.SETTINGS}
+          />
+          <SheeElement
+            label="About"
+            icon={InfoIcon}
+            href={AppRouterPath.ABOUT}
+          />
+          <div className="mt-auto">
+            <Separator />
+            <SheeElement label="LogOut" icon={LogOutIcon} onClick={onLogout} />
+          </div>
+        </div>
+
+      </SheetContent>
+    </Sheet>
   );
 };
 
-const MenuElement = ({
+const SheeElement = ({
   label,
   icon: Icon,
   href,
   onClick,
 }: {
   label: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
   href?: string;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }) => {
   return (
     <Link href={href ?? '#'}>
-      <DropdownMenuItem onClick={onClick}>
-        <Icon className="mr-2 h-8 w-4" />
+      <div onClick={onClick} className='flex items-center'>
+        {Icon && <Icon className="mr-2 h-8 w-4" />}
         <span>{label}</span>
-      </DropdownMenuItem>
+      </div>
     </Link>
   );
 };
 
-const UserIcon = ({ user }: { user: UserType; }) => {
+const UserIcon = ({
+  user,
+  size,
+}: {
+  user: UserType;
+  size?: number;
+}) => {
   const getColor = (username: string): string => {
     const firstLetter = username.charAt(0).toLowerCase();
     const colorRanges = [
@@ -94,6 +111,7 @@ const UserIcon = ({ user }: { user: UserType; }) => {
       tooltipText="Open menu"
       fallback={user.name.charAt(0)}
       className={avatarFallbackBackground}
+      size={size}
     />
   );
 };
