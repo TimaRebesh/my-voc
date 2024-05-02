@@ -12,7 +12,7 @@ interface CustomAvatarProps {
 
 export const CustomAvatar = ({
   src,
-  size = 10,
+  size = 2,
   fallback,
   tooltipText,
   className,
@@ -22,19 +22,16 @@ export const CustomAvatar = ({
       <div
         className={cn(
           'flex items-center justify-center bg-secondary rounded-full overflow-hidden',
-          `w-${size}`,
-          `h-${size}`,
           className
         )}
+        style={{ width: `${size}rem`, height: `${size}rem` }}
       >
         {src ? (
           <img src={src} alt="Avatar" className="object-cover w-full h-full" />
         ) : (
           <div
             className={cn(
-              `w-${size}`,
-              `h-${size}`,
-              'flex items-center justify-center'
+              'flex items-center justify-center rounded-full',
             )}
           >
             {fallback}
@@ -44,3 +41,5 @@ export const CustomAvatar = ({
     </TooltipWrapper>
   );
 };
+
+

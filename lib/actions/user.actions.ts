@@ -1,6 +1,6 @@
 'use server';
 
-import { UserFields } from '@/constants';
+import { ThemeValues, UserFields } from '@/constants';
 import { connectToDB } from '@/lib/database';
 import User, { UserType } from '@/lib/database/models/user.model';
 import { handleError } from '@/lib/utils';
@@ -70,7 +70,7 @@ export async function createUser({
       hints: true,
       limitAll: 30,
       limitNew: 10,
-      theme: 'white',
+      theme: ThemeValues.LIGHT,
     };
     const newUser = new User({
       [UserFields.NAME]: name,

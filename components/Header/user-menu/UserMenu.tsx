@@ -7,7 +7,7 @@ import { signOut } from 'next-auth/react';
 import { User } from 'next-auth';
 import { AppRouterPath } from '@/constants';
 import { CustomAvatar } from '@/components/ui/custom-avatar';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 
 export const UserMenu = ({ user }: { user: User; }) => {
@@ -19,11 +19,11 @@ export const UserMenu = ({ user }: { user: User; }) => {
   return (
     <Sheet>
       <SheetTrigger>
-        <UserIcon user={user as UserType} />
+        <UserIcon user={user as UserType} size={2} />
       </SheetTrigger>
-      <SheetContent side='left'>
+      <SheetContent>
         <div className="flex flex-col gap-4 py-4 h-full">
-          <UserIcon user={user as UserType} size={20} />
+          <UserIcon user={user as UserType} size={4} />
           <div>
             <p className="font-medium relative text-xl leading-tight text-gray-900">
               {user.name}
@@ -33,24 +33,24 @@ export const UserMenu = ({ user }: { user: User; }) => {
             </p>
           </div>
           <Separator />
-          <SheeElement
+          <SheetElement
             label="Shared Vocabularies"
             icon={UserCogIcon}
             href={AppRouterPath.SETTINGS}
           />
-          <SheeElement
+          <SheetElement
             label="Settings"
             icon={UserCogIcon}
             href={AppRouterPath.SETTINGS}
           />
-          <SheeElement
+          <SheetElement
             label="About"
             icon={InfoIcon}
             href={AppRouterPath.ABOUT}
           />
           <div className="mt-auto">
             <Separator />
-            <SheeElement label="LogOut" icon={LogOutIcon} onClick={onLogout} />
+            <SheetElement label="LogOut" icon={LogOutIcon} onClick={onLogout} />
           </div>
         </div>
 
@@ -59,7 +59,7 @@ export const UserMenu = ({ user }: { user: User; }) => {
   );
 };
 
-const SheeElement = ({
+const SheetElement = ({
   label,
   icon: Icon,
   href,
@@ -71,12 +71,14 @@ const SheeElement = ({
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }) => {
   return (
-    <Link href={href ?? '#'}>
-      <div onClick={onClick} className='flex items-center'>
-        {Icon && <Icon className="mr-2 h-8 w-4" />}
-        <span>{label}</span>
-      </div>
-    </Link>
+    <SheetClose asChild>
+      <Link href={href ?? '#'}>
+        <div onClick={onClick} className='flex items-center'>
+          {Icon && <Icon className="mr-2 h-8 w-4" />}
+          <span>{label}</span>
+        </div>
+      </Link>
+    </SheetClose>
   );
 };
 

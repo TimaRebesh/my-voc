@@ -17,8 +17,19 @@ export enum UserFields {
   IS_ADMIN = 'isAdmin',
 }
 
+export enum ConfigFields {
+  THEME = 'theme',
+  MODE_WRITE = 'modeWrite',
+}
+
 export enum VocabularyFields {
   NAME = 'name',
   LIST = 'list',
   CREATOR = 'creator',
+}
+
+export enum ThemeValues {
+  LIGHT = 'light',
+  DARK = 'dark',
+  SYSTEM = 'system',
 }

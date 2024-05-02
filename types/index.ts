@@ -1,3 +1,5 @@
+import { ThemeValues } from '@/constants';
+
 export type SearchParamProps = {
   params: {
     id: string;
@@ -20,4 +22,4 @@ export type Configurations = {
   theme: Theme;
 };
 
-export type Theme = 'white' | 'dark';
+export type Theme = ThemeValues.DARK | ThemeValues.LIGHT | ThemeValues.SYSTEM;

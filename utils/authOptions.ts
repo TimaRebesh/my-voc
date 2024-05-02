@@ -91,6 +91,7 @@ export const authOptions: NextAuthOptions = {
           session.user._id = sessionUser._id.toString();
           session.user.name = sessionUser.name;
           session.user.avatar = sessionUser.avatar;
+          session.user.password = sessionUser.password;
           session.user.isAdmin = sessionUser.isAdmin;
           session.user.configuration = sessionUser.configuration;
         }
