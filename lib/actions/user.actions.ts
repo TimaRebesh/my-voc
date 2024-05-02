@@ -7,6 +7,35 @@ import { handleError } from '@/lib/utils';
 import { Configurations } from '@/types';
 import { revalidatePath } from 'next/cache';
 
+export const checkLoginCredentials = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  try {
+    connectToDB();
+    const user = await User.findOne({ email });
+    if (!user) {
+      return { message: 'email is not exist', type: 'email' };
+    }
+    const isPasswordCorrect = password === user.password;
+    if (!isPasswordCorrect) {
+      new Error('Password is not correct');
+      return { message: 'password is not correct', type: 'password' };
+    }
+    return { type: 'success' };
+  } catch (err: any | unknown) {
+    handleError(err);
+
+    if (err.message.includes('CredentialsSignin')) {
+      return { error: 'Invalid username or password' };
+    }
+    throw err;
+  }
+};
+
 export async function getUserById(userId: string) {
   try {
     await connectToDB();

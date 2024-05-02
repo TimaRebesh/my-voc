@@ -9,8 +9,8 @@ import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { Input } from '@/components/ui/input';
-import { ProvidersButtons } from './ProvidersButtons';
 import { Preloader } from '@/components/Preloader/Preloader';
+import { checkLoginCredentials } from '@/lib/actions/user.actions';
 
 enum LoginFormInputs {
   EMAIL = 'email',
@@ -39,13 +39,27 @@ export const LoginForm = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async ({ email, password }: z.infer<typeof loginFormSchema>) => {
+  const onSubmit = async (credentials: z.infer<typeof loginFormSchema>) => {
     setLoading(true);
+    const checkResult = await checkLoginCredentials(credentials);
 
-    await signIn('credentials', {
-      email,
-      password
-    });
+    if (checkResult?.message) {
+      if (checkResult.type === LoginFormInputs.EMAIL) {
+        form.setError(LoginFormInputs.EMAIL, {
+          type: 'required',
+          message: checkResult.message,
+        });
+      } else if (checkResult.type === LoginFormInputs.PASSWORD) {
+        form.setError(LoginFormInputs.PASSWORD, {
+          type: 'required',
+          message: checkResult.message,
+        });
+      }
+      setLoading(false);
+      return;
+    }
+
+    signIn('credentials', { ...credentials });
   };
 
   return (

@@ -11,20 +11,12 @@ import {
 import { UserCogIcon, InfoIcon, LogOutIcon, LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { UserType } from '@/lib/database/models/user.model';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { User } from 'next-auth';
 import { AppRouterPath } from '@/constants';
 import { CustomAvatar } from '@/components/ui/custom-avatar';
 
-export const UserMenu = ({ serverUser }: { serverUser?: any; }) => {
-  console.log(serverUser);
-  const { data } = useSession();
-  if (!data)
-    return <div>no user</div>;
-  console.log(data.user);
-  const user = data.user;
-
-
+export const UserMenu = ({ user }: { user: User; }) => {
   const onLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     signOut();
