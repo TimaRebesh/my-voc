@@ -1,6 +1,6 @@
 'use client';
 
-import { UserCogIcon, InfoIcon, LogOutIcon, LucideIcon } from 'lucide-react';
+import { InfoIcon, LogOutIcon, LucideIcon, SettingsIcon, LibraryBigIcon, BookIcon } from 'lucide-react';
 import Link from 'next/link';
 import { UserType } from '@/lib/database/models/user.model';
 import { signOut } from 'next-auth/react';
@@ -34,13 +34,18 @@ export const UserMenu = ({ user }: { user: User; }) => {
           </div>
           <Separator />
           <SheetElement
-            label="Shared Vocabularies"
-            icon={UserCogIcon}
-            href={AppRouterPath.SETTINGS}
+            label="My Vocabulary"
+            icon={BookIcon}
+            href={AppRouterPath.VOCABULARY}
+          />
+          <SheetElement
+            label="Library"
+            icon={LibraryBigIcon}
+            href={AppRouterPath.LIBRARY}
           />
           <SheetElement
             label="Settings"
-            icon={UserCogIcon}
+            icon={SettingsIcon}
             href={AppRouterPath.SETTINGS}
           />
           <SheetElement

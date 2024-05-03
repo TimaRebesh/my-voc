@@ -2,9 +2,12 @@ export enum AppRouterPath {
   HOME = '/',
   LOGIN = '/login',
   REGISTER = '/register',
-  // PROFILE = '/profile',
+  VOCABULARY = '/vocabulary',
+  LIBRARY = '/library',
   ABOUT = '/about',
   SETTINGS = '/settings',
+  REPEAT = '/repeat',
+  STUDY_NEW = '/study-new',
 }
 
 export enum UserFields {

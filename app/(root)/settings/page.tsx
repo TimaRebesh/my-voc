@@ -8,7 +8,7 @@ export default async function SettingsPage() {
 
   return (
     <div className="flex justify-center">
-      <div className=" w-full max-w-md flex flex-col gap-7 p-5">
+      <div className="w-full max-w-md flex flex-col gap-7 p-5">
         <SettingsForm user={user} />
       </div>
     </div>

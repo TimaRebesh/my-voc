@@ -4,6 +4,8 @@ import { auth } from '@/utils/authOptions';
 import { User } from 'next-auth';
 import { HeaderLabel } from './header-label/HeaderLabel';
 import { GoToMenu } from './go-to-menu/GoToMenu';
+import Link from 'next/link';
+import { AppRouterPath } from '@/constants';
 
 
 export async function Header() {
@@ -23,6 +25,7 @@ export async function Header() {
         <UserMenu user={user as User} />
         {/* <p className="text-sm opacity-80">Timothy Rebesh</p> */}
       </div>
+      <Link href={AppRouterPath.VOCABULARY} className='absolute top-12 bg-orange-300'>vocabulary name</Link>
     </header>
   );
 }
