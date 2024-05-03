@@ -20,6 +20,9 @@ export enum UserFields {
 export enum ConfigFields {
   THEME = 'theme',
   MODE_WRITE = 'modeWrite',
+  HINTS = 'hints',
+  LIMIT_ALL = 'limitAll',
+  LIMIT_NEW = 'limitNew',
 }
 
 export enum VocabularyFields {

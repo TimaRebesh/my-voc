@@ -16,7 +16,7 @@ import { useSession } from 'next-auth/react';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 // import { useUploadThing } from '@/lib/uploadthing';
-import { handleError } from '@/lib/utils';
+import { cn, handleError } from '@/lib/utils';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { ArrowRightIcon, Loader2 } from 'lucide-react';
@@ -26,6 +26,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useTheme } from 'next-themes';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
 
 const SettingsFormSchema = z.object({
   [UserFields.AVATAR]: z.string(),
@@ -40,12 +41,15 @@ const SettingsFormSchema = z.object({
     message: 'Required',
   }),
   [ConfigFields.THEME]: z.string(),
-  [ConfigFields.MODE_WRITE]: z.boolean()
+  [ConfigFields.MODE_WRITE]: z.boolean(),
+  [ConfigFields.HINTS]: z.boolean(),
+  [ConfigFields.LIMIT_ALL]: z.number(),
+  [ConfigFields.LIMIT_NEW]: z.number(),
 });
 
 
 export const SettingsForm = ({ user }: { user: User; }) => {
-  console.log(user);
+  // console.log(user);
   const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingsFormSchema>>({
@@ -57,6 +61,9 @@ export const SettingsForm = ({ user }: { user: User; }) => {
       [UserFields.PASSWORD]: user.password ?? '',
       [ConfigFields.THEME]: user.configuration.theme,
       [ConfigFields.MODE_WRITE]: user.configuration.modeWrite,
+      [ConfigFields.HINTS]: user.configuration.hints,
+      [ConfigFields.LIMIT_ALL]: user.configuration.limitAll,
+      [ConfigFields.LIMIT_NEW]: user.configuration.limitNew,
     }
   });
 
@@ -65,7 +72,6 @@ export const SettingsForm = ({ user }: { user: User; }) => {
   const router = useRouter();
   // const { startUpload } = useUploadThing('avatarUploader');
   const { toast } = useToast();
-  const isUserMock = user._id === '660e720190b10068a07a558c';
 
   const { setTheme } = useTheme();
 
@@ -73,6 +79,7 @@ export const SettingsForm = ({ user }: { user: User; }) => {
     setTheme(form.watch(ConfigFields.THEME));
   }, [form.watch(ConfigFields.THEME)]);
 
+  console.log(form.getValues());
   const onSubmit = async (values: z.infer<typeof SettingsFormSchema>) => {
     setSaving(true);
 
@@ -134,7 +141,7 @@ export const SettingsForm = ({ user }: { user: User; }) => {
   return (
     <section>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-1">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 mx-5">
 
           {user.password &&
             <>
@@ -148,7 +155,7 @@ export const SettingsForm = ({ user }: { user: User; }) => {
                     <FormControl>
                       <Input type="email" {...field} />
                     </FormControl>
-                    <div className="relative h-4">
+                    <div className="relative">
                       <FormMessage className="absolute" />
                     </div>
                   </FormItem>
@@ -165,7 +172,7 @@ export const SettingsForm = ({ user }: { user: User; }) => {
                     <FormControl>
                       <Input type="text" {...field} />
                     </FormControl>
-                    <div className="relative h-4">
+                    <div className="relative">
                       <FormMessage className="absolute" />
                     </div>
                   </FormItem>
@@ -215,26 +222,70 @@ export const SettingsForm = ({ user }: { user: User; }) => {
             )}
           />
 
-
           <FormField
             disabled={saving}
             control={form.control}
             name={ConfigFields.MODE_WRITE}
             render={({ field }) => (
-              <FormItem className="flex items-center space-x-6">
+              <FormItem className="flex items-center justify-between">
                 <FormLabel className="text-primary">Writing mode</FormLabel>
                 <FormControl>
-                  <Switch id="airplane-mode"  {...field} />
+                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                 </FormControl>
-                <div className="relative h-4">
-                  <FormMessage className="absolute" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            disabled={saving}
+            control={form.control}
+            name={ConfigFields.HINTS}
+            render={({ field }) => (
+              <FormItem className="flex items-center justify-between">
+                <FormLabel className="text-primary">Show hints</FormLabel>
+                <FormControl>
+                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            disabled={saving}
+            control={form.control}
+            name={ConfigFields.LIMIT_ALL}
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <div className='flex justify-between'>
+                  <FormLabel className="text-primary">Repeat words</FormLabel>
+                  <FormLabel className="text-primary text-x">{field.value}</FormLabel>
                 </div>
+                <FormControl>
+                  <Slider defaultValue={[field.value]} max={50} min={5} step={1} onValueChange={v => field.onChange(v[0])} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            disabled={saving}
+            control={form.control}
+            name={ConfigFields.LIMIT_NEW}
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <div className='flex justify-between'>
+                  <FormLabel className="text-primary">Study new words</FormLabel>
+                  <FormLabel className="text-primary text-x">{field.value}</FormLabel>
+                </div>
+                <FormControl>
+                  <Slider defaultValue={[field.value]} max={50} min={1} step={1} onValueChange={v => field.onChange(v[0])} />
+                </FormControl>
               </FormItem>
             )}
           />
 
           <Button type="submit" className="w-full h-10" disabled={saving}>
-            Log in
+            Save
             {saving ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (

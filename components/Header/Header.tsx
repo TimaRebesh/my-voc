@@ -3,6 +3,8 @@ import { Separator } from '@/components/ui/separator';
 import { auth } from '@/utils/authOptions';
 import { User } from 'next-auth';
 import { HeaderLabel } from './header-label/HeaderLabel';
+import { GoToMenu } from './go-to-menu/GoToMenu';
+
 
 export async function Header() {
 
@@ -11,8 +13,8 @@ export async function Header() {
 
   return (
     <header className="w-full h-12 bg-gray-700 body-font relative flex justify-between items-center px-4">
-      <div className="flex items-center">
-        back
+      <div className="flex items-center text-background">
+        <GoToMenu />
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <HeaderLabel />

@@ -10,10 +10,11 @@ export const HeaderLabel = () => {
   const pathname = usePathname();
   const [label, setLabel] = useState('');
 
-
   useEffect(() => {
     if (pathname === AppRouterPath.HOME) {
       setLabel('Menu');
+    } else if (pathname === AppRouterPath.SETTINGS) {
+      setLabel('Settings');
     }
   }, [pathname]);
 
