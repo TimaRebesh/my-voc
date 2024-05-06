@@ -1,4 +1,4 @@
-import { UserFields } from '@/constants';
+import { ConfigFields, ThemeValues, UserFields } from '@/constants';
 import { Configurations } from '@/types';
 import { Schema, model, models } from 'mongoose';
 
@@ -7,24 +7,34 @@ export interface UserType {
   [UserFields.PASSWORD]: string | null;
   [UserFields.NAME]: string;
   [UserFields.EMAIL]: string;
+  [UserFields.EMAIL]: string;
   [UserFields.AVATAR]?: string;
   [UserFields.IS_ADMIN]?: boolean;
   [UserFields.CONFIGURATION]: Configurations;
 }
 
-export const TopicSchema = new Schema({
-  id: { type: Number, required: true },
-  name: { type: String, required: true },
-});
-
 export const ConfigurationsSchema = new Schema({
-  studyID: { type: String, default: null },
-  vocabularies: { type: [TopicSchema], required: true },
-  modeWrite: { type: Boolean, required: true },
-  hints: { type: Boolean, required: true },
-  limitAll: { type: Number, required: true },
-  limitNew: { type: Number, required: true },
-  theme: { type: String, enum: ['white', 'dark'], required: true },
+  [ConfigFields.STUDY_ID]: { type: String, default: null },
+  [ConfigFields.VOCABULARIES]: [
+    {
+      _id: false,
+      id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Vocabulary',
+        required: true,
+      },
+      name: { type: String, required: true },
+    },
+  ],
+  [ConfigFields.MODE_WRITE]: { type: Boolean, required: true },
+  [ConfigFields.HINTS]: { type: Boolean, required: true },
+  [ConfigFields.LIMIT_ALL]: { type: Number, required: true },
+  [ConfigFields.LIMIT_NEW]: { type: Number, required: true },
+  [ConfigFields.THEME]: {
+    type: String,
+    enum: [ThemeValues.LIGHT, ThemeValues.DARK, ThemeValues.SYSTEM],
+    required: true,
+  },
 });
 
 const UserSchema = new Schema({

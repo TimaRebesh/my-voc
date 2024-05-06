@@ -10,9 +10,6 @@ import { getServerSession } from 'next-auth';
 import { connectToDB } from '@/lib/database';
 import User from '@/lib/database/models/user.model';
 import { AdapterUser } from 'next-auth/adapters';
-import { Configurations } from '@/types';
-import Vocabulary, { Word } from '@/lib/database/models/vocabularies.model';
-import { UserFields } from '@/constants';
 import { createUser } from '@/lib/actions/user.actions';
 
 const login = async (

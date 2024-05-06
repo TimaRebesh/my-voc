@@ -1,15 +1,18 @@
 import { ConfigFields, ThemeValues } from '@/constants';
 
+const ID = 'id';
+const NAME = 'name';
+
 export type SearchParamProps = {
   params: {
-    id: string;
+    [ID]: string;
     elementId: string;
   };
 };
 
 export type Topic = {
-  id: number;
-  name: string;
+  [ID]: string;
+  [NAME]: string;
 };
 
 export type Configurations = {

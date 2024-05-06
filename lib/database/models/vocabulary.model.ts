@@ -8,7 +8,7 @@ export type Repeated = {
 };
 
 export type Word = {
-  id: number;
+  id: string;
   original: string;
   another: string[];
   translated: string;
@@ -17,7 +17,7 @@ export type Word = {
 };
 
 export type Vocabulary = {
-  _id: number;
+  [VocabularyFields.ID]: string;
   [VocabularyFields.NAME]: string;
   [VocabularyFields.LIST]: Word[];
   [VocabularyFields.CREATOR]: string;

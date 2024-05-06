@@ -1,11 +1,17 @@
 'use server';
 
-import { ThemeValues, UserFields } from '@/constants';
+import {
+  ConfigFields,
+  ThemeValues,
+  UserFields,
+  VocabularyFields,
+} from '@/constants';
 import { connectToDB } from '@/lib/database';
 import User, { UserType } from '@/lib/database/models/user.model';
 import { handleError } from '@/lib/utils';
 import { Configurations } from '@/types';
 import { revalidatePath } from 'next/cache';
+import Vocabulary from '../database/models/vocabulary.model';
 
 export const checkLoginCredentials = async ({
   email,
@@ -64,13 +70,13 @@ export async function createUser({
     await connectToDB();
 
     const configurationsData: Configurations = {
-      studyID: null,
-      vocabularies: [],
-      modeWrite: true,
-      hints: true,
-      limitAll: 30,
-      limitNew: 10,
-      theme: ThemeValues.LIGHT,
+      [ConfigFields.STUDY_ID]: null,
+      [ConfigFields.VOCABULARIES]: [],
+      [ConfigFields.MODE_WRITE]: true,
+      [ConfigFields.HINTS]: true,
+      [ConfigFields.LIMIT_ALL]: 30,
+      [ConfigFields.LIMIT_NEW]: 10,
+      [ConfigFields.THEME]: ThemeValues.LIGHT,
     };
     const newUser = new User({
       [UserFields.NAME]: name,
@@ -79,6 +85,21 @@ export async function createUser({
       [UserFields.AVATAR]: image,
       [UserFields.IS_ADMIN]: false,
       [UserFields.CONFIGURATION]: configurationsData,
+    });
+
+    const newVoc = new Vocabulary({
+      [VocabularyFields.NAME]: 'my first voc',
+      [VocabularyFields.LIST]: [],
+      [VocabularyFields.CREATOR]: newUser[UserFields.ID],
+    });
+
+    await newVoc.save();
+
+    newUser[UserFields.CONFIGURATION][ConfigFields.STUDY_ID] =
+      newVoc[VocabularyFields.ID];
+    newUser[UserFields.CONFIGURATION][ConfigFields.VOCABULARIES].push({
+      id: newVoc[VocabularyFields.ID],
+      name: newVoc[VocabularyFields.NAME],
     });
 
     await newUser.save();

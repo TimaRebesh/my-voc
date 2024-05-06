@@ -31,6 +31,7 @@ export enum ConfigFields {
 }
 
 export enum VocabularyFields {
+  ID = '_id',
   NAME = 'name',
   LIST = 'list',
   CREATOR = 'creator',
