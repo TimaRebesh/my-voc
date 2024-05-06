@@ -27,6 +27,9 @@ import { useTheme } from 'next-themes';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { FileUploader } from '@/components/fileUploader/FileUploader';
+import { useUploadThing } from '@/lib/uploadthing';
+import { updateUser } from '@/lib/actions/user.actions';
 
 const SettingsFormSchema = z.object({
   [UserFields.AVATAR]: z.string(),
@@ -40,7 +43,11 @@ const SettingsFormSchema = z.object({
   [UserFields.PASSWORD]: z.string().min(1, {
     message: 'Required',
   }),
-  [ConfigFields.THEME]: z.string(),
+  [ConfigFields.THEME]: z.union([
+    z.literal(ThemeValues.DARK),
+    z.literal(ThemeValues.LIGHT),
+    z.literal(ThemeValues.SYSTEM),
+  ]),
   [ConfigFields.MODE_WRITE]: z.boolean(),
   [ConfigFields.HINTS]: z.boolean(),
   [ConfigFields.LIMIT_ALL]: z.number(),
@@ -67,10 +74,10 @@ export const SettingsForm = ({ user }: { user: User; }) => {
     }
   });
 
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const router = useRouter();
-  // const { startUpload } = useUploadThing('avatarUploader');
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const { startUpload } = useUploadThing('avatarUploader');
   const { toast } = useToast();
 
   const { setTheme } = useTheme();
@@ -79,7 +86,6 @@ export const SettingsForm = ({ user }: { user: User; }) => {
     setTheme(form.watch(ConfigFields.THEME));
   }, [form.watch(ConfigFields.THEME)]);
 
-  console.log(form.getValues());
   const onSubmit = async (values: z.infer<typeof SettingsFormSchema>) => {
     setSaving(true);
 
@@ -87,14 +93,14 @@ export const SettingsForm = ({ user }: { user: User; }) => {
       const prevUrlAvatar = user[UserFields.AVATAR];
       let uploadedAvatarUrl = prevUrlAvatar;
       // avatar updating
-      // if (avatarFile) {
-      //   const uploadedAvatar = await startUpload([avatarFile]);
+      if (avatarFile) {
+        const uploadedAvatar = await startUpload([avatarFile]);
 
-      //   if (!uploadedAvatar) {
-      //     return;
-      //   }
-      //   uploadedAvatarUrl = uploadedAvatar[0].url;
-      // }
+        if (!uploadedAvatar) {
+          return;
+        }
+        uploadedAvatarUrl = uploadedAvatar[0].url;
+      }
       // check if avatar value is empty
       if (form.watch(UserFields.AVATAR) === '') {
         uploadedAvatarUrl = '';
@@ -116,18 +122,28 @@ export const SettingsForm = ({ user }: { user: User; }) => {
         }
       }
       // user updating
-      // const result = await updateUser(
-      //   {
-      //     ...values,
-      //     [UserFields.ID]: user[UserFields.ID],
-      //     [UserFields.AVATAR]: uploadedAvatarUrl,
-      //   },
-      //   AppRouterPath.HOME
-      // );
+      const result = await updateUser(
+        {
+          ...user,
+          [UserFields.AVATAR]: uploadedAvatarUrl,
+          [UserFields.NAME]: values[UserFields.NAME],
+          [UserFields.EMAIL]: values[UserFields.EMAIL],
+          [UserFields.PASSWORD]: values[UserFields.PASSWORD],
+          [UserFields.CONFIGURATION]: {
+            ...user[UserFields.CONFIGURATION],
+            [ConfigFields.THEME]: values[ConfigFields.THEME],
+            [ConfigFields.MODE_WRITE]: values[ConfigFields.MODE_WRITE],
+            [ConfigFields.HINTS]: values[ConfigFields.HINTS],
+            [ConfigFields.LIMIT_ALL]: values[ConfigFields.LIMIT_ALL],
+            [ConfigFields.LIMIT_NEW]: values[ConfigFields.LIMIT_NEW],
+          }
+        },
+        AppRouterPath.HOME
+      );
 
-      // toast({
-      //   title: `${result[UserFields.NAME]} has been updated`,
-      // });
+      toast({
+        title: `${result[UserFields.NAME]} has been updated`,
+      });
       await update();
     } catch (error) {
       handleError(error);
@@ -141,7 +157,42 @@ export const SettingsForm = ({ user }: { user: User; }) => {
   return (
     <section>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 mx-5">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 mx-5 pt-4">
+
+          <FormField
+            disabled={saving}
+            control={form.control}
+            name={UserFields.AVATAR}
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel className="text-primary">Avatar</FormLabel>
+                <FormControl>
+                  <FileUploader
+                    onFieldChange={field.onChange}
+                    imageUrl={field.value}
+                    onSetValues={setAvatarFile}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            disabled={saving}
+            control={form.control}
+            name={UserFields.NAME}
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel className="text-primary">Name</FormLabel>
+                <FormControl>
+                  <Input type="text" {...field} />
+                </FormControl>
+                <div className="relative">
+                  <FormMessage className="absolute" />
+                </div>
+              </FormItem>
+            )}
+          />
 
           {user.password &&
             <>
@@ -284,14 +335,17 @@ export const SettingsForm = ({ user }: { user: User; }) => {
             )}
           />
 
-          <Button type="submit" className="w-full h-10" disabled={saving}>
-            Save
-            {saving ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <ArrowRightIcon className="ml-2 h-4" />
-            )}
-          </Button>
+          <div className="py-10">
+            <Button type="submit" className="w-40 h-10" disabled={saving}>
+              Save
+              {saving ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <ArrowRightIcon className="ml-2 h-4" />
+              )}
+            </Button>
+          </div>
+
         </form>
       </Form>
       <Preloader isLoading={saving} />

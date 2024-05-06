@@ -87,3 +87,15 @@ export async function createUser({
     handleError(error);
   }
 }
+
+export async function updateUser(values: UserType, path?: string) {
+  try {
+    await connectToDB();
+    const { _id, ...restValues } = values;
+    const user = await User.findByIdAndUpdate(_id, restValues, { new: true });
+    path && revalidatePath(path);
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    handleError(error);
+  }
+}

@@ -21,8 +21,10 @@ export enum UserFields {
 }
 
 export enum ConfigFields {
-  THEME = 'theme',
+  STUDY_ID = 'studyID',
+  VOCABULARIES = 'vocabularies',
   MODE_WRITE = 'modeWrite',
+  THEME = 'theme',
   HINTS = 'hints',
   LIMIT_ALL = 'limitAll',
   LIMIT_NEW = 'limitNew',
