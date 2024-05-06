@@ -11,11 +11,9 @@ import {
 } from '@/constants';
 import { User } from 'next-auth';
 import { useEffect, useState } from 'react';
-// import { updateUser } from '@/lib/actions/user.actions';
 import { useSession } from 'next-auth/react';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-// import { useUploadThing } from '@/lib/uploadthing';
 import { cn, handleError } from '@/lib/utils';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
@@ -25,7 +23,6 @@ import { Preloader } from '../../../components/Preloader/Preloader';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useTheme } from 'next-themes';
 import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { FileUploader } from '@/components/fileUploader/FileUploader';
 import { useUploadThing } from '@/lib/uploadthing';
@@ -40,9 +37,7 @@ const SettingsFormSchema = z.object({
     .string()
     .min(1, { message: 'Required' })
     .email({ message: 'Please enter a valid email address' }),
-  [UserFields.PASSWORD]: z.string().min(1, {
-    message: 'Required',
-  }),
+  [UserFields.PASSWORD]: z.string(),
   [ConfigFields.THEME]: z.union([
     z.literal(ThemeValues.DARK),
     z.literal(ThemeValues.LIGHT),
@@ -87,6 +82,15 @@ export const SettingsForm = ({ user }: { user: User; }) => {
   }, [form.watch(ConfigFields.THEME)]);
 
   const onSubmit = async (values: z.infer<typeof SettingsFormSchema>) => {
+
+    if (user.password && values[UserFields.PASSWORD].length < 4) {
+      form.setError(UserFields.PASSWORD, {
+        type: 'required',
+        message: 'password must include at least 4 characters',
+      });
+      return;
+    }
+
     setSaving(true);
 
     try {

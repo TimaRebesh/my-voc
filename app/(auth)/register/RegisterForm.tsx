@@ -1,10 +1,7 @@
 'use client';
 
-import { SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { redirect } from "next/navigation";
-import { User } from "next-auth";
 import { signIn } from "next-auth/react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
@@ -53,22 +50,32 @@ export function RegisterForm() {
   const onSubmit = async ({ name, email, password, confirmPassword }: z.infer<typeof registerFormSchema>) => {
     setIsSubmitting(true);
     if (password !== confirmPassword) {
-      form.setError('confirmPassword', {
+      form.setError(RegisterFormInputs.CONFIRM_PASSWORD, {
         type: 'required',
         message: 'passwords do not match',
       });
       return;
     }
 
-    const user = await createUser({ name, password, email });
+    const result = await createUser({ name, password, email });
+
+    if (result.message) {
+      if (result.type === 'email') {
+        form.setError(RegisterFormInputs.EMAIL, {
+          type: 'required',
+          message: result.message,
+        });
+      }
+      setIsSubmitting(false);
+      return;
+    }
+
     await signIn('credentials', {
-      email: user.email,
-      password: user.password
+      email: result.email,
+      password: result.password
     });
   };
 
-  // if (isSessionLoading)
-  //   return <Preloader />;
 
   return (
     <section className="w-full max-w-full flex-center flex-col">

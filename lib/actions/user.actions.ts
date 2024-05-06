@@ -69,6 +69,11 @@ export async function createUser({
   try {
     await connectToDB();
 
+    const someUser = await User.findOne({ email });
+    if (someUser) {
+      return { message: 'such email already exists', type: 'email' };
+    }
+
     const configurationsData: Configurations = {
       [ConfigFields.STUDY_ID]: null,
       [ConfigFields.VOCABULARIES]: [],

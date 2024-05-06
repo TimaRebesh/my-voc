@@ -25,7 +25,7 @@ export async function Header() {
         <UserMenu user={user as User} />
         {/* <p className="text-sm opacity-80">Timothy Rebesh</p> */}
       </div>
-      <Link href={AppRouterPath.VOCABULARY} className='absolute top-12  rounded-bl-lg rounded-br-lg bg-orange-500 px-2'>{currentVoc?.name ?? ''}</Link>
+      <Link href={AppRouterPath.HOME} className='absolute top-12  rounded-bl-lg rounded-br-lg bg-orange-500 px-2'>{currentVoc?.name ?? ''}</Link>
     </header>
   );
 }
