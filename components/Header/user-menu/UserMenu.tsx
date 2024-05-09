@@ -11,9 +11,9 @@ import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/s
 import { Separator } from '@/components/ui/separator';
 
 export const UserMenu = ({ user }: { user: User; }) => {
-  const onLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const onLogout = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    signOut();
+    await signOut();
   };
 
   return (

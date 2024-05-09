@@ -11,7 +11,7 @@ export async function Header() {
 
   const session = await auth();
   const user = JSON.parse(JSON.stringify(session!.user)) as User;
-  const currentVoc = user.configuration.vocabularies.find(v => v.id === user.configuration.studyID);
+  const currentVoc = user?.configuration.vocabularies.find(v => v.id === user.configuration.studyID);
 
   return (
     <header className="w-full h-12 bg-gray-700 body-font relative flex justify-between items-center px-4">

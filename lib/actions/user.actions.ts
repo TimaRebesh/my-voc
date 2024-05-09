@@ -96,6 +96,7 @@ export async function createUser({
       [VocabularyFields.NAME]: 'my first voc',
       [VocabularyFields.LIST]: [],
       [VocabularyFields.CREATOR]: newUser[UserFields.ID],
+      [VocabularyFields.IS_SHARED]: false,
     });
 
     await newVoc.save();
@@ -121,6 +122,35 @@ export async function updateUser(values: UserType, path?: string) {
     const user = await User.findByIdAndUpdate(_id, restValues, { new: true });
     path && revalidatePath(path);
     return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function removeUser(
+  id: string,
+  deleteShared: boolean,
+  path?: string
+) {
+  try {
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return { message: 'user not found', error: 'email' };
+    }
+
+    // delete vocabularies
+    const searchParams: { creator: string; isShared?: boolean } = {
+      creator: id, // delete all
+    };
+    if (!deleteShared) {
+      // delete only private
+      searchParams.isShared = false;
+    }
+
+    await Vocabulary.deleteMany(searchParams);
+
+    path && revalidatePath(path);
   } catch (error) {
     handleError(error);
   }

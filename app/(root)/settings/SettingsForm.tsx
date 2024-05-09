@@ -8,6 +8,7 @@ import {
   ConfigFields,
   ThemeValues,
   UserFields,
+  uploadThingUrl,
 } from '@/constants';
 import { User } from 'next-auth';
 import { useEffect, useState } from 'react';
@@ -27,6 +28,8 @@ import { Slider } from '@/components/ui/slider';
 import { FileUploader } from '@/components/fileUploader/FileUploader';
 import { useUploadThing } from '@/lib/uploadthing';
 import { updateUser } from '@/lib/actions/user.actions';
+import { Separator } from '@/components/ui/separator';
+import { DeleteUser } from './DeleteUser';
 
 const SettingsFormSchema = z.object({
   [UserFields.AVATAR]: z.string(),
@@ -51,7 +54,7 @@ const SettingsFormSchema = z.object({
 
 
 export const SettingsForm = ({ user }: { user: User; }) => {
-  // console.log(user);
+
   const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingsFormSchema>>({
@@ -110,7 +113,6 @@ export const SettingsForm = ({ user }: { user: User; }) => {
         uploadedAvatarUrl = '';
       }
       // deleting previous avatar
-      const uploadThingUrl = 'https://utfs.io';
       if (prevUrlAvatar?.includes(uploadThingUrl)) {
         const response = await fetch('api/uploadthing', {
           method: 'DELETE',
@@ -349,6 +351,10 @@ export const SettingsForm = ({ user }: { user: User; }) => {
               )}
             </Button>
           </div>
+
+          <Separator />
+
+          <DeleteUser setSaving={setSaving} userId={user._id as string} avatar={user[UserFields.AVATAR]} />
 
         </form>
       </Form>

@@ -35,6 +35,7 @@ export enum VocabularyFields {
   NAME = 'name',
   LIST = 'list',
   CREATOR = 'creator',
+  IS_SHARED = 'isShared',
 }
 
 export enum ThemeValues {
@@ -42,3 +43,5 @@ export enum ThemeValues {
   DARK = 'dark',
   SYSTEM = 'system',
 }
+
+export const uploadThingUrl = 'https://utfs.io';

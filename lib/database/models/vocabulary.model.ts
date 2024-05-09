@@ -21,6 +21,7 @@ export type Vocabulary = {
   [VocabularyFields.NAME]: string;
   [VocabularyFields.LIST]: Word[];
   [VocabularyFields.CREATOR]: string;
+  [VocabularyFields.IS_SHARED]: boolean;
 };
 
 const RepeatedSchema = new Schema({
@@ -45,6 +46,11 @@ const VocabularySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
+  },
+  [VocabularyFields.IS_SHARED]: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
 });
 
