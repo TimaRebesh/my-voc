@@ -1,8 +1,8 @@
 import { ConfigFields, ThemeValues, UserFields } from '@/constants';
-import { Configurations } from '@/types';
+import { ID, NAME, Theme } from '@/types';
 import { Schema, model, models } from 'mongoose';
 
-export interface UserType {
+export interface IUser {
   [UserFields.ID]: string | null;
   [UserFields.PASSWORD]: string | null;
   [UserFields.NAME]: string;
@@ -12,6 +12,21 @@ export interface UserType {
   [UserFields.IS_ADMIN]?: boolean;
   [UserFields.CONFIGURATION]: Configurations;
 }
+
+export type Topic = {
+  [ID]: string;
+  [NAME]: string;
+};
+
+export type Configurations = {
+  [ConfigFields.STUDY_ID]: string;
+  [ConfigFields.VOCABULARIES]: Topic[];
+  [ConfigFields.MODE_WRITE]: boolean;
+  [ConfigFields.HINTS]: boolean;
+  [ConfigFields.LIMIT_ALL]: number; // how many all words proctice in one session
+  [ConfigFields.LIMIT_NEW]: number; // how many new words proctice in one session
+  [ConfigFields.THEME]: Theme;
+};
 
 export const ConfigurationsSchema = new Schema({
   [ConfigFields.STUDY_ID]: { type: String, default: null },

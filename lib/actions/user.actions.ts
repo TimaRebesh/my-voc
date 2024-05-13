@@ -7,9 +7,8 @@ import {
   VocabularyFields,
 } from '@/constants';
 import { connectToDB } from '@/lib/database';
-import User, { UserType } from '@/lib/database/models/user.model';
+import User, { Configurations, IUser } from '@/lib/database/models/user.model';
 import { handleError } from '@/lib/utils';
-import { Configurations } from '@/types';
 import { revalidatePath } from 'next/cache';
 import Vocabulary from '../database/models/vocabulary.model';
 
@@ -75,7 +74,7 @@ export async function createUser({
     }
 
     const configurationsData: Configurations = {
-      [ConfigFields.STUDY_ID]: null,
+      [ConfigFields.STUDY_ID]: '1234',
       [ConfigFields.VOCABULARIES]: [],
       [ConfigFields.MODE_WRITE]: true,
       [ConfigFields.HINTS]: true,
@@ -115,7 +114,7 @@ export async function createUser({
   }
 }
 
-export async function updateUser(values: UserType, path?: string) {
+export async function updateUser(values: IUser, path?: string) {
   try {
     await connectToDB();
     const { _id, ...restValues } = values;

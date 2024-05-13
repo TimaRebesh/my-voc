@@ -3,8 +3,7 @@ import { auth } from '@/utils/authOptions';
 import { User } from 'next-auth';
 import { HeaderLabel } from './header-label/HeaderLabel';
 import { GoToMenu } from './go-to-menu/GoToMenu';
-import Link from 'next/link';
-import { AppRouterPath } from '@/constants';
+import { VocabularyName } from './vocabulary-name/VocabularyName';
 
 
 export async function Header() {
@@ -25,7 +24,7 @@ export async function Header() {
         <UserMenu user={user as User} />
         {/* <p className="text-sm opacity-80">Timothy Rebesh</p> */}
       </div>
-      <Link href={AppRouterPath.HOME} className='absolute top-12  rounded-bl-lg rounded-br-lg bg-orange-500 px-2'>{currentVoc?.name ?? ''}</Link>
+      <VocabularyName name={currentVoc?.name ?? ''} />
     </header>
   );
 }

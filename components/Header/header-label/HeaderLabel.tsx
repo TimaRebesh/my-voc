@@ -1,7 +1,7 @@
 'use client';
 
 import { AppRouterPath } from "@/constants";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
@@ -10,16 +10,22 @@ export const HeaderLabel = () => {
   const pathname = usePathname();
   const [label, setLabel] = useState('');
 
-  useEffect(() => {
-    if (pathname === AppRouterPath.HOME) {
-      setLabel('MENU');
-    } else if (pathname === AppRouterPath.SETTINGS) {
-      setLabel('SETTINGS');
-    } else if (pathname === AppRouterPath.REPEAT) {
-      setLabel('REPEAT');
-    } else if (pathname === AppRouterPath.STUDY_NEW) {
-      setLabel('STUDY NEW');
+  const selectLabel = () => {
+    switch (pathname) {
+      case AppRouterPath.SETTINGS:
+        return 'SETTINGS';
+      case AppRouterPath.REPEAT:
+        return 'REPEAT';
+      case AppRouterPath.STUDY_NEW:
+        return 'STUDY NEW';
+      case AppRouterPath.VOCABULARY:
+        return 'VOCABULARY';
+      default: return 'MENU';
     }
+  };
+
+  useEffect(() => {
+    setLabel(selectLabel());
   }, [pathname]);
 
   return (

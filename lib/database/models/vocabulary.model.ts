@@ -16,7 +16,7 @@ export type Word = {
   lastRepeat: number;
 };
 
-export type Vocabulary = {
+export interface IVocabulary {
   [VocabularyFields.ID]: string;
   [VocabularyFields.NAME]: string;
   [VocabularyFields.LIST]: Word[];

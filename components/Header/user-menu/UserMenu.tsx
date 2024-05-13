@@ -2,7 +2,7 @@
 
 import { InfoIcon, LogOutIcon, LucideIcon, SettingsIcon, LibraryBigIcon, BookIcon } from 'lucide-react';
 import Link from 'next/link';
-import { UserType } from '@/lib/database/models/user.model';
+import { IUser } from '@/lib/database/models/user.model';
 import { signOut } from 'next-auth/react';
 import { User } from 'next-auth';
 import { AppRouterPath } from '@/constants';
@@ -19,11 +19,11 @@ export const UserMenu = ({ user }: { user: User; }) => {
   return (
     <Sheet>
       <SheetTrigger>
-        <UserIcon user={user as UserType} size={2} />
+        <UserIcon user={user as IUser} size={2} />
       </SheetTrigger>
       <SheetContent>
         <div className="flex flex-col gap-4 py-4 h-full">
-          <UserIcon user={user as UserType} size={4} />
+          <UserIcon user={user as IUser} size={4} />
           <div>
             <p className="font-medium relative text-xl leading-tight text-gray-900">
               {user.name}
@@ -91,7 +91,7 @@ const UserIcon = ({
   user,
   size,
 }: {
-  user: UserType;
+  user: IUser;
   size?: number;
 }) => {
   const getColor = (username: string): string => {
