@@ -1,5 +1,5 @@
-import { CustomButton } from "@/components/ui/custom-button";
-import Image from "next/image";
+import { CustomButton } from '@/components/ui/custom-button';
+import Image from 'next/image';
 
 type ExcelButtonProps = {
   text: string;
@@ -9,14 +9,14 @@ type ExcelButtonProps = {
 
 export const ExcelButton = (props: ExcelButtonProps) => {
   return (
-    <CustomButton className='w-full' onClick={props.onClick}>
+    <CustomButton className="w-full" onClick={props.onClick}>
       <>
         <Image
           src="/icons/excel.png"
-          alt='excel_image'
+          alt="excel_image"
           width={22}
           height={22}
-          className='object-contain pr-2'
+          className="object-contain pr-2"
         />
         <span>{props.text}</span>
         {props.children}

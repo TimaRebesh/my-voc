@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { RegisterForm } from './RegisterForm';
 
 export default async function () {
-
   const session = await getServerSession();
 
   if (session) redirect(AppRouterPath.HOME);
@@ -18,7 +17,7 @@ export default async function () {
         </div>
         <RegisterForm />
         <Link href="/login">
-          {"Have an account?   "}
+          {'Have an account?   '}
           <b className="blue_gradient">LogIn</b>
         </Link>
 
@@ -28,5 +27,4 @@ export default async function () {
       </div>
     </div>
   );
-};
-
+}

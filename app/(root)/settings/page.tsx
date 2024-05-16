@@ -2,7 +2,6 @@ import { SettingsForm } from './SettingsForm';
 import { auth } from '@/utils/authOptions';
 
 export default async function SettingsPage() {
-
   const session = await auth();
   const user = JSON.parse(JSON.stringify(session!.user));
 

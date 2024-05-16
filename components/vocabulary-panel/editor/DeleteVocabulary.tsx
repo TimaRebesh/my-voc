@@ -12,34 +12,30 @@ import {
 
 export const DeleteVocabulary = ({
   name,
-  onDelete
+  onDelete,
 }: {
-  name: string,
+  name: string;
   onDelete: () => void;
 }) => {
-
   return (
     <div className="py-10">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <div className="cursor-pointer text-red-800 text-sm">Delete vocabulary</div>
+          <div className="cursor-pointer text-red-800 text-sm">
+            Delete vocabulary
+          </div>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Are you absolutely sure?
-            </AlertDialogTitle>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone.
-              This will permanently delete
-              your '{name}' vocabulary.
+              This action cannot be undone. This will permanently delete your '
+              {name}' vocabulary.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onDelete}>
-              Delete
-            </AlertDialogAction>
+            <AlertDialogAction onClick={onDelete}>Delete</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

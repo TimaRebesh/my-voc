@@ -6,11 +6,9 @@ import { usePathname } from 'next/navigation';
 import { AppRouterPath } from '@/constants';
 
 export const GoToMenu = () => {
-
   const pathname = usePathname();
 
-  if (pathname === AppRouterPath.HOME)
-    return null;
+  if (pathname === AppRouterPath.HOME) return null;
 
   return (
     <Link href="/">

@@ -1,8 +1,8 @@
-import { VocHeader } from "./vocabulary-header/VocHeader";
-import { IVocabulary } from "@/lib/database/models/vocabulary.model";
-import { VocabularyView } from "./vocabulary-view/VocabularyView";
-import { IUser } from "@/lib/database/models/user.model";
-import { ITopic } from "@/lib/database/models/topic.model";
+import { VocHeader } from './vocabulary-header/VocHeader';
+import { IVocabulary } from '@/lib/database/models/vocabulary.model';
+import { VocabularyView } from './vocabulary-view/VocabularyView';
+import { IUser } from '@/lib/database/models/user.model';
+import { ITopic } from '@/lib/database/models/topic.model';
 
 interface Props {
   user: IUser;

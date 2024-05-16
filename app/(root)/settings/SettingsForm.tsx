@@ -16,7 +16,14 @@ import { useSession } from 'next-auth/react';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { cn, handleError } from '@/lib/utils';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { Input } from '../../../components/ui/input';
@@ -52,9 +59,7 @@ const SettingsFormSchema = z.object({
   [ConfigFields.LIMIT_NEW]: z.number(),
 });
 
-
-export const SettingsForm = ({ user }: { user: User; }) => {
-
+export const SettingsForm = ({ user }: { user: User }) => {
   const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingsFormSchema>>({
@@ -69,7 +74,7 @@ export const SettingsForm = ({ user }: { user: User; }) => {
       [ConfigFields.HINTS]: user.configuration.hints,
       [ConfigFields.LIMIT_ALL]: user.configuration.limitAll,
       [ConfigFields.LIMIT_NEW]: user.configuration.limitNew,
-    }
+    },
   });
 
   const [saving, setSaving] = useState(false);
@@ -85,7 +90,6 @@ export const SettingsForm = ({ user }: { user: User; }) => {
   }, [form.watch(ConfigFields.THEME)]);
 
   const onSubmit = async (values: z.infer<typeof SettingsFormSchema>) => {
-
     if (user.password && values[UserFields.PASSWORD].length < 4) {
       form.setError(UserFields.PASSWORD, {
         type: 'required',
@@ -142,7 +146,7 @@ export const SettingsForm = ({ user }: { user: User; }) => {
             [ConfigFields.HINTS]: values[ConfigFields.HINTS],
             [ConfigFields.LIMIT_ALL]: values[ConfigFields.LIMIT_ALL],
             [ConfigFields.LIMIT_NEW]: values[ConfigFields.LIMIT_NEW],
-          }
+          },
         },
         AppRouterPath.HOME
       );
@@ -163,8 +167,10 @@ export const SettingsForm = ({ user }: { user: User; }) => {
   return (
     <section>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 mx-5 pt-4">
-
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-5 mx-5 pt-4"
+        >
           <FormField
             disabled={saving}
             control={form.control}
@@ -200,7 +206,7 @@ export const SettingsForm = ({ user }: { user: User; }) => {
             )}
           />
 
-          {user.password &&
+          {user.password && (
             <>
               <FormField
                 disabled={saving}
@@ -235,7 +241,8 @@ export const SettingsForm = ({ user }: { user: User; }) => {
                   </FormItem>
                 )}
               />
-            </>}
+            </>
+          )}
 
           <FormField
             disabled={saving}
@@ -254,17 +261,13 @@ export const SettingsForm = ({ user }: { user: User; }) => {
                       <FormControl>
                         <RadioGroupItem value={ThemeValues.LIGHT} />
                       </FormControl>
-                      <FormLabel className="font-normal">
-                        Light
-                      </FormLabel>
+                      <FormLabel className="font-normal">Light</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem value={ThemeValues.DARK} />
                       </FormControl>
-                      <FormLabel className="font-normal">
-                        Dark
-                      </FormLabel>
+                      <FormLabel className="font-normal">Dark</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
@@ -287,7 +290,10 @@ export const SettingsForm = ({ user }: { user: User; }) => {
               <FormItem className="flex items-center justify-between">
                 <FormLabel className="text-primary">Writing mode</FormLabel>
                 <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -301,7 +307,10 @@ export const SettingsForm = ({ user }: { user: User; }) => {
               <FormItem className="flex items-center justify-between">
                 <FormLabel className="text-primary">Show hints</FormLabel>
                 <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -313,12 +322,20 @@ export const SettingsForm = ({ user }: { user: User; }) => {
             name={ConfigFields.LIMIT_ALL}
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <div className='flex justify-between'>
+                <div className="flex justify-between">
                   <FormLabel className="text-primary">Repeat words</FormLabel>
-                  <FormLabel className="text-primary text-x">{field.value}</FormLabel>
+                  <FormLabel className="text-primary text-x">
+                    {field.value}
+                  </FormLabel>
                 </div>
                 <FormControl>
-                  <Slider defaultValue={[field.value]} max={50} min={5} step={1} onValueChange={v => field.onChange(v[0])} />
+                  <Slider
+                    defaultValue={[field.value]}
+                    max={50}
+                    min={5}
+                    step={1}
+                    onValueChange={(v) => field.onChange(v[0])}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -330,12 +347,22 @@ export const SettingsForm = ({ user }: { user: User; }) => {
             name={ConfigFields.LIMIT_NEW}
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <div className='flex justify-between'>
-                  <FormLabel className="text-primary">Study new words</FormLabel>
-                  <FormLabel className="text-primary text-x">{field.value}</FormLabel>
+                <div className="flex justify-between">
+                  <FormLabel className="text-primary">
+                    Study new words
+                  </FormLabel>
+                  <FormLabel className="text-primary text-x">
+                    {field.value}
+                  </FormLabel>
                 </div>
                 <FormControl>
-                  <Slider defaultValue={[field.value]} max={50} min={1} step={1} onValueChange={v => field.onChange(v[0])} />
+                  <Slider
+                    defaultValue={[field.value]}
+                    max={50}
+                    min={1}
+                    step={1}
+                    onValueChange={(v) => field.onChange(v[0])}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -354,8 +381,11 @@ export const SettingsForm = ({ user }: { user: User; }) => {
 
           <Separator />
 
-          <DeleteUser setSaving={setSaving} userId={user._id as string} avatar={user[UserFields.AVATAR]} />
-
+          <DeleteUser
+            setSaving={setSaving}
+            userId={user._id as string}
+            avatar={user[UserFields.AVATAR]}
+          />
         </form>
       </Form>
       <Preloader isLoading={saving} />

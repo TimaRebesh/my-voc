@@ -12,13 +12,13 @@ export const CustomButton = ({
 }: {
   className?: string;
   variant?:
-  | 'default'
-  | 'destructive'
-  | 'outline'
-  | 'secondary'
-  | 'ghost'
-  | 'link'
-  | null;
+    | 'default'
+    | 'destructive'
+    | 'outline'
+    | 'secondary'
+    | 'ghost'
+    | 'link'
+    | null;
   size?: 'default' | 'sm' | 'lg' | 'icon' | null | undefined;
   onClick?: () => void;
   disabled?: boolean;
@@ -38,7 +38,7 @@ export const CustomButton = ({
       className={cn(
         buttonVariants({ variant, size, className }),
         disabled &&
-        'opacity-50 cursor-auto hover:bg-primary hover:text-primary-foreground'
+          'opacity-50 cursor-auto hover:bg-primary hover:text-primary-foreground'
       )}
     >
       {children}

@@ -1,7 +1,3 @@
-
-
 export default function RepeatPage() {
-  return (
-    <div>Repeat</div>
-  );
+  return <div>Repeat</div>;
 }

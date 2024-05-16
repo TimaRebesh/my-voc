@@ -17,7 +17,10 @@ import { ExportToExcel } from './ExportToExcel';
 import { ImportFromExcel } from './ImportToExcel';
 import { DeleteVocabulary } from './DeleteVocabulary';
 import { Checkbox } from '@/components/ui/checkbox';
-import { deleteVocabulary, editVocabulary } from '@/lib/actions/vocabulary.actions';
+import {
+  deleteVocabulary,
+  editVocabulary,
+} from '@/lib/actions/vocabulary.actions';
 import { AppRouterPath } from '@/constants';
 import { handleError } from '@/lib/utils';
 import { Shared } from '../vocabulary-shared/Shared';
@@ -36,9 +39,8 @@ export const Editor = ({
   close,
   currentVoc,
   setIsProcessing,
-  vocAmount
+  vocAmount,
 }: Props) => {
-
   const [name, setName] = useState<string>(currentVoc.name);
   const [isShared, setIsShared] = useState(currentVoc.isShared);
   const [description, setDescription] = useState(currentVoc.description);
@@ -73,7 +75,7 @@ export const Editor = ({
           name,
           isShared,
           description,
-          list
+          list,
         },
         AppRouterPath.VOCABULARY
       );
@@ -87,10 +89,7 @@ export const Editor = ({
   const onDelete = async () => {
     setIsProcessing(true);
     try {
-      await deleteVocabulary(
-        currentVoc,
-        AppRouterPath.VOCABULARY
-      );
+      await deleteVocabulary(currentVoc, AppRouterPath.VOCABULARY);
     } catch (error) {
       handleError(error);
     } finally {
@@ -107,43 +106,55 @@ export const Editor = ({
         </DialogHeader>
 
         <div className="flex flex-col gap-4 justify-start items-start">
-
-          <div className='w-full'>
+          <div className="w-full">
             <Label>Name</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder='cannot be empty' />
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="cannot be empty"
+            />
           </div>
 
           <Shared
             isShared={isShared}
-            setIsShared={v => setIsShared(v)}
+            setIsShared={(v) => setIsShared(v)}
             description={description}
-            setDescription={v => setDescription(v)}
+            setDescription={(v) => setDescription(v)}
           />
 
           <ExportToExcel list={currentVoc.list} vocName={name} />
           <ImportFromExcel setData={(voc: Word[]) => setImportedVoc(voc)} />
-          {importedVoc &&
+          {importedVoc && (
             <div className="flex items-center space-x-2 pt-2">
-              <Checkbox id='onlyImported' checked={onlyImported} onCheckedChange={(v: boolean) => setOnlyImported(v)} />
+              <Checkbox
+                id="onlyImported"
+                checked={onlyImported}
+                onCheckedChange={(v: boolean) => setOnlyImported(v)}
+              />
               <label
-                htmlFor='onlyImported'
+                htmlFor="onlyImported"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 save only imported words
               </label>
             </div>
-          }
+          )}
 
-          {vocAmount > 1 && < DeleteVocabulary name={currentVoc.name} onDelete={onDelete} />}
-
+          {vocAmount > 1 && (
+            <DeleteVocabulary name={currentVoc.name} onDelete={onDelete} />
+          )}
         </div>
 
         <DialogFooter className="w-full">
           <DialogClose>
-            <CustomButton variant='secondary' onClick={close} className='w-20 mr-4'>
+            <CustomButton
+              variant="secondary"
+              onClick={close}
+              className="w-20 mr-4"
+            >
               Cancel
             </CustomButton>
-            <CustomButton className='w-20' onClick={save}>
+            <CustomButton className="w-20" onClick={save}>
               Save
             </CustomButton>
           </DialogClose>
@@ -152,7 +163,3 @@ export const Editor = ({
     </Dialog>
   );
 };
-
-
-
-

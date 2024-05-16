@@ -2,13 +2,12 @@
 import { Word } from '@/lib/database/models/vocabulary.model';
 import { cn } from '@/lib/utils';
 import { useRef, useState } from 'react';
-import * as XLSX from "xlsx"; // npm install xlsx
+import * as XLSX from 'xlsx'; // npm install xlsx
 import { ExcelButton } from './ExcelButton';
 
 const NOT_VALID_FILE = 'This file is not valid';
 
-export const ImportFromExcel = (props: { setData: (d: Word[]) => void; }) => {
-
+export const ImportFromExcel = (props: { setData: (d: Word[]) => void }) => {
   const [fileName, setFileName] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -26,8 +25,7 @@ export const ImportFromExcel = (props: { setData: (d: Word[]) => void; }) => {
       if (!isDataValid(dataParse[0])) {
         setFileName(NOT_VALID_FILE);
         props.setData([]);
-      }
-      else {
+      } else {
         const formatedData = formatData(dataParse);
         setFileName(files[0].name);
         props.setData(formatedData);
@@ -37,23 +35,21 @@ export const ImportFromExcel = (props: { setData: (d: Word[]) => void; }) => {
   };
 
   const isDataValid = (data: string[]) =>
-    (data?.length >= 3) && (data.slice(0, 3).join('-') === 'original-translated-progress');
-
+    data?.length >= 3 &&
+    data.slice(0, 3).join('-') === 'original-translated-progress';
 
   const formatData = (data: object[]) =>
     data.reduce((voc: any, item: any, ind) => {
-      if (ind === 0)
-        return voc;
+      if (ind === 0) return voc;
       const [original, translated, progress, ...another] = item;
-      if (!original || !translated)
-        return voc;
+      if (!original || !translated) return voc;
       const word: Word = {
         id: ind.toString(),
         original,
         translated,
         another,
         repeated: setPropgress(progress),
-        lastRepeat: 1
+        lastRepeat: 1,
       };
       return [...voc, word];
     }, []);
@@ -64,21 +60,21 @@ export const ImportFromExcel = (props: { setData: (d: Word[]) => void; }) => {
     let wrote = 0;
     const res = propgress % 3;
     switch (res) {
-      case (0): {
+      case 0: {
         const value = propgress / 3;
         original = value;
         translated = value;
         wrote = value;
         break;
       }
-      case (1): {
+      case 1: {
         const value = Math.trunc(propgress / 3);
         original = value;
         translated = value + 1;
         wrote = value;
         break;
       }
-      case (2): {
+      case 2: {
         const value = Math.trunc(propgress / 3);
         original = value + 1;
         translated = value + 1;
@@ -89,18 +85,28 @@ export const ImportFromExcel = (props: { setData: (d: Word[]) => void; }) => {
     return { translated, original, wrote };
   };
 
-  return <>
-    <ExcelButton text='Import from excel' onClick={() => inputRef.current?.click()} >
-      <input
-        type='file'
-        ref={inputRef}
-        accept='.xlsx'
-        style={{ display: 'none' }}
-        onChange={(e) => handleUpload(e)}
-      />
-    </ExcelButton>
-    <div className={cn('text-sm overflow-hidden overflow-ellipsis',
-      fileName === NOT_VALID_FILE ? 'text-red-800' : '')
-    }>{fileName && fileName}</div >
-  </>;
+  return (
+    <>
+      <ExcelButton
+        text="Import from excel"
+        onClick={() => inputRef.current?.click()}
+      >
+        <input
+          type="file"
+          ref={inputRef}
+          accept=".xlsx"
+          style={{ display: 'none' }}
+          onChange={(e) => handleUpload(e)}
+        />
+      </ExcelButton>
+      <div
+        className={cn(
+          'text-sm overflow-hidden overflow-ellipsis',
+          fileName === NOT_VALID_FILE ? 'text-red-800' : ''
+        )}
+      >
+        {fileName && fileName}
+      </div>
+    </>
+  );
 };

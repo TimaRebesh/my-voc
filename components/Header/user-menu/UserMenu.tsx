@@ -1,16 +1,27 @@
 'use client';
 
-import { InfoIcon, LogOutIcon, LucideIcon, SettingsIcon, LibraryBigIcon, BookIcon } from 'lucide-react';
+import {
+  InfoIcon,
+  LogOutIcon,
+  LucideIcon,
+  SettingsIcon,
+  LibraryBigIcon,
+  BookIcon,
+} from 'lucide-react';
 import Link from 'next/link';
 import { IUser } from '@/lib/database/models/user.model';
 import { signOut } from 'next-auth/react';
 import { AppRouterPath } from '@/constants';
 import { CustomAvatar } from '@/components/ui/custom-avatar';
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 
-export const UserMenu = ({ user }: { user: IUser; }) => {
-
+export const UserMenu = ({ user }: { user: IUser }) => {
   const onLogout = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     await signOut();
@@ -58,7 +69,6 @@ export const UserMenu = ({ user }: { user: IUser; }) => {
             <SheetElement label="LogOut" icon={LogOutIcon} onClick={onLogout} />
           </div>
         </div>
-
       </SheetContent>
     </Sheet>
   );
@@ -78,7 +88,7 @@ const SheetElement = ({
   return (
     <SheetClose asChild>
       <Link href={href ?? '#'}>
-        <div onClick={onClick} className='flex items-center'>
+        <div onClick={onClick} className="flex items-center">
           {Icon && <Icon className="mr-2 h-8 w-4" />}
           <span>{label}</span>
         </div>
@@ -87,13 +97,7 @@ const SheetElement = ({
   );
 };
 
-const UserIcon = ({
-  user,
-  size,
-}: {
-  user: IUser;
-  size?: number;
-}) => {
+const UserIcon = ({ user, size }: { user: IUser; size?: number }) => {
   const getColor = (username: string): string => {
     const firstLetter = username.charAt(0).toLowerCase();
     const colorRanges = [
@@ -108,7 +112,6 @@ const UserIcon = ({
     );
     return `bg-${colorRange ? colorRange.color : 'gray'}-500`;
   };
-
 
   const avatarFallbackBackground = `text-xl text-white uppercase bg-orange-500 bg-purple-500 bg-red-500 bg-green-500 bg-blue-500 bg-gray-500 ${getColor(user.name)}`;
 

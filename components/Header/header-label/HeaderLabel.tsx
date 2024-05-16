@@ -1,12 +1,10 @@
 'use client';
 
-import { AppRouterPath } from "@/constants";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-
+import { AppRouterPath } from '@/constants';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export const HeaderLabel = () => {
-
   const pathname = usePathname();
   const [label, setLabel] = useState('');
 
@@ -20,7 +18,8 @@ export const HeaderLabel = () => {
         return 'STUDY NEW';
       case AppRouterPath.VOCABULARY:
         return 'VOCABULARY';
-      default: return 'MENU';
+      default:
+        return 'MENU';
     }
   };
 
@@ -28,7 +27,5 @@ export const HeaderLabel = () => {
     setLabel(selectLabel());
   }, [pathname]);
 
-  return (
-    <div className='text-secondary'>{label}</div>
-  );
+  return <div className="text-secondary">{label}</div>;
 };

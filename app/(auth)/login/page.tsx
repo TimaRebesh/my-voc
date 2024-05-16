@@ -7,7 +7,6 @@ import { ProvidersButtons } from './ProvidersButtons';
 import Link from 'next/link';
 
 export default async function () {
-
   const session = await getServerSession();
 
   if (session) redirect(AppRouterPath.HOME);
@@ -38,5 +37,4 @@ export default async function () {
       </div>
     </div>
   );
-};
-
+}

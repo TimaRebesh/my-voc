@@ -1,7 +1,3 @@
-
-
 export default function LibraryPage() {
-  return (
-    <div>library</div>
-  );
+  return <div>library</div>;
 }

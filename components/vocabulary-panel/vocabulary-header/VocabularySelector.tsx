@@ -1,36 +1,38 @@
-import { IUser } from "@/lib/database/models/user.model";
-import { useState } from "react";
-import { Check, PencilIcon, PlusIcon } from "lucide-react";
-import { cn, handleError } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { IUser } from '@/lib/database/models/user.model';
+import { useState } from 'react';
+import { Check, PencilIcon, PlusIcon } from 'lucide-react';
+import { cn, handleError } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command";
+} from '@/components/ui/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { TooltipWrapper } from "@/components/ui/tooltip-wrapper";
-import { Editor } from "../editor/Editor";
-import { Creator } from "../creator/Creator";
-import { Preloader } from "@/components/Preloader/Preloader";
-import { IVocabulary } from "@/lib/database/models/vocabulary.model";
-import { AppRouterPath } from "@/constants";
-import { ITopic } from "@/lib/database/models/topic.model";
-import { selectTopic } from "@/lib/actions/topics.actions";
+} from '@/components/ui/popover';
+import { TooltipWrapper } from '@/components/ui/tooltip-wrapper';
+import { Editor } from '../editor/Editor';
+import { Creator } from '../creator/Creator';
+import { Preloader } from '@/components/Preloader/Preloader';
+import { IVocabulary } from '@/lib/database/models/vocabulary.model';
+import { AppRouterPath } from '@/constants';
+import { ITopic } from '@/lib/database/models/topic.model';
+import { selectTopic } from '@/lib/actions/topics.actions';
 
-
-export const VocabularySelector = ({ user, topic, currentVoc }: {
+export const VocabularySelector = ({
+  user,
+  topic,
+  currentVoc,
+}: {
   user: IUser;
   topic: ITopic;
   currentVoc: IVocabulary;
 }) => {
-
   const [open, setOpen] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -39,7 +41,6 @@ export const VocabularySelector = ({ user, topic, currentVoc }: {
   const onSelectTopic = async (vocabularyId: string) => {
     try {
       await selectTopic(user._id, vocabularyId, AppRouterPath.VOCABULARY);
-
     } catch (error) {
       handleError(error);
     } finally {
@@ -50,9 +51,7 @@ export const VocabularySelector = ({ user, topic, currentVoc }: {
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
-
         <PopoverTrigger asChild>
-
           <Button
             variant="outline"
             role="combobox"
@@ -61,11 +60,13 @@ export const VocabularySelector = ({ user, topic, currentVoc }: {
           >
             {currentVoc.name}
 
-            <div className='flex'>
+            <div className="flex">
               <TooltipWrapper text="edit vocabulary">
                 <PencilIcon
                   className="w-5 h-6 mr-1"
-                  onClick={() => { setIsEdit(true); }}
+                  onClick={() => {
+                    setIsEdit(true);
+                  }}
                 />
               </TooltipWrapper>
               <TooltipWrapper text="create new vocabulary">
@@ -75,9 +76,7 @@ export const VocabularySelector = ({ user, topic, currentVoc }: {
                 />
               </TooltipWrapper>
             </div>
-
           </Button>
-
         </PopoverTrigger>
         <PopoverContent className="w-60 p-0">
           <Command>
@@ -95,18 +94,17 @@ export const VocabularySelector = ({ user, topic, currentVoc }: {
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
-                      currentVoc._id === t._id ? "opacity-100" : "opacity-0"
+                      'mr-2 h-4 w-4',
+                      currentVoc._id === t._id ? 'opacity-100' : 'opacity-0'
                     )}
                   />
                   {t.name}
-
                 </CommandItem>
               ))}
             </CommandGroup>
           </Command>
         </PopoverContent>
-      </Popover >
+      </Popover>
       <Editor
         open={isEdit}
         close={() => setIsEdit(false)}

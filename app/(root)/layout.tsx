@@ -1,4 +1,3 @@
-
 import { Header } from '@/components/Header/Header';
 import { AppRouterPath } from '@/constants';
 import { auth } from '@/utils/authOptions';

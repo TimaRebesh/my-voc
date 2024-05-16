@@ -7,10 +7,10 @@ export default async function () {
   return (
     <div className="flex justify-center mt-20 mx-5">
       <div className="max-w-md flex flex-col gap-7 p-5">
-        <Link href={AppRouterPath.REPEAT} >
-          <Button className='w-full'>Repeat</Button>
+        <Link href={AppRouterPath.REPEAT}>
+          <Button className="w-full">Repeat</Button>
         </Link>
-        <Link href={AppRouterPath.STUDY_NEW} >
+        <Link href={AppRouterPath.STUDY_NEW}>
           <Button>Study new words</Button>
         </Link>
       </div>

@@ -29,11 +29,7 @@ export const CustomAvatar = ({
         {src ? (
           <img src={src} alt="Avatar" className="object-cover w-full h-full" />
         ) : (
-          <div
-            className={cn(
-              'flex items-center justify-center rounded-full',
-            )}
-          >
+          <div className={cn('flex items-center justify-center rounded-full')}>
             {fallback}
           </div>
         )}
@@ -41,5 +37,3 @@ export const CustomAvatar = ({
     </TooltipWrapper>
   );
 };
-
-

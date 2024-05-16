@@ -16,79 +16,80 @@ import { deleteUser } from '@/lib/actions/user.actions';
 import { useSession, signOut } from 'next-auth/react';
 import React, { useState } from 'react';
 
-export const DeleteUser = React.memo(({
-  userId,
-  avatar,
-  setSaving
-}: {
-  userId: string,
-  avatar: string | undefined,
-  setSaving: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+export const DeleteUser = React.memo(
+  ({
+    userId,
+    avatar,
+    setSaving,
+  }: {
+    userId: string;
+    avatar: string | undefined;
+    setSaving: React.Dispatch<React.SetStateAction<boolean>>;
+  }) => {
+    const [deleteAll, setDeleteAll] = useState(false);
+    const { toast } = useToast();
+    const { update } = useSession();
 
-  const [deleteAll, setDeleteAll] = useState(false);
-  const { toast } = useToast();
-  const { update } = useSession();
-
-  const onDelete = async () => {
-    setSaving(true);
-    // delete avatar
-    if (avatar?.includes(uploadThingUrl)) {
-      const response = await fetch('api/uploadthing', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          url: avatar,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to delete value');
+    const onDelete = async () => {
+      setSaving(true);
+      // delete avatar
+      if (avatar?.includes(uploadThingUrl)) {
+        const response = await fetch('api/uploadthing', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            url: avatar,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to delete value');
+        }
       }
-    }
-    // delete user
-    await deleteUser(userId, deleteAll);
-    await signOut();
-    setSaving(false);
-    toast({
-      title: 'User deleted successfully',
-    });
-  };
+      // delete user
+      await deleteUser(userId, deleteAll);
+      await signOut();
+      setSaving(false);
+      toast({
+        title: 'User deleted successfully',
+      });
+    };
 
-  return (
-    <div className="py-10">
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <div className="cursor-pointer text-red-800">Delete user</div>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              Are you absolutely sure?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete
-              your user.
-              <span className="flex items-center space-x-2 pt-2">
-                <Checkbox id="terms" checked={deleteAll} onCheckedChange={(v: boolean) => setDeleteAll(v)} />
-                <label
-                  htmlFor="terms"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  delete all yours shared vocabularies
-                </label>
-              </span>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onDelete}>
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
-  );
-});
+    return (
+      <div className="py-10">
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <div className="cursor-pointer text-red-800">Delete user</div>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                user.
+                <span className="flex items-center space-x-2 pt-2">
+                  <Checkbox
+                    id="terms"
+                    checked={deleteAll}
+                    onCheckedChange={(v: boolean) => setDeleteAll(v)}
+                  />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    delete all yours shared vocabularies
+                  </label>
+                </span>
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={onDelete}>Delete</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    );
+  }
+);

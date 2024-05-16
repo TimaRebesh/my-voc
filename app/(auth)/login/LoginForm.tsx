@@ -3,7 +3,14 @@
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { useState } from 'react';
@@ -27,14 +34,13 @@ const loginFormSchema = z.object({
   }),
 });
 
-
 export const LoginForm = () => {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       [LoginFormInputs.EMAIL]: 'test@gmail.com',
-      [LoginFormInputs.PASSWORD]: '1234'
-    }
+      [LoginFormInputs.PASSWORD]: '1234',
+    },
   });
 
   const [loading, setLoading] = useState(false);
@@ -66,7 +72,6 @@ export const LoginForm = () => {
     <section>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-1">
-
           <FormField
             disabled={loading}
             control={form.control}

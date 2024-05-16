@@ -8,11 +8,11 @@ import { IUser } from '@/lib/database/models/user.model';
 import { ITopic } from '@/lib/database/models/topic.model';
 
 export async function Header() {
-
   const session = await auth();
   const user = JSON.parse(JSON.stringify(session!.user)) as IUser;
-  const topic = await getTopicByUserId(user._id) as ITopic;
-  const currentTopicName = topic.topicList.find(t => t._id === topic.studyID)?.name ?? '';
+  const topic = (await getTopicByUserId(user._id)) as ITopic;
+  const currentTopicName =
+    topic.topicList.find((t) => t._id === topic.studyID)?.name ?? '';
 
   return (
     <header className="w-full h-12 bg-gray-700 body-font relative flex justify-between items-center px-4">
