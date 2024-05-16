@@ -22,7 +22,8 @@ export interface IVocabulary {
   [VocabularyFields.LIST]: Word[];
   [VocabularyFields.CREATOR]: string;
   [VocabularyFields.IS_SHARED]: boolean;
-};
+  [VocabularyFields.DESCRIPTION]?: string;
+}
 
 const RepeatedSchema = new Schema({
   translated: { type: Number, required: true },
@@ -51,6 +52,10 @@ const VocabularySchema = new Schema({
     type: Boolean,
     required: true,
     default: false,
+  },
+  [VocabularyFields.DESCRIPTION]: {
+    type: String,
+    default: '',
   },
 });
 

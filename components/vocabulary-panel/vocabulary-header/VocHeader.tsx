@@ -1,40 +1,23 @@
 'use client';
 import { IVocabulary } from "@/lib/database/models/vocabulary.model";
-import { User } from "next-auth";
 import { VocabularySelector } from "./VocabularySelector";
 import { useState } from "react";
-import { Preloader } from "../../Preloader/Preloader";
-import { Editor } from "../editor/Editor";
+import { IUser } from "@/lib/database/models/user.model";
+import { ITopic } from "@/lib/database/models/topic.model";
 
 interface Props {
-  user: User;
-  voc: IVocabulary;
+  user: IUser;
+  topic: ITopic;
+  currentVoc: IVocabulary;
 }
 
-export const VocHeader = ({ user, voc }: Props) => {
+export const VocHeader = ({ user, topic, currentVoc }: Props) => {
 
-  const [isVocEditor, setIsVocEditor] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
 
   return (
-    <div>
-      <div className='bg-slate-600 h-12 flex items-center'>
-        <Counter count={voc.list.length} />
-        <VocabularySelector
-          topics={user.configuration.vocabularies}
-          currentTopic={{ id: voc._id, name: voc.name }}
-          setEditor={v => setIsVocEditor(v)}
-        />
-      </div>
-
-      <Editor
-        open={isVocEditor}
-        setEditor={v => setIsVocEditor(v)}
-        voc={voc}
-        vocsCount={user.configuration.vocabularies.length}
-        setIsProcessing={() => setIsProcessing(true)}
-      />
-      <Preloader isLoading={isProcessing} />
+    <div className='bg-slate-600 h-12 flex items-center'>
+      <Counter count={currentVoc.list.length} />
+      <VocabularySelector user={user} topic={topic} currentVoc={currentVoc} />
     </div>
   );
 };

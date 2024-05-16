@@ -4,13 +4,13 @@ import { InfoIcon, LogOutIcon, LucideIcon, SettingsIcon, LibraryBigIcon, BookIco
 import Link from 'next/link';
 import { IUser } from '@/lib/database/models/user.model';
 import { signOut } from 'next-auth/react';
-import { User } from 'next-auth';
 import { AppRouterPath } from '@/constants';
 import { CustomAvatar } from '@/components/ui/custom-avatar';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 
-export const UserMenu = ({ user }: { user: User; }) => {
+export const UserMenu = ({ user }: { user: IUser; }) => {
+
   const onLogout = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     await signOut();

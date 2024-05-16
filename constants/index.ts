@@ -21,13 +21,18 @@ export enum UserFields {
 }
 
 export enum ConfigFields {
-  STUDY_ID = 'studyID',
-  VOCABULARIES = 'vocabularies',
   MODE_WRITE = 'modeWrite',
   THEME = 'theme',
   HINTS = 'hints',
   LIMIT_ALL = 'limitAll',
   LIMIT_NEW = 'limitNew',
+}
+
+export enum TopicsFieds {
+  ID = '_id',
+  STUDY_ID = 'studyID',
+  CREATOR = 'creator',
+  TOPIC_LIST = 'topicList',
 }
 
 export enum VocabularyFields {
@@ -36,6 +41,7 @@ export enum VocabularyFields {
   LIST = 'list',
   CREATOR = 'creator',
   IS_SHARED = 'isShared',
+  DESCRIPTION = 'description',
 }
 
 export enum ThemeValues {
@@ -45,3 +51,5 @@ export enum ThemeValues {
 }
 
 export const uploadThingUrl = 'https://utfs.io';
+
+export const MAX_NUMBER_DEFINING_NEW = 6;

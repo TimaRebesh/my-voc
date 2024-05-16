@@ -1,4 +1,4 @@
-import { ConfigFields, ThemeValues } from '@/constants';
+import { ThemeValues } from '@/constants';
 
 export const ID = 'id';
 export const NAME = 'name';

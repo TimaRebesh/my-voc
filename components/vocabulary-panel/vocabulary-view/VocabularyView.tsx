@@ -2,13 +2,13 @@
 
 import { Input } from "@/components/ui/input";
 import { IVocabulary, Word } from "@/lib/database/models/vocabulary.model";
-import { User } from "next-auth";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { WordView } from "./WordView";
 import { getNewID } from "@/lib/utils";
+import { IUser } from "@/lib/database/models/user.model";
 
 interface Props {
-  user: User;
+  user: IUser;
   voc: IVocabulary;
 }
 
@@ -16,14 +16,17 @@ export const VocabularyView = ({ user, voc }: Props) => {
 
   const [words, setWords] = useState<Word[]>(voc.list);
   const [search, setSearch] = useState('');
+  const [filteredWords, setFilteredWords] = useState<Word[]>(voc.list);
   const [originals, setOriginals] = useState<string[]>([]);
   const [isNew, setIsNew] = useState(false);
   const wordsRef = useRef<HTMLDivElement>(null);
   const [focus, setFocus] = useState<undefined | Object>();
 
-  const filteredWords = search ?
-    words.filter(val => val.original.toLowerCase().includes(search.toLowerCase()))
-    : words;
+  useEffect(() => {
+    setFilteredWords(prev => search ? words.filter(val => val.original.toLowerCase().includes(search.toLowerCase()))
+      : words);
+  }, [search]);
+
 
   const onChange = (w: Word) => {
     setWords(words.map(el => el.id === w.id ? { ...w, id: getNewID() } : el));
@@ -49,7 +52,7 @@ export const VocabularyView = ({ user, voc }: Props) => {
       <div className='p-2'>
         <Input
           type='text'
-          placeholder="Search...z"
+          placeholder="Search..."
           className="h-6"
           value={search}
           onChange={e => setSearch(e.currentTarget.value)}

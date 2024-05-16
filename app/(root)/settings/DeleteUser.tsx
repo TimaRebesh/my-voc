@@ -12,7 +12,7 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/components/ui/use-toast';
 import { uploadThingUrl } from '@/constants';
-import { removeUser } from '@/lib/actions/user.actions';
+import { deleteUser } from '@/lib/actions/user.actions';
 import { useSession, signOut } from 'next-auth/react';
 import React, { useState } from 'react';
 
@@ -32,7 +32,6 @@ export const DeleteUser = React.memo(({
 
   const onDelete = async () => {
     setSaving(true);
-
     // delete avatar
     if (avatar?.includes(uploadThingUrl)) {
       const response = await fetch('api/uploadthing', {
@@ -48,10 +47,8 @@ export const DeleteUser = React.memo(({
         throw new Error('Failed to delete value');
       }
     }
-
     // delete user
-    await removeUser(userId, deleteAll);
-
+    await deleteUser(userId, deleteAll);
     await signOut();
     setSaving(false);
     toast({

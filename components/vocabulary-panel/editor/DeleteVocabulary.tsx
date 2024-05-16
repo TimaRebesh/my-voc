@@ -22,7 +22,7 @@ export const DeleteVocabulary = ({
     <div className="py-10">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <div className="cursor-pointer text-red-800">Delete vocabulary</div>
+          <div className="cursor-pointer text-red-800 text-sm">Delete vocabulary</div>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
