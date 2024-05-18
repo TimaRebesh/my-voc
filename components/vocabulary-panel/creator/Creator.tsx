@@ -60,6 +60,7 @@ export const Creator = ({ open, close, setIsProcessing, userId }: Props) => {
 
       // toast({
       //   title: 'Vocabulary has been created',
+      // variant: 'success',
       // });
     } catch (error) {
       handleError(error);

@@ -11,6 +11,7 @@ interface Props {
 }
 
 export const VocabularyPanel = ({ user, topic, currentVoc }: Props) => {
+
   return (
     <>
       <VocHeader user={user} topic={topic} currentVoc={currentVoc} />

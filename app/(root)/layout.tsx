@@ -8,12 +8,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   const session = await auth();
 
   if (!session) redirect(AppRouterPath.LOGIN);
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex flex-col h-screen">
       <Header />
       {children}
     </div>

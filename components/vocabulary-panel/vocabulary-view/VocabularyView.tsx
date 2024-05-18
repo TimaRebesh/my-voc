@@ -2,51 +2,49 @@
 
 import { Input } from '@/components/ui/input';
 import { IVocabulary, Word } from '@/lib/database/models/vocabulary.model';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { WordView } from './WordView';
-import { getNewID } from '@/lib/utils';
 import { IUser } from '@/lib/database/models/user.model';
+import { WordHandler } from '../word-handler/WordHandler';
+import { AppRouterPath } from '@/constants';
+import { editVocabulary } from '@/lib/actions/vocabulary.actions';
+import { DialogCustom } from '@/components/ui/dialog-custom';
 
-interface Props {
+export const VocabularyView = ({ user, voc }: {
   user: IUser;
   voc: IVocabulary;
-}
+}) => {
 
-export const VocabularyView = ({ user, voc }: Props) => {
   const [words, setWords] = useState<Word[]>(voc.list);
-  const [search, setSearch] = useState('');
   const [filteredWords, setFilteredWords] = useState<Word[]>(voc.list);
-  const [originals, setOriginals] = useState<string[]>([]);
-  const [isNew, setIsNew] = useState(false);
-  const wordsRef = useRef<HTMLDivElement>(null);
-  const [focus, setFocus] = useState<undefined | Object>();
+  const [search, setSearch] = useState('');
+  const [editedWord, setEditedWord] = useState<Word | null>(null);
+
+  useEffect(() => {
+    setWords(voc.list);
+    setFilteredWords(voc.list);
+  }, [voc]);
 
   useEffect(() => {
     setFilteredWords((prev) =>
       search
         ? words.filter((val) =>
-            val.original.toLowerCase().includes(search.toLowerCase())
-          )
+          val.original.toLowerCase().includes(search.toLowerCase())
+        )
         : words
     );
   }, [search]);
 
-  const onChange = (w: Word) => {
-    setWords(
-      words.map((el) => (el.id === w.id ? { ...w, id: getNewID() } : el))
-    );
-    setIsNew(false);
+  const onSave = async (word: Word) => {
+    const updatedList = voc.list.map((elem: Word) => elem.id === word.id ? word : elem);
+    voc.list = updatedList;
+    await editVocabulary(voc, AppRouterPath.VOCABULARY);
   };
 
-  const onRemove = (w: Word) => {
-    // setWords(words.map(el => el.id === w.id ? { ...w, id: 0 } : el));
-    // setIsNew(false);
-  };
-
-  const save = () => {
-    const withoutEmpty = words.filter((e) => e.original && e.translated);
-    // props.onSave(withoutEmpty);
-    // props.setPanel('menu');
+  const onDelete = async (id: string) => {
+    const updatedList = voc.list.filter((elem: Word) => elem.id !== id);
+    voc.list = updatedList;
+    await editVocabulary(voc, AppRouterPath.VOCABULARY);
   };
 
   if (words.length === 0)
@@ -57,7 +55,11 @@ export const VocabularyView = ({ user, voc }: Props) => {
     );
 
   return (
-    <section>
+    <>
+      <button>open</button>
+      <DialogCustom isOpen={true} onClose={() => { }} >
+        <div>hello</div>
+      </DialogCustom>
       <div className="p-2">
         <Input
           type="text"
@@ -67,18 +69,21 @@ export const VocabularyView = ({ user, voc }: Props) => {
           onChange={(e) => setSearch(e.currentTarget.value)}
         />
       </div>
-      {filteredWords.map((word: Word, index) => (
-        <WordView
-          key={word.original + index}
-          index={index}
-          word={word}
-          onSave={onChange}
-          originals={originals}
-          isNew={isNew}
-          passFocus={() => setFocus({})}
-          remove={onRemove}
+      <div className='flex-1 overflow-y-auto'>
+        {filteredWords.map((word: Word, index) => (
+          <WordView
+            key={word.original + index}
+            word={word}
+            edit={() => setEditedWord(word)}
+          />
+        ))}
+        <WordHandler
+          word={editedWord}
+          onClose={() => setEditedWord(null)}
+          onSave={onSave}
+          onDelete={onDelete}
         />
-      ))}
-    </section>
+      </div>
+    </>
   );
 };

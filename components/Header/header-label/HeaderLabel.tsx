@@ -27,5 +27,5 @@ export const HeaderLabel = () => {
     setLabel(selectLabel());
   }, [pathname]);
 
-  return <div className="text-secondary">{label}</div>;
+  return <p>{label}</p>;
 };

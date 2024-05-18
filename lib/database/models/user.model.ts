@@ -50,28 +50,6 @@ const UserSchema = new Schema({
       required: true,
     },
   },
-  // [UserFields.TOPICS]: {
-  //   [TopicsFieds.STUDY_ID]: { type: String, default: null },
-  //   [TopicsFieds.TOPICS]: [
-  //     {
-  //       [VocabularyFields.ID]: {
-  //         type: Schema.Types.ObjectId,
-  //         ref: 'Vocabulary',
-  //         required: true,
-  //       },
-  //       [VocabularyFields.NAME]: { type: String, required: true },
-  //       [VocabularyFields.IS_SHARED]: {
-  //         type: Boolean,
-  //         required: true,
-  //         default: false,
-  //       },
-  //       [VocabularyFields.DESCRIPTION]: {
-  //         type: String,
-  //         default: '',
-  //       },
-  //     },
-  //   ],
-  // },
 });
 
 const User = models.User || model('User', UserSchema);

@@ -6,6 +6,7 @@ import { IUser } from '@/lib/database/models/user.model';
 import { auth } from '@/utils/authOptions';
 
 export default async function VocabularyPage() {
+
   const session = await auth();
   const user = JSON.parse(JSON.stringify(session!.user)) as IUser;
   const topic = (await getTopicByUserId(user._id)) as ITopic;

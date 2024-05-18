@@ -21,7 +21,7 @@ export const DeleteVocabulary = ({
     <div className="py-10">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <div className="cursor-pointer text-red-800 text-sm">
+          <div className="cursor-pointer text-destructive text-sm">
             Delete vocabulary
           </div>
         </AlertDialogTrigger>
@@ -35,7 +35,7 @@ export const DeleteVocabulary = ({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onDelete}>Delete</AlertDialogAction>
+            <AlertDialogAction className='bg-destructive' onClick={onDelete}>Delete</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

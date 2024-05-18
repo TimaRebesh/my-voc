@@ -59,7 +59,7 @@ const SettingsFormSchema = z.object({
   [ConfigFields.LIMIT_NEW]: z.number(),
 });
 
-export const SettingsForm = ({ user }: { user: User }) => {
+export const SettingsForm = ({ user }: { user: User; }) => {
   const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingsFormSchema>>({
@@ -84,6 +84,13 @@ export const SettingsForm = ({ user }: { user: User }) => {
   const { toast } = useToast();
 
   const { setTheme } = useTheme();
+
+  useEffect(() => {
+    return () => {
+      if (user.configuration.theme !== form.watch(ConfigFields.THEME))
+        setTheme(user.configuration.theme);
+    };
+  }, []);
 
   useEffect(() => {
     setTheme(form.watch(ConfigFields.THEME));
@@ -148,11 +155,12 @@ export const SettingsForm = ({ user }: { user: User }) => {
             [ConfigFields.LIMIT_NEW]: values[ConfigFields.LIMIT_NEW],
           },
         },
-        AppRouterPath.HOME
+        AppRouterPath.SETTINGS
       );
 
       toast({
         title: `${result[UserFields.NAME]} has been updated`,
+        variant: 'success',
       });
       await update();
     } catch (error) {

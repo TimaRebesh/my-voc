@@ -11,7 +11,7 @@ import {
 import Link from 'next/link';
 import { IUser } from '@/lib/database/models/user.model';
 import { signOut } from 'next-auth/react';
-import { AppRouterPath } from '@/constants';
+import { AppRouterPath, ThemeValues } from '@/constants';
 import { CustomAvatar } from '@/components/ui/custom-avatar';
 import {
   Sheet,
@@ -20,12 +20,23 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import { useTheme } from 'next-themes';
+import { useEffect } from 'react';
 
-export const UserMenu = ({ user }: { user: IUser }) => {
+export const UserMenu = ({ user }: { user: IUser; }) => {
+
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    user && setTheme(user.configuration.theme);
+  }, [user]);
+
   const onLogout = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     await signOut();
+    setTheme(ThemeValues.SYSTEM);
   };
+
 
   return (
     <Sheet>
@@ -97,7 +108,7 @@ const SheetElement = ({
   );
 };
 
-const UserIcon = ({ user, size }: { user: IUser; size?: number }) => {
+const UserIcon = ({ user, size }: { user: IUser; size?: number; }) => {
   const getColor = (username: string): string => {
     const firstLetter = username.charAt(0).toLowerCase();
     const colorRanges = [

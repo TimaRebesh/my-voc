@@ -10,8 +10,8 @@ export type Repeated = {
 export type Word = {
   id: string;
   original: string;
-  another: string[];
   translated: string;
+  another: string[];
   repeated: Repeated;
   lastRepeat: number;
 };
@@ -25,24 +25,24 @@ export interface IVocabulary {
   [VocabularyFields.DESCRIPTION]?: string;
 }
 
-const RepeatedSchema = new Schema({
-  translated: { type: Number, required: true },
-  original: { type: Number, required: true },
-  wrote: { type: Number, required: true },
-});
-
-const WordSchema = new Schema({
-  id: { type: Number, required: true },
-  original: { type: String, required: true },
-  another: { type: [String], required: true },
-  translated: { type: String, required: true },
-  repeated: { type: RepeatedSchema, required: true },
-  lastRepeat: { type: Number, required: true },
-});
-
 const VocabularySchema = new Schema({
   [VocabularyFields.NAME]: { type: String, required: true },
-  [VocabularyFields.LIST]: { type: [WordSchema], required: true },
+  [VocabularyFields.LIST]: [
+    {
+      _id: false,
+      id: { type: Number, required: true },
+      original: { type: String, required: true },
+      another: { type: [String], required: true },
+      translated: { type: String, required: true },
+      repeated: {
+        _id: false,
+        translated: { type: Number, required: true },
+        original: { type: Number, required: true },
+        wrote: { type: Number, required: true },
+      },
+      lastRepeat: { type: Number, required: true },
+    },
+  ],
   [VocabularyFields.CREATOR]: {
     type: Schema.Types.ObjectId,
     ref: 'User',

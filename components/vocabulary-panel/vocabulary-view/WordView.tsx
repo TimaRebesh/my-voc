@@ -4,51 +4,56 @@ import { cn } from '@/lib/utils';
 
 type WordViewProps = {
   word: Word;
-  index: number;
-  onSave: (w: Word) => void;
-  originals: string[];
-  remove: (v: Word) => void;
-  isNew: boolean;
-  passFocus: () => void;
+  edit: () => void;
 };
 
-export const WordView = (props: WordViewProps) => {
+export const WordView = ({ word, edit }: WordViewProps) => {
+
   return (
-    <div className="flex p-2 md:p-10 md:px-5 md:py-8 m-1/200 rounded-lg">
-      <ProgressBar word={props.word} />
-      <p>{props.word.original}</p>
-      {/* <EditView
-        word={props.word}
-        onSave={props.onSave}
-        originals={props.originals}
-        remove={() => props.remove(props.word)}
-        focus={props.isNew && props.index === 0}
-        passFocus={props.passFocus}
-        theme={props.theme}
-      />
-      <RemoveButton onClick={() => props.remove(props.word)} theme={props.theme} /> */}
+    <div
+      className="flex p-2 border border-gray-200 hover:border-gray-500 rounded-lg"
+      onClick={() => edit()}
+    >
+      <ProgressBar word={word} />
+      <WordComponent word={word} />
     </div>
   );
 };
 
-function ProgressBar({ word }: { word: Word }) {
+function WordComponent({ word }: { word: Word; }) {
+  return (
+    <div className='flex-1 flex-coll'>
+      <p className='text-original font-semibold'>{word.original}</p>
+      <p className='text-translated font-semibold'>{word.translated}</p>
+      <div className='flex'>
+        {word.another.map((an, ind) =>
+          <div
+            key={an + ind}
+            className='border rounded-full text-[8px] border-gray-400 py-[1px] px-1 mr-1'
+          >{an}</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ProgressBar({ word }: { word: Word; }) {
   const progressStatus =
     word.repeated.original + word.repeated.translated + word.repeated.wrote;
-  console.log(progressStatus);
+
   return (
-    <div className="mr-2">
+    <div className="mt-auto pr-2">
       {Array.from(Array(MAX_NUMBER_DEFINING_NEW).keys())
         .map((el) => (
           <div
             key={el}
             className={cn(
-              'w-2 h-1 mb-1 bg-gray-300',
-              progressStatus >= el + 1 ? 'bg-green-400' : ''
+              'w-2 h-[6px] mb-[2px] bg-gray-300',
+              progressStatus >= el + 1 ? 'bg-original opacity-50' : ''
             )}
           ></div>
         ))
         .reverse()}
-      {/* <Tooltip text={`progress: ${progressStatus}`} theme={props.theme} /> */}
     </div>
   );
 }
