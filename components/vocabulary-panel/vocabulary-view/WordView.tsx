@@ -25,12 +25,12 @@ function WordComponent({ word }: { word: Word; }) {
     <div className='flex-1 flex-coll'>
       <p className='text-original font-semibold'>{word.original}</p>
       <p className='text-translated font-semibold'>{word.translated}</p>
-      <div className='flex'>
+      <div className='flex flex-wrap'>
         {word.another.map((an, ind) =>
           <div
             key={an + ind}
             className='border rounded-full text-[8px] border-gray-400 py-[1px] px-1 mr-1'
-          >{an}</div>
+          >{an.length > 50 ? `${an.slice(0, 50)}...` : an}</div>
         )}
       </div>
     </div>

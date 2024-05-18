@@ -8,7 +8,6 @@ import { IUser } from '@/lib/database/models/user.model';
 import { WordHandler } from '../word-handler/WordHandler';
 import { AppRouterPath } from '@/constants';
 import { editVocabulary } from '@/lib/actions/vocabulary.actions';
-import { DialogCustom } from '@/components/ui/dialog-custom';
 
 export const VocabularyView = ({ user, voc }: {
   user: IUser;
@@ -56,10 +55,6 @@ export const VocabularyView = ({ user, voc }: {
 
   return (
     <>
-      <button>open</button>
-      <DialogCustom isOpen={true} onClose={() => { }} >
-        <div>hello</div>
-      </DialogCustom>
       <div className="p-2">
         <Input
           type="text"
