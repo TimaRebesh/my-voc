@@ -1,13 +1,13 @@
 'use client';
 import { Word } from '@/lib/database/models/vocabulary.model';
-import { cn } from '@/lib/utils';
+import { cn, getNewID } from '@/lib/utils';
 import { useRef, useState } from 'react';
 import * as XLSX from 'xlsx'; // npm install xlsx
 import { ExcelButton } from './ExcelButton';
 
 const NOT_VALID_FILE = 'This file is not valid';
 
-export const ImportFromExcel = (props: { setData: (d: Word[]) => void }) => {
+export const ImportFromExcel = (props: { setData: (d: Word[]) => void; }) => {
   const [fileName, setFileName] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -38,52 +38,23 @@ export const ImportFromExcel = (props: { setData: (d: Word[]) => void }) => {
     data?.length >= 3 &&
     data.slice(0, 3).join('-') === 'original-translated-progress';
 
+  const newId = getNewID();
+
   const formatData = (data: object[]) =>
     data.reduce((voc: any, item: any, ind) => {
       if (ind === 0) return voc;
       const [original, translated, progress, ...another] = item;
       if (!original || !translated) return voc;
       const word: Word = {
-        id: ind.toString(),
+        id: newId + ind,
         original,
         translated,
         another,
-        repeated: setPropgress(progress),
+        repeated: { translated: 0, original: 0, wrote: 0, prioritized: false },
         lastRepeat: 1,
       };
       return [...voc, word];
     }, []);
-
-  const setPropgress = (propgress: number) => {
-    let translated = 0;
-    let original = 0;
-    let wrote = 0;
-    const res = propgress % 3;
-    switch (res) {
-      case 0: {
-        const value = propgress / 3;
-        original = value;
-        translated = value;
-        wrote = value;
-        break;
-      }
-      case 1: {
-        const value = Math.trunc(propgress / 3);
-        original = value;
-        translated = value + 1;
-        wrote = value;
-        break;
-      }
-      case 2: {
-        const value = Math.trunc(propgress / 3);
-        original = value + 1;
-        translated = value + 1;
-        wrote = value;
-        break;
-      }
-    }
-    return { translated, original, wrote };
-  };
 
   return (
     <>

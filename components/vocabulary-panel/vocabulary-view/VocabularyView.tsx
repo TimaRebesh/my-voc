@@ -7,7 +7,7 @@ import { WordView } from './WordView';
 import { IUser } from '@/lib/database/models/user.model';
 import { WordHandler } from '../word-handler/WordHandler';
 import { AppRouterPath } from '@/constants';
-import { editVocabulary } from '@/lib/actions/vocabulary.actions';
+import { deleteVocabularyListWord, updateVocabularyListWord } from '@/lib/actions/vocabulary.actions';
 
 export const VocabularyView = ({ user, voc }: {
   user: IUser;
@@ -35,15 +35,11 @@ export const VocabularyView = ({ user, voc }: {
   }, [search]);
 
   const onSave = async (word: Word) => {
-    const updatedList = voc.list.map((elem: Word) => elem.id === word.id ? word : elem);
-    voc.list = updatedList;
-    await editVocabulary(voc, AppRouterPath.VOCABULARY);
+    await updateVocabularyListWord(voc._id, word, AppRouterPath.VOCABULARY);
   };
 
-  const onDelete = async (id: string) => {
-    const updatedList = voc.list.filter((elem: Word) => elem.id !== id);
-    voc.list = updatedList;
-    await editVocabulary(voc, AppRouterPath.VOCABULARY);
+  const onDelete = async (wordId: string) => {
+    await deleteVocabularyListWord(voc._id, wordId, AppRouterPath.VOCABULARY);
   };
 
   if (words.length === 0)

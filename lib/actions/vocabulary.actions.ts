@@ -3,7 +3,10 @@
 import { revalidatePath } from 'next/cache';
 import { connectToDB } from '../database';
 import { handleError } from '../utils';
-import Vocabulary, { IVocabulary } from '../database/models/vocabulary.model';
+import Vocabulary, {
+  IVocabulary,
+  Word,
+} from '../database/models/vocabulary.model';
 import { AppRouterPath, TopicsFieds, VocabularyFields } from '@/constants';
 import Topic, { TopicData } from '../database/models/topic.model';
 
@@ -81,6 +84,78 @@ export async function editVocabulary(
     );
     topic[TopicsFieds.TOPIC_LIST] = updatedList;
     topic.save();
+
+    revalidatePath(path);
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function createVocabularyListWord(
+  vocabularyId: string,
+  word: Word,
+  path: AppRouterPath
+) {
+  try {
+    await connectToDB();
+
+    await Vocabulary.updateOne(
+      { _id: vocabularyId },
+      {
+        $push: {
+          list: {
+            $each: [word],
+            $position: 0,
+          },
+        },
+      }
+    );
+
+    revalidatePath(path);
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function updateVocabularyListWord(
+  vocabularyId: string,
+  word: Word,
+  path: AppRouterPath
+) {
+  try {
+    await connectToDB();
+
+    await Vocabulary.updateOne(
+      { _id: vocabularyId, 'list.id': word.id },
+      {
+        $set: {
+          'list.$': word,
+        },
+      }
+    );
+
+    revalidatePath(path);
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function deleteVocabularyListWord(
+  vocabularyId: string,
+  wordId: string,
+  path: AppRouterPath
+) {
+  try {
+    await connectToDB();
+
+    await Vocabulary.updateOne(
+      { _id: vocabularyId },
+      {
+        $pull: {
+          list: { id: wordId },
+        },
+      }
+    );
 
     revalidatePath(path);
   } catch (error) {

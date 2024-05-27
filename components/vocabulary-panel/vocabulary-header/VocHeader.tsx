@@ -7,7 +7,7 @@ import { ITopic } from '@/lib/database/models/topic.model';
 import { WordHandler } from '../word-handler/WordHandler';
 import { Button } from '@/components/ui/button';
 import { createWord } from '@/lib/utils';
-import { editVocabulary } from '@/lib/actions/vocabulary.actions';
+import { createVocabularyListWord } from '@/lib/actions/vocabulary.actions';
 import { AppRouterPath } from '@/constants';
 
 interface Props {
@@ -21,14 +21,7 @@ export const VocHeader = ({ user, topic, currentVoc }: Props) => {
   const [editedWord, setEditedWord] = useState<Word | null>(null);
 
   const onSave = async (word: Word) => {
-    const voc: IVocabulary = {
-      ...currentVoc,
-      list: [
-        word,
-        ...currentVoc.list
-      ]
-    };
-    await editVocabulary(voc, AppRouterPath.VOCABULARY);
+    await createVocabularyListWord(currentVoc._id, word, AppRouterPath.VOCABULARY);
   };
 
   return (

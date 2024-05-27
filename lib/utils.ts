@@ -33,6 +33,6 @@ export function createWord({
     translated,
     another,
     lastRepeat: 1,
-    repeated: { translated: 0, original: 0, wrote: 0 },
+    repeated: { translated: 0, original: 0, wrote: 0, prioritized: false },
   };
 }

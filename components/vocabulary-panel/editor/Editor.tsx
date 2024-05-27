@@ -125,7 +125,7 @@ export const Editor = ({
           <ExportToExcel list={currentVoc.list} vocName={name} />
           <ImportFromExcel setData={(voc: Word[]) => setImportedVoc(voc)} />
           {importedVoc && (
-            <div className="flex items-center space-x-2 pt-2">
+            <div className="flex items-center space-x-2 pt-2 mb-4">
               <Checkbox
                 id="onlyImported"
                 checked={onlyImported}

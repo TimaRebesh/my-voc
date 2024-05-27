@@ -11,7 +11,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Word } from '@/lib/database/models/vocabulary.model';
-import { CirclePlusIcon, CircleXIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { CirclePlusIcon, CircleXIcon, StarIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export const WordHandler = ({
@@ -31,6 +32,7 @@ export const WordHandler = ({
   const [translated, setTranslated] = useState('');
   const [another, setAnother] = useState<string[]>([]);
   const [hint, setHint] = useState('');
+  const [prioritized, setPrioritized] = useState(false);
 
   useEffect(() => {
     if (word) {
@@ -39,6 +41,7 @@ export const WordHandler = ({
       setTranslated(word.translated);
       setAnother(word.another);
       setHint('');
+      setPrioritized(word.repeated.prioritized);
     }
   }, [word]);
 
@@ -62,7 +65,11 @@ export const WordHandler = ({
         ...word,
         original,
         translated,
-        another
+        another,
+        repeated: {
+          ...word.repeated,
+          prioritized
+        }
       });
     }
   };
@@ -120,7 +127,7 @@ export const WordHandler = ({
             {another.map((an, ind) =>
               <div
                 key={an + ind}
-                className='flex items-center border rounded-full text-[12px] border-gray-400 h-[20px] pr-1 mr-1 mb-1 '
+                className='flex items-center border rounded-full text-[12px] border-gray-400 h-[20px] pr-1 mr-1 mb-1'
               >
                 <CircleXIcon className='w-4 mx-[2px]' onClick={() => removeHint(ind)} />
                 <p>{an.length > 40 ? `${an.slice(0, 40)}...` : an}</p>
@@ -128,7 +135,17 @@ export const WordHandler = ({
             )}
           </div>
 
-          {word?.id && onDelete &&
+          {onDelete &&
+            <div className='flex flex-wrap items-center' onClick={() => setPrioritized(prev => !prev)}>
+              <StarIcon
+                className={cn(prioritized ? 'text-star' : '', 'mr-4')}
+                {...(prioritized ? { fill: 'currentColor' } : {})}
+              />
+              <Label>always study</Label>
+            </div>
+          }
+
+          {onDelete &&
             <p className='text-destructive font-medium' onClick={remove}>Delete</p>
           }
 

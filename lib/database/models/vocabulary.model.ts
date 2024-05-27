@@ -5,6 +5,7 @@ export type Repeated = {
   translated: number;
   original: number;
   wrote: number;
+  prioritized: boolean;
 };
 
 export type Word = {
@@ -39,6 +40,7 @@ const VocabularySchema = new Schema({
         translated: { type: Number, required: true },
         original: { type: Number, required: true },
         wrote: { type: Number, required: true },
+        prioritized: { type: Boolean, required: false, default: false}
       },
       lastRepeat: { type: Number, required: true },
     },

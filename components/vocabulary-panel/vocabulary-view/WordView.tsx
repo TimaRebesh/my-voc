@@ -1,6 +1,7 @@
 import { MAX_NUMBER_DEFINING_NEW } from '@/constants';
 import { Word } from '@/lib/database/models/vocabulary.model';
 import { cn } from '@/lib/utils';
+import { StarIcon } from 'lucide-react';
 
 type WordViewProps = {
   word: Word;
@@ -22,7 +23,8 @@ export const WordView = ({ word, edit }: WordViewProps) => {
 
 function WordComponent({ word }: { word: Word; }) {
   return (
-    <div className='flex-1 flex-coll'>
+    <div className='flex-1 flex-coll relative'>
+      {word.repeated.prioritized && <StarIcon className='absolute right-0 text-star' fill="currentColor" />}
       <p className='text-original font-semibold'>{word.original}</p>
       <p className='text-translated font-semibold'>{word.translated}</p>
       <div className='flex flex-wrap'>
