@@ -31,6 +31,9 @@ const config = withUt({
         original: 'var(--original)',
         translated: 'var(--translated)',
         star: 'var(--star)',
+        next: 'var(--next)',
+        nextHover: 'var(--next-hover)',
+        helper: 'var(--helper)',
         permanent: {
           white: 'var(--permanent-white)',
         },
@@ -67,6 +70,7 @@ const config = withUt({
           DEFAULT: 'var(--success)',
           foreground: 'var(--success-foreground)',
           hover: 'var(--success-hover)',
+          light: 'var(--success-light)'
         },
       },
       borderRadius: {

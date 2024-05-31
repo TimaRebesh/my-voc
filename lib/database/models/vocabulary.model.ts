@@ -1,11 +1,11 @@
-import { VocabularyFields } from '@/constants';
+import { RepeatedConst, VocabularyFields } from '@/constants';
 import { Schema, model, models } from 'mongoose';
 
 export type Repeated = {
-  translated: number;
-  original: number;
-  wrote: number;
-  prioritized: boolean;
+  [RepeatedConst.ORIGINAL]: number;
+  [RepeatedConst.TRANSLATED]: number;
+  [RepeatedConst.WROTE]: number;
+  [RepeatedConst.PRIORITIZED]: boolean;
 };
 
 export type Word = {
@@ -40,7 +40,7 @@ const VocabularySchema = new Schema({
         translated: { type: Number, required: true },
         original: { type: Number, required: true },
         wrote: { type: Number, required: true },
-        prioritized: { type: Boolean, required: false, default: false}
+        prioritized: { type: Boolean, required: false, default: false },
       },
       lastRepeat: { type: Number, required: true },
     },

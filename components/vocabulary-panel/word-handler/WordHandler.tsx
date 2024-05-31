@@ -141,7 +141,7 @@ export const WordHandler = ({
                 className={cn(prioritized ? 'text-star' : '', 'mr-4')}
                 {...(prioritized ? { fill: 'currentColor' } : {})}
               />
-              <Label>always study</Label>
+              <Label className='opacity-70'>always study</Label>
             </div>
           }
 

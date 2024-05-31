@@ -53,3 +53,10 @@ export enum ThemeValues {
 export const uploadThingUrl = 'https://utfs.io';
 
 export const MAX_NUMBER_DEFINING_NEW = 6;
+
+export enum RepeatedConst {
+  TRANSLATED = 'translated',
+  ORIGINAL = 'original',
+  WROTE = 'wrote',
+  PRIORITIZED = 'prioritized',
+}

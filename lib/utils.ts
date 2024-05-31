@@ -36,3 +36,21 @@ export function createWord({
     repeated: { translated: 0, original: 0, wrote: 0, prioritized: false },
   };
 }
+
+export const checkSimilarityOfValues = (
+  firstElement: Word[],
+  secondElement: Word[]
+) => JSON.stringify(firstElement) === JSON.stringify(secondElement);
+
+export const shuffle = (data: Word[]) => {
+  const arr = [...data];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = arr[j];
+    arr[j] = arr[i];
+    arr[i] = temp;
+  }
+  return arr;
+};
+
+export const deepCopy = (value: any) => JSON.parse(JSON.stringify(value));

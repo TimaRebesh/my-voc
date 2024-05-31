@@ -57,11 +57,17 @@
     --success: hsl(128, 64%, 55%);
     --success-foreground: var(--foreground);
     --success-hover: hsl(128, 63%, 35%);
+    --success-light: #d4ffd4;
 
     --original: #1fa56d;
     --translated: #c28b26;
 
     --star: #facc15;
+
+    --next: #ffb876;
+    --next-hover: #ffa34e;
+
+    --helper: #9866ca;
   }
 
   .dark {
@@ -104,14 +110,20 @@
 
     --label: hsl(25, 82%, 30%);
 
-    --success: hsl(128, 63%, 35%);
+    --success: #219130;
     --success-foreground: hsl(128, 64%, 54%);
     --success-hover: hsl(128, 64%, 54%);
+    --success-light: #466246;
 
     --original: #1fa56d;
     --translated: #c28b26;
 
     --star: #facc15;
+
+    --next: #bd7f45;
+    --next-hover: #ffa34e;
+
+    --helper: #9866ca;
   }
 }
 
