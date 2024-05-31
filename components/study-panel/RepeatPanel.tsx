@@ -20,7 +20,7 @@ import ChoosePanel from './choose-panel/ChoosePanel';
 import WritingPanel from './writing-panel/WritingPanel';
 import { useCheer } from '@/utils/hooks';
 import { updateVocabularyList } from '@/lib/actions/vocabulary.actions';
-import { StudyHeader } from '../study-header/StudyHeader';
+import { StudyHeader } from './study-header/StudyHeader';
 
 type Mistake = {
   order: number;
@@ -33,6 +33,7 @@ interface Props {
 }
 
 export const RepeatPanel = ({ vocabulary, user }: Props) => {
+
   const [countdown, setCountdown] = useState<number | null>(null);
   const [dataSet, setDataSet] = useState<Word[]>([]);
   const [studiedOrder, setStudiedOrder] = useState(0);

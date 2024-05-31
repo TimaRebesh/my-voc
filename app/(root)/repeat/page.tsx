@@ -1,4 +1,4 @@
-import { RepeatPanel } from '@/components/repeat-panel/RepeatPanel';
+import { RepeatPanel } from '@/components/study-panel/RepeatPanel';
 import { getTopicByUserId } from '@/lib/actions/topics.actions';
 import { getVocabulary } from '@/lib/actions/vocabulary.actions';
 import { ITopic } from '@/lib/database/models/topic.model';
