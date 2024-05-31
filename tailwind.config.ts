@@ -70,7 +70,7 @@ const config = withUt({
           DEFAULT: 'var(--success)',
           foreground: 'var(--success-foreground)',
           hover: 'var(--success-hover)',
-          light: 'var(--success-light)'
+          light: 'var(--success-light)',
         },
       },
       borderRadius: {

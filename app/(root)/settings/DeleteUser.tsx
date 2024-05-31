@@ -66,14 +66,16 @@ export const DeleteUser = React.memo(
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>
-                Are you absolutely sure?
-              </AlertDialogTitle>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete
-                your user.
+                This action cannot be undone. This will permanently delete your
+                user.
                 <span className="flex items-center space-x-2 pt-2">
-                  <Checkbox id="terms" checked={deleteAll} onCheckedChange={(v: boolean) => setDeleteAll(v)} />
+                  <Checkbox
+                    id="terms"
+                    checked={deleteAll}
+                    onCheckedChange={(v: boolean) => setDeleteAll(v)}
+                  />
                   <label
                     htmlFor="terms"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -85,7 +87,7 @@ export const DeleteUser = React.memo(
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction className='bg-destructive' onClick={onDelete}>
+              <AlertDialogAction className="bg-destructive" onClick={onDelete}>
                 Delete
               </AlertDialogAction>
             </AlertDialogFooter>

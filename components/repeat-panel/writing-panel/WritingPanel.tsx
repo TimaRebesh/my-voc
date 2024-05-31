@@ -7,35 +7,49 @@ import { ResultView } from './ResultView';
 import { WritingView } from './WritingView';
 
 type WritingProps = {
-	studyWord: Word;
-	onSave: (isCorrect: boolean) => void;
-	isHint: boolean;
-	config: IConfigurations;
-	cheerControl: CheerInterface;
+  studyWord: Word;
+  onSave: (isCorrect: boolean) => void;
+  isHint: boolean;
+  config: IConfigurations;
+  cheerControl: CheerInterface;
 };
 
-export default function WritingPanel({ studyWord, onSave, isHint, config, cheerControl }: WritingProps) {
+export default function WritingPanel({
+  studyWord,
+  onSave,
+  isHint,
+  config,
+  cheerControl,
+}: WritingProps) {
+  const [result, setResult] = useState('');
 
-	const [result, setResult] = useState('');
+  useEffect(() => {
+    setResult('');
+  }, [studyWord]);
 
-	useEffect(() => {
-		setResult('');
-	}, [studyWord]);
+  const check = (value: string) => {
+    if (value) setResult(value);
+  };
 
-	const check = (value: string) => {
-		if (value)
-			setResult(value);
-	};
+  const next = () => onSave(result === studyWord.original);
 
-	const next = () => onSave(result === studyWord.original);
-
-	return <div className='flex flex-col items-center justify-center w-full'>
-		{!result
-			? <WritingView studyWord={studyWord} onChange={check} isHint={isHint} config={config} />
-			: <ResultView currentWord={studyWord} result={result} next={next} cheerControl={cheerControl} />
-		}
-	</div>;
+  return (
+    <div className="flex flex-col items-center justify-center w-full">
+      {!result ? (
+        <WritingView
+          studyWord={studyWord}
+          onChange={check}
+          isHint={isHint}
+          config={config}
+        />
+      ) : (
+        <ResultView
+          currentWord={studyWord}
+          result={result}
+          next={next}
+          cheerControl={cheerControl}
+        />
+      )}
+    </div>
+  );
 }
-
-
-

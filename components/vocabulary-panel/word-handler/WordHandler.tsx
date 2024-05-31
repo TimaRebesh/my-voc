@@ -26,7 +26,6 @@ export const WordHandler = ({
   onClose: () => void;
   onDelete?: (id: string) => void;
 }) => {
-
   const [open, setOpen] = useState(false);
   const [original, setOriginal] = useState('');
   const [translated, setTranslated] = useState('');
@@ -51,7 +50,7 @@ export const WordHandler = ({
   };
 
   const addHint = () => {
-    setAnother(prev => [...prev, hint]);
+    setAnother((prev) => [...prev, hint]);
     setHint('');
   };
 
@@ -68,8 +67,8 @@ export const WordHandler = ({
         another,
         repeated: {
           ...word.repeated,
-          prioritized
-        }
+          prioritized,
+        },
       });
     }
   };
@@ -106,60 +105,70 @@ export const WordHandler = ({
           </div>
 
           <div className="w-full">
-            <Label className='opacity-70'>Hints</Label>
+            <Label className="opacity-70">Hints</Label>
             <div className="flex w-full items-center space-x-2">
               <Input
                 value={hint}
                 onChange={(e) => {
-                  if (e.target.value.length < 70)
-                    setHint(e.target.value);
+                  if (e.target.value.length < 70) setHint(e.target.value);
                 }}
                 placeholder="add hint"
-                className='h-5'
+                className="h-5"
               />
-              <CirclePlusIcon className='text-primary' onClick={() => {
-                hint.length > 1 && addHint();
-              }} />
+              <CirclePlusIcon
+                className="text-primary"
+                onClick={() => {
+                  hint.length > 1 && addHint();
+                }}
+              />
             </div>
           </div>
 
-          <div className='flex flex-wrap'>
-            {another.map((an, ind) =>
+          <div className="flex flex-wrap">
+            {another.map((an, ind) => (
               <div
                 key={an + ind}
-                className='flex items-center border rounded-full text-[12px] border-gray-400 h-[20px] pr-1 mr-1 mb-1'
+                className="flex items-center border rounded-full text-[12px] border-gray-400 h-[20px] pr-1 mr-1 mb-1"
               >
-                <CircleXIcon className='w-4 mx-[2px]' onClick={() => removeHint(ind)} />
+                <CircleXIcon
+                  className="w-4 mx-[2px]"
+                  onClick={() => removeHint(ind)}
+                />
                 <p>{an.length > 40 ? `${an.slice(0, 40)}...` : an}</p>
               </div>
-            )}
+            ))}
           </div>
 
-          {onDelete &&
-            <div className='flex flex-wrap items-center' onClick={() => setPrioritized(prev => !prev)}>
+          {onDelete && (
+            <div
+              className="flex flex-wrap items-center"
+              onClick={() => setPrioritized((prev) => !prev)}
+            >
               <StarIcon
                 className={cn(prioritized ? 'text-star' : '', 'mr-4')}
                 {...(prioritized ? { fill: 'currentColor' } : {})}
               />
-              <Label className='opacity-70'>always study</Label>
+              <Label className="opacity-70">always study</Label>
             </div>
-          }
+          )}
 
-          {onDelete &&
-            <p className='text-destructive font-medium' onClick={remove}>Delete</p>
-          }
-
+          {onDelete && (
+            <p className="text-destructive font-medium" onClick={remove}>
+              Delete
+            </p>
+          )}
         </div>
 
         <DialogFooter className="w-full mt-5">
           <DialogClose>
-            <CustomButton
-              variant="secondary"
-              className="w-20 mr-4"
-            >
+            <CustomButton variant="secondary" className="w-20 mr-4">
               Cancel
             </CustomButton>
-            <CustomButton className="w-20" disabled={!original || !translated} onClick={save}>
+            <CustomButton
+              className="w-20"
+              disabled={!original || !translated}
+              onClick={save}
+            >
               Save
             </CustomButton>
           </DialogClose>

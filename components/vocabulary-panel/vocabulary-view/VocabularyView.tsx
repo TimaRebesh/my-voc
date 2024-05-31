@@ -7,13 +7,18 @@ import { WordView } from './WordView';
 import { IUser } from '@/lib/database/models/user.model';
 import { WordHandler } from '../word-handler/WordHandler';
 import { AppRouterPath } from '@/constants';
-import { deleteVocabularyListWord, updateVocabularyListWord } from '@/lib/actions/vocabulary.actions';
+import {
+  deleteVocabularyListWord,
+  updateVocabularyListWord,
+} from '@/lib/actions/vocabulary.actions';
 
-export const VocabularyView = ({ user, voc }: {
+export const VocabularyView = ({
+  user,
+  voc,
+}: {
   user: IUser;
   voc: IVocabulary;
 }) => {
-
   const [words, setWords] = useState<Word[]>(voc.list);
   const [filteredWords, setFilteredWords] = useState<Word[]>(voc.list);
   const [search, setSearch] = useState('');
@@ -28,8 +33,8 @@ export const VocabularyView = ({ user, voc }: {
     setFilteredWords((prev) =>
       search
         ? words.filter((val) =>
-          val.original.toLowerCase().includes(search.toLowerCase())
-        )
+            val.original.toLowerCase().includes(search.toLowerCase())
+          )
         : words
     );
   }, [search]);
@@ -60,7 +65,7 @@ export const VocabularyView = ({ user, voc }: {
           onChange={(e) => setSearch(e.currentTarget.value)}
         />
       </div>
-      <div className='flex-1 overflow-y-auto'>
+      <div className="flex-1 overflow-y-auto">
         {filteredWords.map((word: Word, index) => (
           <WordView
             key={word.original + index}

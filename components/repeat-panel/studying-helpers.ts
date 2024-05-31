@@ -4,9 +4,6 @@ import { getWordProgress, shuffle } from '@/lib/utils';
 
 export const PRACTICE_MIN_WORDS = 4;
 
-export const checkIsWordNew = (word: Word) =>
-  getWordProgress(word) < MAX_NUMBER_DEFINING_NEW;
-
 export const defineMode = (word: Word, modeWrite: boolean) => {
   const { original, translated, wrote } = word.repeated;
   let mode: Omit<RepeatedConst, RepeatedConst.PRIORITIZED>;
@@ -47,4 +44,32 @@ export const isMobile = () => {
   return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
     userAgent
   );
+};
+
+export const checkIsWordNew = (word: Word) =>
+  getWordProgress(word) < MAX_NUMBER_DEFINING_NEW;
+
+export const prepareListToStudy = (list: Word[], limitAll: number) => {
+  const prioritizedWords: Word[] = [];
+  const nonPrioritizedWords: Word[] = [];
+  // Separate prioritized and non-prioritized words using a standard for loop
+  for (let i = 0; i < list.length; i++) {
+    const word = list[i];
+    if (!checkIsWordNew(word)) {
+      if (word.repeated[RepeatedConst.PRIORITIZED]) {
+        prioritizedWords.push(word);
+      } else {
+        nonPrioritizedWords.push(word);
+      }
+    }
+  }
+
+  nonPrioritizedWords.sort((a, b) => b.lastRepeat - a.lastRepeat);
+
+  let combo = [...prioritizedWords, ...nonPrioritizedWords];
+
+  if (combo.length > limitAll) combo = combo.slice(0, limitAll);
+
+  const shuffledData = shuffle(combo);
+  return shuffledData;
 };

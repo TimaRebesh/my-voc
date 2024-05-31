@@ -35,7 +35,9 @@ export const DeleteVocabulary = ({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction className='bg-destructive' onClick={onDelete}>Delete</AlertDialogAction>
+            <AlertDialogAction className="bg-destructive" onClick={onDelete}>
+              Delete
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

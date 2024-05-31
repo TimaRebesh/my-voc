@@ -23,8 +23,7 @@ import { Separator } from '@/components/ui/separator';
 import { useTheme } from 'next-themes';
 import { useEffect } from 'react';
 
-export const UserMenu = ({ user }: { user: IUser; }) => {
-
+export const UserMenu = ({ user }: { user: IUser }) => {
   const { setTheme } = useTheme();
 
   useEffect(() => {
@@ -36,7 +35,6 @@ export const UserMenu = ({ user }: { user: IUser; }) => {
     await signOut();
     setTheme(ThemeValues.SYSTEM);
   };
-
 
   return (
     <Sheet>
@@ -108,7 +106,7 @@ const SheetElement = ({
   );
 };
 
-const UserIcon = ({ user, size }: { user: IUser; size?: number; }) => {
+const UserIcon = ({ user, size }: { user: IUser; size?: number }) => {
   const getColor = (username: string): string => {
     const firstLetter = username.charAt(0).toLowerCase();
     const colorRanges = [

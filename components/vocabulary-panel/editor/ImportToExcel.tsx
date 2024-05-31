@@ -7,7 +7,7 @@ import { ExcelButton } from './ExcelButton';
 
 const NOT_VALID_FILE = 'This file is not valid';
 
-export const ImportFromExcel = (props: { setData: (d: Word[]) => void; }) => {
+export const ImportFromExcel = (props: { setData: (d: Word[]) => void }) => {
   const [fileName, setFileName] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 

@@ -8,7 +8,6 @@ import { IUser } from '@/lib/database/models/user.model';
 import { ITopic } from '@/lib/database/models/topic.model';
 
 export async function Header() {
-
   const session = await auth();
   const user = JSON.parse(JSON.stringify(session!.user)) as IUser;
   const topic = (await getTopicByUserId(user._id)) as ITopic;

@@ -27,7 +27,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { Input } from '../../../components/ui/input';
-import { Preloader } from '../../../components/Preloader/Preloader';
+import { Preloader } from '../../../components/preloader/Preloader';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useTheme } from 'next-themes';
 import { Switch } from '@/components/ui/switch';

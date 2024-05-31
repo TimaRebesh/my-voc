@@ -1,7 +1,6 @@
 import { CustomButton } from '@/components/ui/custom-button';
 import Image from 'next/image';
 
-
 type ExcelButtonProps = {
   text: string;
   onClick: () => void;

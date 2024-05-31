@@ -36,6 +36,7 @@ export const Shared = ({
       </div>
       {isShared && (
         <Textarea
+          className='mb-2'
           placeholder="Provide your description here"
           value={description}
           onChange={(v) => setDescription(v.currentTarget.value)}

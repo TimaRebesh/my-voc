@@ -17,18 +17,30 @@ interface Props {
 }
 
 export const VocHeader = ({ user, topic, currentVoc }: Props) => {
-
   const [editedWord, setEditedWord] = useState<Word | null>(null);
 
   const onSave = async (word: Word) => {
-    await createVocabularyListWord(currentVoc._id, word, AppRouterPath.VOCABULARY);
+    await createVocabularyListWord(
+      currentVoc._id,
+      word,
+      AppRouterPath.VOCABULARY
+    );
   };
 
   return (
     <div className="bg-header h-12 flex items-center sticky">
       <Counter count={currentVoc.list.length} />
       <VocabularySelector user={user} topic={topic} currentVoc={currentVoc} />
-      <Button onClick={() => setEditedWord(createWord({ original: '', translated: '', another: [] }))} className='bg-success hover:bg-success-hover mx-2'>Add new word</Button>
+      <Button
+        onClick={() =>
+          setEditedWord(
+            createWord({ original: '', translated: '', another: [] })
+          )
+        }
+        className="bg-success hover:bg-success-hover mx-2"
+      >
+        Add new word
+      </Button>
       <WordHandler
         word={editedWord}
         onClose={() => setEditedWord(null)}
@@ -38,6 +50,6 @@ export const VocHeader = ({ user, topic, currentVoc }: Props) => {
   );
 };
 
-const Counter = ({ count }: { count: number; }) => (
+const Counter = ({ count }: { count: number }) => (
   <div className="text-gray-300 text-[8px] mx-1">{count}</div>
 );
