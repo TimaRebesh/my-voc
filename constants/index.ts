@@ -28,7 +28,7 @@ export enum ConfigFields {
   LIMIT_NEW = 'limitNew',
 }
 
-export enum TopicsFieds {
+export enum TopicsFields {
   ID = '_id',
   STUDY_ID = 'studyID',
   CREATOR = 'creator',
@@ -42,6 +42,7 @@ export enum VocabularyFields {
   CREATOR = 'creator',
   IS_SHARED = 'isShared',
   DESCRIPTION = 'description',
+  CREATOR_DATA = 'creatorData',
 }
 
 export enum ThemeValues {

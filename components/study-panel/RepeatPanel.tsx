@@ -5,7 +5,7 @@ import {
   Repeated,
   Word,
 } from '@/lib/database/models/vocabulary.model';
-import { checkSimilarityOfValues, deepCopy, } from '@/lib/utils';
+import { checkSimilarityOfValues, deepCopy } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
 import {
   PRACTICE_MIN_WORDS,
@@ -15,7 +15,11 @@ import {
 } from './studying-helpers';
 import { Preloader } from '../preloader/Preloader';
 import MessagePanel from './message-panel/MessagePanel';
-import { AppRouterPath, MAX_NUMBER_DEFINING_NEW, RepeatedConst } from '@/constants';
+import {
+  AppRouterPath,
+  MAX_NUMBER_DEFINING_NEW,
+  RepeatedConst,
+} from '@/constants';
 import ChoosePanel from './choose-panel/ChoosePanel';
 import WritingPanel from './writing-panel/WritingPanel';
 import { useCheer } from '@/utils/hooks';
@@ -33,7 +37,6 @@ interface Props {
 }
 
 export const RepeatPanel = ({ vocabulary, user }: Props) => {
-
   const [countdown, setCountdown] = useState<number | null>(null);
   const [dataSet, setDataSet] = useState<Word[]>([]);
   const [studiedOrder, setStudiedOrder] = useState(0);
@@ -53,13 +56,20 @@ export const RepeatPanel = ({ vocabulary, user }: Props) => {
         const matched = dataSet?.find((d) => d.id === w.id);
         return matched ? matched : w;
       });
-      await updateVocabularyList(vocabulary._id, updatedList, AppRouterPath.HOME);
+      await updateVocabularyList(
+        vocabulary._id,
+        updatedList,
+        AppRouterPath.HOME
+      );
     }
   };
 
   useEffect(() => {
     if (countdown === null) {
-      const listToStudy = prepareListToStudy(vocabulary.list, user.configuration.limitAll);
+      const listToStudy = prepareListToStudy(
+        vocabulary.list,
+        user.configuration.limitAll
+      );
       setDataSet(listToStudy);
       setCountdown(
         listToStudy.length > user.configuration.limitAll

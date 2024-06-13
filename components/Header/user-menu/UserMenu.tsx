@@ -12,7 +12,6 @@ import Link from 'next/link';
 import { IUser } from '@/lib/database/models/user.model';
 import { signOut } from 'next-auth/react';
 import { AppRouterPath, ThemeValues } from '@/constants';
-import { CustomAvatar } from '@/components/ui/custom-avatar';
 import {
   Sheet,
   SheetClose,
@@ -22,8 +21,9 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { useTheme } from 'next-themes';
 import { useEffect } from 'react';
+import { Avatar } from '@/components/avatar/Avatar';
 
-export const UserMenu = ({ user }: { user: IUser }) => {
+export const UserMenu = ({ user }: { user: IUser; }) => {
   const { setTheme } = useTheme();
 
   useEffect(() => {
@@ -39,11 +39,11 @@ export const UserMenu = ({ user }: { user: IUser }) => {
   return (
     <Sheet>
       <SheetTrigger>
-        <UserIcon user={user as IUser} size={2} />
+        <Avatar name={user.name} avatar={user.avatar} size={2} />
       </SheetTrigger>
       <SheetContent>
         <div className="flex flex-col gap-4 py-4 h-full">
-          <UserIcon user={user as IUser} size={4} />
+          <Avatar name={user.name} avatar={user.avatar} size={4} />
           <div>
             <p className="font-medium relative text-xl leading-tight text-gray-900">
               {user.name}
@@ -106,31 +106,4 @@ const SheetElement = ({
   );
 };
 
-const UserIcon = ({ user, size }: { user: IUser; size?: number }) => {
-  const getColor = (username: string): string => {
-    const firstLetter = username.charAt(0).toLowerCase();
-    const colorRanges = [
-      { range: ['a', 'e'], color: 'orange' },
-      { range: ['f', 'j'], color: 'purple' },
-      { range: ['k', 'o'], color: 'green' },
-      { range: ['p', 't'], color: 'blue' },
-      { range: ['u', 'z'], color: 'red' },
-    ];
-    const colorRange = colorRanges.find(
-      (range) => firstLetter >= range.range[0] && firstLetter <= range.range[1]
-    );
-    return `bg-${colorRange ? colorRange.color : 'gray'}-500`;
-  };
 
-  const avatarFallbackBackground = `text-xl text-white uppercase bg-orange-500 bg-purple-500 bg-red-500 bg-green-500 bg-blue-500 bg-gray-500 ${getColor(user.name)}`;
-
-  return (
-    <CustomAvatar
-      src={user.avatar}
-      tooltipText="Open menu"
-      fallback={user.name.charAt(0)}
-      className={avatarFallbackBackground}
-      size={size}
-    />
-  );
-};

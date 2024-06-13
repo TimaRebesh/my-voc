@@ -18,6 +18,8 @@ export const HeaderLabel = () => {
         return 'STUDY NEW';
       case AppRouterPath.VOCABULARY:
         return 'VOCABULARY';
+      case AppRouterPath.LIBRARY:
+        return 'LIBRARY';
       default:
         return 'MENU';
     }

@@ -59,7 +59,7 @@ const SettingsFormSchema = z.object({
   [ConfigFields.LIMIT_NEW]: z.number(),
 });
 
-export const SettingsForm = ({ user }: { user: User; }) => {
+export const SettingsForm = ({ user }: { user: User }) => {
   const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingsFormSchema>>({

@@ -7,7 +7,12 @@ import Vocabulary, {
   IVocabulary,
   Word,
 } from '../database/models/vocabulary.model';
-import { AppRouterPath, TopicsFieds, VocabularyFields } from '@/constants';
+import {
+  AppRouterPath,
+  TopicsFields,
+  UserFields,
+  VocabularyFields,
+} from '@/constants';
 import Topic, { TopicData } from '../database/models/topic.model';
 
 export async function createVocabularyAndSetAsStudied(
@@ -25,13 +30,13 @@ export async function createVocabularyAndSetAsStudied(
     const topic = await Topic.findOne({
       [VocabularyFields.CREATOR]: userId,
     });
-    topic[TopicsFieds.STUDY_ID] = newVoc[VocabularyFields.ID];
-    topic[TopicsFieds.TOPIC_LIST] = [
+    topic[TopicsFields.STUDY_ID] = newVoc[VocabularyFields.ID];
+    topic[TopicsFields.TOPIC_LIST] = [
       {
         [VocabularyFields.ID]: newVoc[VocabularyFields.ID],
         [VocabularyFields.NAME]: newVoc[VocabularyFields.NAME],
       },
-      ...topic[TopicsFieds.TOPIC_LIST],
+      ...topic[TopicsFields.TOPIC_LIST],
     ];
     topic.save();
 
@@ -73,8 +78,8 @@ export async function editVocabulary(
     voc.list = list;
     await voc.save();
     // update vocabulary in topic
-    const topic = await Topic.findOne({ [TopicsFieds.CREATOR]: creator });
-    const updatedList = topic[TopicsFieds.TOPIC_LIST].map((t: TopicData) =>
+    const topic = await Topic.findOne({ [TopicsFields.CREATOR]: creator });
+    const updatedList = topic[TopicsFields.TOPIC_LIST].map((t: TopicData) =>
       t._id.toString() === _id
         ? ({
             [VocabularyFields.ID]: t._id,
@@ -82,7 +87,7 @@ export async function editVocabulary(
           } as TopicData)
         : t
     );
-    topic[TopicsFieds.TOPIC_LIST] = updatedList;
+    topic[TopicsFields.TOPIC_LIST] = updatedList;
     topic.save();
 
     revalidatePath(path);
@@ -189,16 +194,56 @@ export async function deleteVocabulary(
   try {
     await connectToDB();
     await Vocabulary.findByIdAndDelete(_id);
-    const topic = await Topic.findOne({ [TopicsFieds.CREATOR]: creator });
+    const topic = await Topic.findOne({ [TopicsFields.CREATOR]: creator });
 
-    const filteredList = topic[TopicsFieds.TOPIC_LIST].filter(
+    const filteredList = topic[TopicsFields.TOPIC_LIST].filter(
       (t: TopicData) => t._id.toString() !== _id
     );
 
-    topic[TopicsFieds.TOPIC_LIST] = filteredList;
-    topic[TopicsFieds.STUDY_ID] = filteredList[0]._id.toString();
+    topic[TopicsFields.TOPIC_LIST] = filteredList;
+    topic[TopicsFields.STUDY_ID] = filteredList[0]._id.toString();
     topic.save();
     revalidatePath(path);
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function getAllSharedVocabulariesWithUserData() {
+  try {
+    await connectToDB();
+    const sharedVocabularies = await Vocabulary.aggregate([
+      {
+        $match: {
+          [VocabularyFields.IS_SHARED]: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: VocabularyFields.CREATOR,
+          foreignField: '_id',
+          as: 'creatorData',
+        },
+      },
+      {
+        $unwind: '$creatorData',
+      },
+      {
+        $project: {
+          [VocabularyFields.NAME]: 1,
+          [VocabularyFields.LIST]: { $slice: ['$list', 4] },
+          [VocabularyFields.CREATOR]: 1,
+          [VocabularyFields.IS_SHARED]: 1,
+          [VocabularyFields.DESCRIPTION]: 1,
+          [`${[VocabularyFields.CREATOR_DATA]}.${[UserFields.NAME]}`]:
+            '$creatorData.name',
+          [`${[VocabularyFields.CREATOR_DATA]}.${[UserFields.AVATAR]}`]:
+            '$creatorData.avatar',
+        },
+      },
+    ]);
+    return JSON.parse(JSON.stringify(sharedVocabularies));
   } catch (error) {
     handleError(error);
   }

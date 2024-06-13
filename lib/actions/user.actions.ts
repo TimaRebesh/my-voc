@@ -3,7 +3,7 @@
 import {
   ConfigFields,
   ThemeValues,
-  TopicsFieds,
+  TopicsFields,
   UserFields,
   VocabularyFields,
 } from '@/constants';
@@ -103,10 +103,10 @@ export async function createUser({
     const newVoc = new Vocabulary(vocabularyValues);
     await newVoc.save();
     // new topic creating
-    const topicValues: Omit<ITopic, TopicsFieds.ID> = {
-      [TopicsFieds.CREATOR]: newUser[UserFields.ID],
-      [TopicsFieds.STUDY_ID]: newVoc[VocabularyFields.ID],
-      [TopicsFieds.TOPIC_LIST]: [
+    const topicValues: Omit<ITopic, TopicsFields.ID> = {
+      [TopicsFields.CREATOR]: newUser[UserFields.ID],
+      [TopicsFields.STUDY_ID]: newVoc[VocabularyFields.ID],
+      [TopicsFields.TOPIC_LIST]: [
         {
           [VocabularyFields.ID]: newVoc[VocabularyFields.ID],
           [VocabularyFields.NAME]: newVoc[VocabularyFields.NAME],
@@ -158,7 +158,7 @@ export async function deleteUser(
     await Vocabulary.deleteMany(searchParams);
 
     // delete topic
-    await Topic.findOneAndDelete({ [TopicsFieds.CREATOR]: id });
+    await Topic.findOneAndDelete({ [TopicsFields.CREATOR]: id });
 
     path && revalidatePath(path);
   } catch (error) {

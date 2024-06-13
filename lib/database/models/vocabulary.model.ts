@@ -1,4 +1,4 @@
-import { RepeatedConst, VocabularyFields } from '@/constants';
+import { RepeatedConst, UserFields, VocabularyFields } from '@/constants';
 import { Schema, model, models } from 'mongoose';
 
 export type Repeated = {
@@ -24,6 +24,13 @@ export interface IVocabulary {
   [VocabularyFields.CREATOR]: string;
   [VocabularyFields.IS_SHARED]: boolean;
   [VocabularyFields.DESCRIPTION]?: string;
+}
+
+export interface IVocabularyWithUserData extends IVocabulary {
+  [VocabularyFields.CREATOR_DATA]: {
+    [UserFields.NAME]: string;
+    [UserFields.AVATAR]: string;
+  };
 }
 
 const VocabularySchema = new Schema({

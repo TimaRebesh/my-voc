@@ -1,6 +1,6 @@
 'use server';
 
-import { AppRouterPath, TopicsFieds } from '@/constants';
+import { AppRouterPath, TopicsFields } from '@/constants';
 import { connectToDB } from '../database';
 import Topic from '../database/models/topic.model';
 import { handleError } from '../utils';
@@ -10,7 +10,7 @@ export async function getTopicByUserId(userId: string) {
   try {
     await connectToDB();
 
-    const topic = await Topic.findOne({ [TopicsFieds.CREATOR]: userId });
+    const topic = await Topic.findOne({ [TopicsFields.CREATOR]: userId });
 
     if (!topic) {
       throw new Error('Topic not found');
@@ -28,11 +28,11 @@ export async function selectTopic(
 ) {
   try {
     await connectToDB();
-    const topic = await Topic.findOne({ [TopicsFieds.CREATOR]: userId });
+    const topic = await Topic.findOne({ [TopicsFields.CREATOR]: userId });
     if (!topic) {
       throw new Error('Topic not found');
     }
-    topic[TopicsFieds.STUDY_ID] = vocabularyId;
+    topic[TopicsFields.STUDY_ID] = vocabularyId;
     topic.save();
 
     revalidatePath(path);
