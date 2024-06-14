@@ -16,7 +16,6 @@ import { IVocabulary } from '@/lib/database/models/vocabulary.model';
 import { createVocabularyAndSetAsStudied } from '@/lib/actions/vocabulary.actions';
 import { AppRouterPath, VocabularyFields } from '@/constants';
 import { handleError } from '@/lib/utils';
-import { useToast } from '@/components/ui/use-toast';
 import { useSession } from 'next-auth/react';
 import { revalidatePathFromServer } from '@/lib/actions/helpers.actions';
 
@@ -31,8 +30,6 @@ export const Creator = ({ open, close, setIsProcessing, userId }: Props) => {
   const { data, update } = useSession();
 
   const [name, setName] = useState<IVocabulary[VocabularyFields.NAME]>('');
-
-  const { toast } = useToast();
 
   const onOpenChange = (open: boolean) => {
     setName('');
@@ -51,10 +48,6 @@ export const Creator = ({ open, close, setIsProcessing, userId }: Props) => {
         AppRouterPath.VOCABULARY
       );
 
-      // toast({
-      //   title: 'Vocabulary has been created',
-      // variant: 'success',
-      // });
     } catch (error) {
       handleError(error);
     } finally {
@@ -83,7 +76,7 @@ export const Creator = ({ open, close, setIsProcessing, userId }: Props) => {
           </div>
         </div>
 
-        <DialogFooter className="w-full">
+        <DialogFooter className="w-full mt-4">
           <DialogClose>
             <CustomButton
               variant="secondary"

@@ -1,6 +1,7 @@
+'use client';
 import { IUser } from '@/lib/database/models/user.model';
 import { useState } from 'react';
-import { Check, PencilIcon, PlusIcon } from 'lucide-react';
+import { Check, PencilIcon, SquarePlusIcon } from 'lucide-react';
 import { cn, handleError } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -49,36 +50,19 @@ export const VocabularySelector = ({
   };
 
   return (
-    <>
-      <Popover open={open} onOpenChange={setOpen}>
+    <div className='flex w-full items-center'>
+      <Popover open={open} onOpenChange={setOpen} >
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-60 justify-between pr-1 pl-2"
+            className="w-full justify-between mr-4 pl-2"
           >
             {currentVoc.name}
-
-            <div className="flex">
-              <TooltipWrapper text="edit vocabulary">
-                <PencilIcon
-                  className="w-5 h-6 mr-1"
-                  onClick={() => {
-                    setIsEdit(true);
-                  }}
-                />
-              </TooltipWrapper>
-              <TooltipWrapper text="create new vocabulary">
-                <PlusIcon
-                  className="w-6 h-6 bg-primary rounded-sm text-background "
-                  onClick={() => setIsCreate(true)}
-                />
-              </TooltipWrapper>
-            </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-60 p-0">
+        <PopoverContent className="p-0">
           <Command>
             <CommandInput placeholder="Search..." />
             <CommandEmpty>No vocabulary found</CommandEmpty>
@@ -105,6 +89,22 @@ export const VocabularySelector = ({
           </Command>
         </PopoverContent>
       </Popover>
+      <div className="flex gap-4 ml-auto pr-2">
+        <TooltipWrapper text="edit vocabulary">
+          <PencilIcon
+            className="w-5 h-6 mr-1 text-primary-foreground"
+            onClick={() => {
+              setIsEdit(true);
+            }}
+          />
+        </TooltipWrapper>
+        <TooltipWrapper text="create new vocabulary">
+          <SquarePlusIcon
+            className="w-6 h-6 text-primary-foreground"
+            onClick={() => setIsCreate(true)}
+          />
+        </TooltipWrapper>
+      </div>
       <Editor
         open={isEdit}
         close={() => setIsEdit(false)}
@@ -119,6 +119,6 @@ export const VocabularySelector = ({
         userId={user._id}
       />
       <Preloader isLoading={isProcessing} />
-    </>
+    </div>
   );
 };

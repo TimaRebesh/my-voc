@@ -44,8 +44,6 @@ export const Editor = ({
   const [importedVoc, setImportedVoc] = useState<Word[] | null>();
   const [onlyImported, setOnlyImported] = useState(false);
 
-  const { toast } = useToast();
-
   useEffect(() => {
     if (open) {
       setName(currentVoc.name);
@@ -107,9 +105,10 @@ export const Editor = ({
               placeholder="cannot be empty"
             />
           </div>
-
-          <ExportToExcel list={currentVoc.list} vocName={name} />
-          <ImportFromExcel setData={(voc: Word[]) => setImportedVoc(voc)} />
+          <div className='flex flex-col gap-4 item-center justify-center '>
+            <ExportToExcel list={currentVoc.list} vocName={name} />
+            <ImportFromExcel setData={(voc: Word[]) => setImportedVoc(voc)} />
+          </div>
           {importedVoc && (
             <div className="flex items-center space-x-2 pt-2 mb-4">
               <Checkbox

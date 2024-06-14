@@ -44,10 +44,10 @@ export function RegisterForm() {
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
-      [RegisterFormInputs.NAME]: 'User Test',
-      [RegisterFormInputs.EMAIL]: 'test@gmail.com',
-      [RegisterFormInputs.PASSWORD]: '1234',
-      [RegisterFormInputs.CONFIRM_PASSWORD]: '1234',
+      [RegisterFormInputs.NAME]: '',
+      [RegisterFormInputs.EMAIL]: '',
+      [RegisterFormInputs.PASSWORD]: '',
+      [RegisterFormInputs.CONFIRM_PASSWORD]: '',
     },
   });
 

@@ -5,7 +5,7 @@ import { PreloaderCircle } from '@/components/preloader-circle/PreloaderCircle';
 import { AppRouterPath } from '@/constants';
 import { deleteSharedVocabulary } from '@/lib/actions/shared-vocabulary.actions';
 import { ISharedVocabulary } from '@/lib/database/models/shared-vocabulary.model';
-import { PlusIcon, Trash2Icon } from 'lucide-react';
+import { CopyIcon, PlusIcon, Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { addVocFromLibraryToMyVoc } from '@/lib/actions/vocabulary.actions';
 import { Confirmation } from '@/components/ui/Confirmation';
@@ -40,7 +40,7 @@ export const CardHeader = ({
   const deleteVoc = async () => {
     try {
       await deleteSharedVocabulary(voc._id, AppRouterPath.LIBRARY);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   return (
@@ -81,7 +81,7 @@ export const CardHeader = ({
                 submitText="Add"
                 onSubmit={addVocToMyVocs}
               >
-                <PlusIcon className="rounded-xl text-primary" />
+                <CopyIcon width={18} className="text-primary" />
               </Confirmation>
             ))}
         </div>
