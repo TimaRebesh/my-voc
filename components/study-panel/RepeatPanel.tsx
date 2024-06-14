@@ -13,7 +13,7 @@ import {
   defineOptionalSet,
   prepareListToStudy,
 } from './studying-helpers';
-import { Preloader } from '../preloader/Preloader';
+import { Preloader } from '../ui/preloader';
 import MessagePanel from './message-panel/MessagePanel';
 import {
   AppRouterPath,

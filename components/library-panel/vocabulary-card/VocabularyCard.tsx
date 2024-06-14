@@ -1,6 +1,6 @@
 'use client';
 
-import { Preloader } from '@/components/preloader/Preloader';
+import { Preloader } from "@/components/ui/preloader";
 import { useRef, useState } from 'react';
 import { ItemView } from './ItemView';
 import { CardHeader } from './CardHeader';

@@ -16,7 +16,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Preloader } from '@/components/preloader/Preloader';
+import { Preloader } from "@/components/ui/preloader";
 import { createUser } from '@/lib/actions/user.actions';
 
 enum RegisterFormInputs {

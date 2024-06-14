@@ -22,7 +22,7 @@ import MessagePanel from './message-panel/MessagePanel';
 import ChoosePanel from './choose-panel/ChoosePanel';
 import { useCheer } from '@/utils/hooks';
 import WritingPanel from './writing-panel/WritingPanel';
-import { Preloader } from '../preloader/Preloader';
+import { Preloader } from '../ui/preloader';
 import { StudyHeader } from './study-header/StudyHeader';
 
 type WordState = {

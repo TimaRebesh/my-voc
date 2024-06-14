@@ -27,7 +27,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { Input } from '../../../components/ui/input';
-import { Preloader } from '../../../components/preloader/Preloader';
+import { Preloader } from '../../../components/ui/preloader';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useTheme } from 'next-themes';
 import { Switch } from '@/components/ui/switch';
@@ -59,7 +59,7 @@ const SettingsFormSchema = z.object({
   [ConfigFields.LIMIT_NEW]: z.number(),
 });
 
-export const SettingsForm = ({ user }: { user: User }) => {
+export const SettingsForm = ({ user }: { user: User; }) => {
   const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingsFormSchema>>({
