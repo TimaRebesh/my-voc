@@ -49,25 +49,27 @@ export const DeleteUser = React.memo(
 
     return (
       <Confirmation
-        description={<>
-          This action cannot be undone. This will permanently delete your
-          user.
-          <span className="flex items-center space-x-2 pt-2">
-            <Checkbox
-              id="terms"
-              checked={deleteAll}
-              onCheckedChange={(v: boolean) => setDeleteAll(v)}
-            />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              delete all yours shared vocabularies
-            </label>
-          </span>
-        </>}
-        submitText='Delete'
-        submitClassName='bg-destructive'
+        description={
+          <>
+            This action cannot be undone. This will permanently delete your
+            user.
+            <span className="flex items-center space-x-2 pt-2">
+              <Checkbox
+                id="terms"
+                checked={deleteAll}
+                onCheckedChange={(v: boolean) => setDeleteAll(v)}
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                delete all yours shared vocabularies
+              </label>
+            </span>
+          </>
+        }
+        submitText="Delete"
+        submitClassName="bg-destructive"
         onSubmit={onDelete}
       >
         <div className="cursor-pointer text-destructive">Delete user</div>

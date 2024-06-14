@@ -20,13 +20,13 @@ export const WordHandler = ({
   onSave,
   onClose,
   onDelete,
-  title
+  isNew
 }: {
   word: Word | null;
   onSave: (word: Word) => void;
   onClose: () => void;
   onDelete?: (id: string) => void;
-  title: string;
+  isNew: boolean;
 }) => {
   const [open, setOpen] = useState(false);
   const [original, setOriginal] = useState('');
@@ -85,7 +85,7 @@ export const WordHandler = ({
     <Dialog onOpenChange={close} open={open}>
       <DialogContent className="">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle>{isNew ? 'New Word' : 'Edit Word'}</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col gap-4 justify-start items-start">

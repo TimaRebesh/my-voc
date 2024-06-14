@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { LoaderCircle } from 'lucide-react';
 
-export function PreloaderCircle({ className }: { className?: string; }) {
+export function PreloaderCircle({ className }: { className?: string }) {
   return (
     <LoaderCircle
       className={cn(

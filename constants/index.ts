@@ -44,7 +44,7 @@ export enum VocabularyFields {
   CREATED_BY = 'createdBy',
   CREATOR_NAME = 'creatorName',
   CREATOR_AVATAR = 'creatorAvatar',
-  CREATOR_ID = 'creatorId'
+  CREATOR_ID = 'creatorId',
 }
 
 export enum ThemeValues {

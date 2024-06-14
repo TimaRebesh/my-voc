@@ -3,7 +3,7 @@ import { CustomAvatar } from '../ui/custom-avatar';
 export const Avatar = ({
   name,
   avatar,
-  size
+  size,
 }: {
   name: string;
   avatar: string | undefined;

@@ -142,6 +142,24 @@ export async function editVocabulary(
   }
 }
 
+export async function updateVocabularyList(
+  vocabularyId: string,
+  list: Word[],
+  path: AppRouterPath
+) {
+  try {
+    await connectToDB();
+
+    const voc = await Vocabulary.findById(vocabularyId);
+    voc[VocabularyFields.LIST] = list;
+    await voc.save();
+
+    revalidatePath(path);
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 export async function createVocabularyListWord(
   vocabularyId: string,
   word: Word,
@@ -161,24 +179,6 @@ export async function createVocabularyListWord(
         },
       }
     );
-
-    revalidatePath(path);
-  } catch (error) {
-    handleError(error);
-  }
-}
-
-export async function updateVocabularyList(
-  vocabularyId: string,
-  list: Word[],
-  path: AppRouterPath
-) {
-  try {
-    await connectToDB();
-
-    const voc = await Vocabulary.findById(vocabularyId);
-    voc[VocabularyFields.LIST] = list;
-    await voc.save();
 
     revalidatePath(path);
   } catch (error) {

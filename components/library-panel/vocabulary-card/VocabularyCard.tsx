@@ -1,11 +1,14 @@
 'use client';
 
-import { Preloader } from "@/components/preloader/Preloader";
-import { useRef, useState } from "react";
-import { ItemView } from "./ItemView";
+import { Preloader } from '@/components/preloader/Preloader';
+import { useRef, useState } from 'react';
+import { ItemView } from './ItemView';
 import { CardHeader } from './CardHeader';
-import { ISharedVocabulary, ISharedWord } from "@/lib/database/models/shared-vocabulary.model";
-import { getSharedVocabulary } from "@/lib/actions/shared-vocabulary.actions";
+import {
+  ISharedVocabulary,
+  ISharedWord,
+} from '@/lib/database/models/shared-vocabulary.model';
+import { getSharedVocabulary } from '@/lib/actions/shared-vocabulary.actions';
 
 export const VocabularyCard = ({
   voc,
@@ -15,7 +18,6 @@ export const VocabularyCard = ({
 
   userId: string;
 }) => {
-
   const [list, setList] = useState(voc.list);
   const fullList = useRef<ISharedWord[]>([]);
   const [isShown, setIsShown] = useState<boolean | null>(null);
@@ -24,7 +26,9 @@ export const VocabularyCard = ({
   const getFullListVoc = async () => {
     setIsLoading(true);
     try {
-      const fullListVoc = await getSharedVocabulary(voc._id) as ISharedVocabulary;
+      const fullListVoc = (await getSharedVocabulary(
+        voc._id
+      )) as ISharedVocabulary;
       fullList.current = fullListVoc.list;
       setList(fullList.current);
       setIsShown(true);
@@ -49,20 +53,31 @@ export const VocabularyCard = ({
     }
   };
 
-  return <>
-    <div className='flex-1 voc_card text-[12px] leading-none'>
-      <CardHeader voc={voc} isUserCreator={voc.creator.creatorId === userId} userId={userId} />
-      <div>
-        {list.map((item, ind) => (
-          <ItemView key={item.id} item={item} isClosed={list.length - 1 === ind && !isShown} />
-        ))}
+  return (
+    <>
+      <div className="flex-1 voc_card text-[12px] leading-none">
+        <CardHeader
+          voc={voc}
+          isUserCreator={voc.creator.creatorId === userId}
+          userId={userId}
+        />
+        <div>
+          {list.map((item, ind) => (
+            <ItemView
+              key={item.id}
+              item={item}
+              isClosed={list.length - 1 === ind && !isShown}
+            />
+          ))}
+        </div>
+        <div
+          onClick={onShow}
+          className="flex item-center justify-center w-full"
+        >
+          {!isLoading && <div>{isShown ? 'hide' : 'more'}</div>}
+          {isLoading && <Preloader />}
+        </div>
       </div>
-      <div onClick={onShow} className="flex item-center justify-center w-full">
-        {!isLoading && <div>{isShown ? 'hide' : 'more'}</div>}
-        {isLoading && <Preloader />}
-      </div>
-
-
-    </div>
-  </>;
+    </>
+  );
 };

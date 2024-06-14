@@ -24,7 +24,7 @@ export async function Header() {
       </div>
       <div className="flex items-center space-x-2">
         <UserMenu user={user as IUser} />
-        {/* <p className="text-sm opacity-80">Timothy Rebesh</p> */}
+
       </div>
       <VocabularyName name={currentTopicName} />
     </header>

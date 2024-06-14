@@ -18,32 +18,33 @@ export const Confirmation = ({
   submitText = 'Submit',
   submitClassName = '',
   onSubmit,
-  children
+  children,
 }: {
-  title?: string,
-  description?: string | JSX.Element,
-  cancelText?: string,
-  submitText?: string,
-  submitClassName?: string,
-  onSubmit: () => void,
+  title?: string;
+  description?: string | JSX.Element;
+  cancelText?: string;
+  submitText?: string;
+  submitClassName?: string;
+  onSubmit: () => void;
   children: JSX.Element;
 }) => {
   return (
     <div className="py-10">
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          {children}
-        </AlertDialogTrigger>
+        <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{title}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {description}
-            </AlertDialogDescription>
+            <AlertDialogDescription>{description}</AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className='flex flex-row justify-center items-center gap-2'>
-            <AlertDialogCancel className='min-w-24'>{cancelText}</AlertDialogCancel>
-            <AlertDialogAction className={cn('min-w-24', submitClassName)} onClick={onSubmit}>
+          <AlertDialogFooter className="flex flex-row justify-center items-center gap-2">
+            <AlertDialogCancel className="min-w-24">
+              {cancelText}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className={cn('min-w-24', submitClassName)}
+              onClick={onSubmit}
+            >
               {submitText}
             </AlertDialogAction>
           </AlertDialogFooter>

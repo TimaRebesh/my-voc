@@ -23,7 +23,7 @@ import { useTheme } from 'next-themes';
 import { useEffect } from 'react';
 import { Avatar } from '@/components/avatar/Avatar';
 
-export const UserMenu = ({ user }: { user: IUser; }) => {
+export const UserMenu = ({ user }: { user: IUser }) => {
   const { setTheme } = useTheme();
 
   useEffect(() => {
@@ -105,5 +105,3 @@ const SheetElement = ({
     </SheetClose>
   );
 };
-
-

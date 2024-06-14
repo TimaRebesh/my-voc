@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -21,28 +21,23 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import { createSharedVocabulary } from '@/lib/actions/shared-vocabulary.actions';
 import { AppRouterPath, VocabularyFields } from '@/constants';
 import { IUser } from '@/lib/database/models/user.model';
 import { ISharedVocCreator } from '@/lib/database/models/shared-vocabulary.model';
 import { CreatorButton } from '@/components/creator-button/CreatorButton';
 
-export const ShareMyVoc = ({
-  user,
-  topic
-}: {
-  user: IUser;
-  topic: ITopic;
-}) => {
-
+export const ShareMyVoc = ({ user, topic }: { user: IUser; topic: ITopic }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    setName(topic.topicList.find(topic => topic._id === selectedId)?.name || '');
+    setName(
+      topic.topicList.find((topic) => topic._id === selectedId)?.name || ''
+    );
   }, [selectedId]);
 
   const onOpenChange = (open: boolean) => {
@@ -58,9 +53,15 @@ export const ShareMyVoc = ({
         [VocabularyFields.CREATOR_AVATAR]: user.avatar ?? '',
         [VocabularyFields.CREATOR_ID]: user._id,
       };
-      await createSharedVocabulary(selectedId, name, description, creatorData, AppRouterPath.LIBRARY);
+      await createSharedVocabulary(
+        selectedId,
+        name,
+        description,
+        creatorData,
+        AppRouterPath.LIBRARY
+      );
       setIsOpen(false);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -68,20 +69,24 @@ export const ShareMyVoc = ({
       <DialogTrigger>
         <CreatorButton onClick={() => setIsOpen(true)} />
       </DialogTrigger>
-      <DialogContent className="w-full" onEscapeKeyDown={() => setIsOpen(false)}>
+      <DialogContent
+        className="w-full"
+        onEscapeKeyDown={() => setIsOpen(false)}
+      >
         <DialogHeader>
           <DialogTitle>Share your vocabulary</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col gap-4 justify-start items-start">
-
           <Select value={selectedId} onValueChange={setSelectedId}>
             <SelectTrigger className="mt-2">
               <SelectValue placeholder="Select a vocabulary" />
             </SelectTrigger>
             <SelectContent>
-              {topic.topicList.map(topic => (
-                <SelectItem key={topic._id} value={topic._id} >{topic.name}</SelectItem>
+              {topic.topicList.map((topic) => (
+                <SelectItem key={topic._id} value={topic._id}>
+                  {topic.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -117,7 +122,11 @@ export const ShareMyVoc = ({
             >
               Cancel
             </CustomButton>
-            <CustomButton className="w-20" disabled={!selectedId || !name} onClick={onSave}>
+            <CustomButton
+              className="w-20"
+              disabled={!selectedId || !name}
+              onClick={onSave}
+            >
               Create
             </CustomButton>
           </DialogClose>

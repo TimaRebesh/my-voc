@@ -18,10 +18,7 @@ interface Props {
 }
 
 export const VocHeader = ({ user, topic, currentVoc }: Props) => {
-
   const [editedWord, setEditedWord] = useState<Word | null>(null);
-
-
 
   const onSave = async (word: Word) => {
     try {
@@ -30,7 +27,7 @@ export const VocHeader = ({ user, topic, currentVoc }: Props) => {
         word,
         AppRouterPath.VOCABULARY
       );
-    } catch (err) { }
+    } catch (err) {}
   };
 
   return (
@@ -58,6 +55,6 @@ export const VocHeader = ({ user, topic, currentVoc }: Props) => {
   );
 };
 
-const Counter = ({ count }: { count: number; }) => (
+const Counter = ({ count }: { count: number }) => (
   <div className="text-gray-300 text-[8px] mx-1">{count}</div>
 );

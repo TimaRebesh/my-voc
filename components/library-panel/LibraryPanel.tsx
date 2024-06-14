@@ -11,23 +11,21 @@ import { ShareMyVoc } from './share-my-voc/ShareMyVoc';
 export const LibraryPanel = ({
   vocabularies,
   user,
-  topic
+  topic,
 }: {
   vocabularies: ISharedVocabulary[];
   user: IUser;
   topic: ITopic;
 }) => {
-
-  const [searchText, setSearchText] = useState("");
-  const [filteredVocs, setFilteredVocs] = useState<ISharedVocabulary[]>(vocabularies);
+  const [searchText, setSearchText] = useState('');
+  const [filteredVocs, setFilteredVocs] =
+    useState<ISharedVocabulary[]>(vocabularies);
   const searchTimeoutRef = useRef<number | undefined>(undefined);
 
   const filterVocabularies = (text: string) => {
-    const regex = new RegExp(text, "i");
+    const regex = new RegExp(text, 'i');
     return vocabularies.filter(
-      (voc) =>
-        regex.test(voc.name) ||
-        regex.test(voc.description)
+      (voc) => regex.test(voc.name) || regex.test(voc.description)
     );
   };
 
@@ -43,11 +41,11 @@ export const LibraryPanel = ({
     searchTimeoutRef.current = id;
   };
 
-  const shareMyVocabulary = () => { };
+  const shareMyVocabulary = () => {};
 
   if (vocabularies.length < 1)
     return (
-      <div className='flex text-primary justify-center mt-10'>
+      <div className="flex text-primary justify-center mt-10">
         <p>no shared vocabularies</p>
         <ShareMyVoc user={user} topic={topic} />
       </div>
@@ -74,18 +72,18 @@ export const LibraryPanel = ({
   );
 };
 
-
-
-const VocabularyCardList = ({ data, userId }: {
+const VocabularyCardList = ({
+  data,
+  userId,
+}: {
   data: ISharedVocabulary[];
   userId: string;
 }) => {
   return (
     <div className="flex-1 overflow-y-auto px-10 pb-10">
-      {data.map(voc => (
+      {data.map((voc) => (
         <VocabularyCard key={voc._id} voc={voc} userId={userId} />
-      )
-      )}
+      ))}
     </div>
   );
 };

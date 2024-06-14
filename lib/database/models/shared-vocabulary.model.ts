@@ -4,10 +4,10 @@ import { Word } from './vocabulary.model';
 
 export type ISharedWord = Omit<Word, 'repeated' | 'lastRepeat'>;
 
-export interface ISharedVocCreator  {
-  [VocabularyFields.CREATOR_NAME]: string,
-  [VocabularyFields.CREATOR_AVATAR]: string,
-  [VocabularyFields.CREATOR_ID]: string,
+export interface ISharedVocCreator {
+  [VocabularyFields.CREATOR_NAME]: string;
+  [VocabularyFields.CREATOR_AVATAR]: string;
+  [VocabularyFields.CREATOR_ID]: string;
 }
 
 export interface ISharedVocabulary {
@@ -15,7 +15,7 @@ export interface ISharedVocabulary {
   [VocabularyFields.NAME]: string;
   [VocabularyFields.LIST]: ISharedWord[];
   [VocabularyFields.DESCRIPTION]: string;
-  [VocabularyFields.CREATOR]: ISharedVocCreator
+  [VocabularyFields.CREATOR]: ISharedVocCreator;
 }
 
 const SharedVocabularySchema = new Schema({
