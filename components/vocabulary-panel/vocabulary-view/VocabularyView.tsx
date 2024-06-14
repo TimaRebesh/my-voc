@@ -37,8 +37,8 @@ export const VocabularyView = ({
     setFilteredWords((prev) =>
       search
         ? words.filter((val) =>
-          val.original.toLowerCase().includes(search.toLowerCase())
-        )
+            val.original.toLowerCase().includes(search.toLowerCase())
+          )
         : words
     );
   }, [search]);

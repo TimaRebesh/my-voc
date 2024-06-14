@@ -105,7 +105,7 @@ export const Editor = ({
               placeholder="cannot be empty"
             />
           </div>
-          <div className='flex flex-col gap-4 item-center justify-center '>
+          <div className="flex flex-col gap-4 item-center justify-center ">
             <ExportToExcel list={currentVoc.list} vocName={name} />
             <ImportFromExcel setData={(voc: Word[]) => setImportedVoc(voc)} />
           </div>

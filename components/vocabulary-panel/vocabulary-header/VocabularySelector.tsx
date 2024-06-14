@@ -50,8 +50,8 @@ export const VocabularySelector = ({
   };
 
   return (
-    <div className='flex w-full items-center'>
-      <Popover open={open} onOpenChange={setOpen} >
+    <div className="flex w-full items-center">
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"

@@ -47,7 +47,6 @@ export const Creator = ({ open, close, setIsProcessing, userId }: Props) => {
         userId,
         AppRouterPath.VOCABULARY
       );
-
     } catch (error) {
       handleError(error);
     } finally {

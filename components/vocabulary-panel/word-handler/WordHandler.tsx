@@ -20,7 +20,7 @@ export const WordHandler = ({
   onSave,
   onClose,
   onDelete,
-  isNew
+  isNew,
 }: {
   word: Word | null;
   onSave: (word: Word) => void;

@@ -40,7 +40,7 @@ export const CardHeader = ({
   const deleteVoc = async () => {
     try {
       await deleteSharedVocabulary(voc._id, AppRouterPath.LIBRARY);
-    } catch (err) { }
+    } catch (err) {}
   };
 
   return (

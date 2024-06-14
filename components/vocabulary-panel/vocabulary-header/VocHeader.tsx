@@ -6,13 +6,12 @@ import { ITopic } from '@/lib/database/models/topic.model';
 export const VocHeader = ({
   user,
   topic,
-  currentVoc
+  currentVoc,
 }: {
   user: IUser;
   topic: ITopic;
   currentVoc: IVocabulary;
 }) => {
-
   return (
     <div className="bg-header h-12 flex items-center sticky">
       <Counter count={currentVoc.list.length} />
@@ -21,6 +20,6 @@ export const VocHeader = ({
   );
 };
 
-const Counter = ({ count }: { count: number; }) => (
+const Counter = ({ count }: { count: number }) => (
   <div className="text-gray-300 text-[8px] mx-1">{count}</div>
 );
