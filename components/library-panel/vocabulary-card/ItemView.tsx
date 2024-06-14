@@ -1,11 +1,11 @@
-import { Word } from "@/lib/database/models/vocabulary.model";
+import { ISharedWord } from "@/lib/database/models/shared-vocabulary.model";
 import { cn } from "@/lib/utils";
 
 export const ItemView = ({
   item,
   isClosed
 }: {
-  item: Word;
+  item: ISharedWord;
   isClosed: boolean;
 }) => {
   return (

@@ -16,7 +16,6 @@ import { IVocabulary } from '@/lib/database/models/vocabulary.model';
 import { createVocabularyAndSetAsStudied } from '@/lib/actions/vocabulary.actions';
 import { AppRouterPath, VocabularyFields } from '@/constants';
 import { handleError } from '@/lib/utils';
-import { Shared } from '../vocabulary-shared/Shared';
 import { useToast } from '@/components/ui/use-toast';
 import { useSession } from 'next-auth/react';
 import { revalidatePathFromServer } from '@/lib/actions/helpers.actions';
@@ -32,17 +31,11 @@ export const Creator = ({ open, close, setIsProcessing, userId }: Props) => {
   const { data, update } = useSession();
 
   const [name, setName] = useState<IVocabulary[VocabularyFields.NAME]>('');
-  const [isShared, setIsShared] =
-    useState<IVocabulary[VocabularyFields.IS_SHARED]>(false);
-  const [description, setDescription] =
-    useState<IVocabulary[VocabularyFields.DESCRIPTION]>('');
 
   const { toast } = useToast();
 
   const onOpenChange = (open: boolean) => {
     setName('');
-    setIsShared(false);
-    setDescription('');
     close();
     if (open) {
     }
@@ -53,7 +46,7 @@ export const Creator = ({ open, close, setIsProcessing, userId }: Props) => {
     const list = [] as IVocabulary[VocabularyFields.LIST];
     try {
       await createVocabularyAndSetAsStudied(
-        { name, isShared, list, description, creator: data?.user._id! },
+        { name, list, creator: data?.user._id! },
         userId,
         AppRouterPath.VOCABULARY
       );
@@ -88,13 +81,6 @@ export const Creator = ({ open, close, setIsProcessing, userId }: Props) => {
               placeholder="cannot be empty"
             />
           </div>
-
-          <Shared
-            isShared={isShared}
-            setIsShared={(v) => setIsShared(v)}
-            description={description}
-            setDescription={(v) => setDescription(v)}
-          />
         </div>
 
         <DialogFooter className="w-full">

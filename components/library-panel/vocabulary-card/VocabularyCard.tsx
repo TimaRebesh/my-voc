@@ -1,23 +1,30 @@
 'use client';
 
 import { Preloader } from "@/components/preloader/Preloader";
-import { getVocabulary } from "@/lib/actions/vocabulary.actions";
-import { IVocabulary, IVocabularyWithUserData, Word } from "@/lib/database/models/vocabulary.model";
 import { useRef, useState } from "react";
 import { ItemView } from "./ItemView";
 import { CardHeader } from './CardHeader';
+import { ISharedVocabulary, ISharedWord } from "@/lib/database/models/shared-vocabulary.model";
+import { getSharedVocabulary } from "@/lib/actions/shared-vocabulary.actions";
 
-export const VocabularyCard = ({ voc }: { voc: IVocabularyWithUserData; }) => {
+export const VocabularyCard = ({
+  voc,
+  userId,
+}: {
+  voc: ISharedVocabulary;
+
+  userId: string;
+}) => {
 
   const [list, setList] = useState(voc.list);
-  const fullList = useRef<Word[]>([]);
+  const fullList = useRef<ISharedWord[]>([]);
   const [isShown, setIsShown] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const getFullListVoc = async () => {
     setIsLoading(true);
     try {
-      const fullListVoc = await getVocabulary(voc._id) as IVocabulary;
+      const fullListVoc = await getSharedVocabulary(voc._id) as ISharedVocabulary;
       fullList.current = fullListVoc.list;
       setList(fullList.current);
       setIsShown(true);
@@ -43,13 +50,8 @@ export const VocabularyCard = ({ voc }: { voc: IVocabularyWithUserData; }) => {
   };
 
   return <>
-    <div className='flex-1 voc_card text-[12px]'>
-      <CardHeader
-        creatorName={voc.creatorData.name}
-        creatorAvatar={voc.creatorData.avatar}
-        vocName={voc.name}
-        description={voc.description}
-      />
+    <div className='flex-1 voc_card text-[12px] leading-none'>
+      <CardHeader voc={voc} isUserCreator={voc.creator.creatorId === userId} userId={userId} />
       <div>
         {list.map((item, ind) => (
           <ItemView key={item.id} item={item} isClosed={list.length - 1 === ind && !isShown} />
@@ -62,10 +64,5 @@ export const VocabularyCard = ({ voc }: { voc: IVocabularyWithUserData; }) => {
 
 
     </div>
-    {/* <ModalCard
-      isOpen={showCard}
-      onClose={() => setShowCard(false)}
-      prompt={prompt}
-    /> */}
   </>;
 };

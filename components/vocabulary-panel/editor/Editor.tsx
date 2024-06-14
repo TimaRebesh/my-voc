@@ -23,7 +23,6 @@ import {
 } from '@/lib/actions/vocabulary.actions';
 import { AppRouterPath } from '@/constants';
 import { handleError } from '@/lib/utils';
-import { Shared } from '../vocabulary-shared/Shared';
 import { useToast } from '@/components/ui/use-toast';
 
 interface Props {
@@ -42,8 +41,6 @@ export const Editor = ({
   vocAmount,
 }: Props) => {
   const [name, setName] = useState<string>(currentVoc.name);
-  const [isShared, setIsShared] = useState(currentVoc.isShared);
-  const [description, setDescription] = useState(currentVoc.description);
   const [importedVoc, setImportedVoc] = useState<Word[] | null>();
   const [onlyImported, setOnlyImported] = useState(false);
 
@@ -52,8 +49,6 @@ export const Editor = ({
   useEffect(() => {
     if (open) {
       setName(currentVoc.name);
-      setIsShared(currentVoc.isShared);
-      setDescription(currentVoc.description);
       setImportedVoc(null);
     }
   }, [open]);
@@ -73,8 +68,6 @@ export const Editor = ({
         {
           ...currentVoc,
           name,
-          isShared,
-          description,
           list,
         },
         AppRouterPath.VOCABULARY
@@ -114,13 +107,6 @@ export const Editor = ({
               placeholder="cannot be empty"
             />
           </div>
-
-          <Shared
-            isShared={isShared}
-            setIsShared={(v) => setIsShared(v)}
-            description={description}
-            setDescription={(v) => setDescription(v)}
-          />
 
           <ExportToExcel list={currentVoc.list} vocName={name} />
           <ImportFromExcel setData={(voc: Word[]) => setImportedVoc(voc)} />

@@ -11,6 +11,8 @@ import {
   deleteVocabularyListWord,
   updateVocabularyListWord,
 } from '@/lib/actions/vocabulary.actions';
+import { CreatorButton } from '@/components/creator-button/CreatorButton';
+import { createWord } from '@/lib/utils';
 
 export const VocabularyView = ({
   user,
@@ -33,11 +35,17 @@ export const VocabularyView = ({
     setFilteredWords((prev) =>
       search
         ? words.filter((val) =>
-            val.original.toLowerCase().includes(search.toLowerCase())
-          )
+          val.original.toLowerCase().includes(search.toLowerCase())
+        )
         : words
     );
   }, [search]);
+
+  const handleNewWord = () => {
+    setEditedWord(
+      createWord({ original: '', translated: '', another: [] })
+    );
+  };
 
   const onSave = async (word: Word) => {
     await updateVocabularyListWord(voc._id, word, AppRouterPath.VOCABULARY);
@@ -47,24 +55,23 @@ export const VocabularyView = ({
     await deleteVocabularyListWord(voc._id, wordId, AppRouterPath.VOCABULARY);
   };
 
-  if (words.length === 0)
-    return (
-      <p className="flex item-center justify-center">
-        no words. Your vocabulary is empty
-      </p>
-    );
-
   return (
     <>
-      <div className="p-2">
-        <Input
-          type="text"
-          placeholder="Search..."
-          className="h-6"
-          value={search}
-          onChange={(e) => setSearch(e.currentTarget.value)}
-        />
-      </div>
+      {words.length > 0 ?
+        <div className="p-2">
+          <Input
+            type="text"
+            placeholder="Search..."
+            className="h-6"
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+          />
+        </div>
+        :
+        <p className="flex item-center justify-center text-[12px]">
+          no words. Your vocabulary is empty
+        </p>
+      }
       <div className="flex-1 overflow-y-auto">
         {filteredWords.map((word: Word, index) => (
           <WordView
@@ -78,7 +85,9 @@ export const VocabularyView = ({
           onClose={() => setEditedWord(null)}
           onSave={onSave}
           onDelete={onDelete}
+          title='Edit word'
         />
+        <CreatorButton onClick={handleNewWord} />
       </div>
     </>
   );

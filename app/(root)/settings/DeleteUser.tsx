@@ -1,19 +1,9 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+import { Confirmation } from '@/components/ui/Confirmation';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/components/ui/use-toast';
 import { uploadThingUrl } from '@/constants';
 import { deleteUser } from '@/lib/actions/user.actions';
-import { useSession, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import React, { useState } from 'react';
 
 export const DeleteUser = React.memo(
@@ -28,7 +18,6 @@ export const DeleteUser = React.memo(
   }) => {
     const [deleteAll, setDeleteAll] = useState(false);
     const { toast } = useToast();
-    const { update } = useSession();
 
     const onDelete = async () => {
       setSaving(true);
@@ -59,41 +48,30 @@ export const DeleteUser = React.memo(
     };
 
     return (
-      <div className="py-10">
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <div className="cursor-pointer text-destructive">Delete user</div>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                user.
-                <span className="flex items-center space-x-2 pt-2">
-                  <Checkbox
-                    id="terms"
-                    checked={deleteAll}
-                    onCheckedChange={(v: boolean) => setDeleteAll(v)}
-                  />
-                  <label
-                    htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    delete all yours shared vocabularies
-                  </label>
-                </span>
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction className="bg-destructive" onClick={onDelete}>
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
+      <Confirmation
+        description={<>
+          This action cannot be undone. This will permanently delete your
+          user.
+          <span className="flex items-center space-x-2 pt-2">
+            <Checkbox
+              id="terms"
+              checked={deleteAll}
+              onCheckedChange={(v: boolean) => setDeleteAll(v)}
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              delete all yours shared vocabularies
+            </label>
+          </span>
+        </>}
+        submitText='Delete'
+        submitClassName='bg-destructive'
+        onSubmit={onDelete}
+      >
+        <div className="cursor-pointer text-destructive">Delete user</div>
+      </Confirmation>
     );
   }
 );

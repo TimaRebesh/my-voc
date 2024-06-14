@@ -2,18 +2,16 @@
 
 import { revalidatePath } from 'next/cache';
 import { connectToDB } from '../database';
-import { handleError } from '../utils';
+import { createWord, handleError } from '../utils';
 import Vocabulary, {
   IVocabulary,
   Word,
 } from '../database/models/vocabulary.model';
-import {
-  AppRouterPath,
-  TopicsFields,
-  UserFields,
-  VocabularyFields,
-} from '@/constants';
+import { AppRouterPath, TopicsFields, VocabularyFields } from '@/constants';
 import Topic, { TopicData } from '../database/models/topic.model';
+import SharedVocabulary, {
+  ISharedWord,
+} from '../database/models/shared-vocabulary.model';
 
 export async function createVocabularyAndSetAsStudied(
   values: Omit<IVocabulary, VocabularyFields.ID>,
@@ -46,6 +44,56 @@ export async function createVocabularyAndSetAsStudied(
   }
 }
 
+export async function addVocFromLibraryToMyVoc(
+  vocId: string,
+  userId: string,
+  path?: AppRouterPath
+) {
+  try {
+    await connectToDB();
+
+    const voc = await SharedVocabulary.findById(vocId);
+    if (!voc) {
+      return 'vocabulary is not found';
+    }
+    // creating appropriate list
+    const wordList: Word[] = voc[VocabularyFields.LIST].map(
+      (word: ISharedWord) => {
+        return createWord({
+          original: word.original,
+          translated: word.translated,
+          another: word.another,
+          id: word.id,
+        });
+      }
+    );
+    // creating values
+    const newVocValues: Omit<IVocabulary, VocabularyFields.ID> = {
+      [VocabularyFields.NAME]: voc[VocabularyFields.NAME],
+      [VocabularyFields.LIST]: wordList,
+      [VocabularyFields.CREATOR]: userId,
+    };
+    const newVoc = await Vocabulary.create(newVocValues);
+    await newVoc.save();
+    //add voc to topic
+    const topic = await Topic.findOne({
+      [VocabularyFields.CREATOR]: userId,
+    });
+    topic[TopicsFields.TOPIC_LIST] = [
+      ...topic[TopicsFields.TOPIC_LIST],
+      {
+        [VocabularyFields.ID]: newVoc[VocabularyFields.ID],
+        [VocabularyFields.NAME]: newVoc[VocabularyFields.NAME],
+      },
+    ];
+    topic.save();
+
+    path && revalidatePath(path);
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 export async function getVocabulary(id: string) {
   try {
     await connectToDB();
@@ -67,14 +115,12 @@ export async function editVocabulary(
 ) {
   try {
     await connectToDB();
-    const { _id, name, isShared, description, list, creator } = vocabulary;
+    const { _id, name, list, creator } = vocabulary;
     const voc = await Vocabulary.findById(_id);
     if (!voc) {
       throw new Error('Vocabulary not found');
     }
     voc.name = name;
-    voc.isShared = isShared;
-    voc.description = description;
     voc.list = list;
     await voc.save();
     // update vocabulary in topic
@@ -209,41 +255,72 @@ export async function deleteVocabulary(
   }
 }
 
-export async function getAllSharedVocabulariesWithUserData() {
+// export async function getAllSharedVocabulariesWithUserData() {
+//   try {
+//     await connectToDB();
+//     const sharedVocabularies = await Vocabulary.aggregate([
+//       {
+//         $match: {
+//           [VocabularyFields.IS_SHARED]: true,
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: 'users',
+//           localField: VocabularyFields.CREATOR,
+//           foreignField: '_id',
+//           as: 'creatorData',
+//         },
+//       },
+//       {
+//         $unwind: '$creatorData',
+//       },
+//       {
+//         $project: {
+//           [VocabularyFields.NAME]: 1,
+//           [VocabularyFields.LIST]: { $slice: ['$list', 4] },
+//           [VocabularyFields.CREATOR]: 1,
+//           [VocabularyFields.IS_SHARED]: 1,
+//           [VocabularyFields.DESCRIPTION]: 1,
+//           [`${[VocabularyFields.CREATOR_DATA]}.${[UserFields.NAME]}`]:
+//             '$creatorData.name',
+//           [`${[VocabularyFields.CREATOR_DATA]}.${[UserFields.AVATAR]}`]:
+//             '$creatorData.avatar',
+//         },
+//       },
+//     ]);
+//     return JSON.parse(JSON.stringify(sharedVocabularies));
+//   } catch (error) {
+//     handleError(error);
+//   }
+// }
+
+export async function addVocFromLibraryToMyVocabularies(
+  values: Omit<IVocabulary, VocabularyFields.ID>,
+  userId: string,
+  path: AppRouterPath
+) {
   try {
     await connectToDB();
-    const sharedVocabularies = await Vocabulary.aggregate([
+
+    // new vocabulary creating
+    const newVoc = new Vocabulary({ ...values });
+    await newVoc.save();
+    //add voc to topic
+    const topic = await Topic.findOne({
+      [VocabularyFields.CREATOR]: userId,
+    });
+    topic[TopicsFields.STUDY_ID] = newVoc[VocabularyFields.ID];
+    topic[TopicsFields.TOPIC_LIST] = [
       {
-        $match: {
-          [VocabularyFields.IS_SHARED]: true,
-        },
+        [VocabularyFields.ID]: newVoc[VocabularyFields.ID],
+        [VocabularyFields.NAME]: newVoc[VocabularyFields.NAME],
       },
-      {
-        $lookup: {
-          from: 'users',
-          localField: VocabularyFields.CREATOR,
-          foreignField: '_id',
-          as: 'creatorData',
-        },
-      },
-      {
-        $unwind: '$creatorData',
-      },
-      {
-        $project: {
-          [VocabularyFields.NAME]: 1,
-          [VocabularyFields.LIST]: { $slice: ['$list', 4] },
-          [VocabularyFields.CREATOR]: 1,
-          [VocabularyFields.IS_SHARED]: 1,
-          [VocabularyFields.DESCRIPTION]: 1,
-          [`${[VocabularyFields.CREATOR_DATA]}.${[UserFields.NAME]}`]:
-            '$creatorData.name',
-          [`${[VocabularyFields.CREATOR_DATA]}.${[UserFields.AVATAR]}`]:
-            '$creatorData.avatar',
-        },
-      },
-    ]);
-    return JSON.parse(JSON.stringify(sharedVocabularies));
+      ...topic[TopicsFields.TOPIC_LIST],
+    ];
+    topic.save();
+
+    revalidatePath(path);
   } catch (error) {
     handleError(error);
   }

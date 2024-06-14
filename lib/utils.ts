@@ -22,13 +22,15 @@ export function createWord({
   original,
   translated,
   another,
+  id
 }: {
   original: string;
   translated: string;
   another: string[];
+  id?: string
 }): Word {
   return {
-    id: getNewID(),
+    id: id ?? getNewID(),
     original,
     translated,
     another,

@@ -13,6 +13,7 @@ import { handleError } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 import Vocabulary, { IVocabulary } from '../database/models/vocabulary.model';
 import Topic, { ITopic } from '../database/models/topic.model';
+import SharedVocabulary from '../database/models/shared-vocabulary.model';
 
 export const checkLoginCredentials = async ({
   email,
@@ -97,8 +98,6 @@ export async function createUser({
       [VocabularyFields.NAME]: 'my first voc',
       [VocabularyFields.LIST]: [],
       [VocabularyFields.CREATOR]: newUser[UserFields.ID],
-      [VocabularyFields.IS_SHARED]: false,
-      [VocabularyFields.DESCRIPTION]: '',
     };
     const newVoc = new Vocabulary(vocabularyValues);
     await newVoc.save();
@@ -145,18 +144,17 @@ export async function deleteUser(
     if (!user) {
       return { message: 'user not found', error: 'email' };
     }
-
     // delete vocabularies
-    const searchParams: { creator: string; isShared?: boolean } = {
+    const searchParams: { creator: string } = {
       creator: id, // delete all
     };
-    if (!deleteShared) {
-      // delete only private
-      searchParams.isShared = false;
-    }
-
     await Vocabulary.deleteMany(searchParams);
-
+    // delete shared
+    if (deleteShared) {
+      await SharedVocabulary.deleteMany({
+        [`${VocabularyFields.CREATOR}.${VocabularyFields.CREATOR_ID}`]: id,
+      });
+    }
     // delete topic
     await Topic.findOneAndDelete({ [TopicsFields.CREATOR]: id });
 

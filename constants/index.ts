@@ -40,9 +40,11 @@ export enum VocabularyFields {
   NAME = 'name',
   LIST = 'list',
   CREATOR = 'creator',
-  IS_SHARED = 'isShared',
   DESCRIPTION = 'description',
-  CREATOR_DATA = 'creatorData',
+  CREATED_BY = 'createdBy',
+  CREATOR_NAME = 'creatorName',
+  CREATOR_AVATAR = 'creatorAvatar',
+  CREATOR_ID = 'creatorId'
 }
 
 export enum ThemeValues {

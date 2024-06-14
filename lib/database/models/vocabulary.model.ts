@@ -22,15 +22,6 @@ export interface IVocabulary {
   [VocabularyFields.NAME]: string;
   [VocabularyFields.LIST]: Word[];
   [VocabularyFields.CREATOR]: string;
-  [VocabularyFields.IS_SHARED]: boolean;
-  [VocabularyFields.DESCRIPTION]?: string;
-}
-
-export interface IVocabularyWithUserData extends IVocabulary {
-  [VocabularyFields.CREATOR_DATA]: {
-    [UserFields.NAME]: string;
-    [UserFields.AVATAR]: string;
-  };
 }
 
 const VocabularySchema = new Schema({
@@ -57,15 +48,7 @@ const VocabularySchema = new Schema({
     ref: 'User',
     required: true,
   },
-  [VocabularyFields.IS_SHARED]: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  [VocabularyFields.DESCRIPTION]: {
-    type: String,
-    default: '',
-  },
+  [VocabularyFields.CREATED_BY]: { type: String, default: '' },
 });
 
 const Vocabulary = models.Vocabulary || model('Vocabulary', VocabularySchema);
