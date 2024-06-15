@@ -32,7 +32,7 @@ export default async function () {
         </div>
         <ProvidersButtons />
         <p className="text-sm text-gray-400 whitespace-nowrap">
-          Created By: <span className="p-semibold-14">Timothy Rebesh 3</span>
+          Created By: <span className="p-semibold-14">Timothy Rebesh 4</span>
         </p>
       </div>
     </div>
