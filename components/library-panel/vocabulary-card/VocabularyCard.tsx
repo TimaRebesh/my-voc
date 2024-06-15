@@ -13,9 +13,10 @@ import { getSharedVocabulary } from '@/lib/actions/shared-vocabulary.actions';
 export const VocabularyCard = ({
   voc,
   userId,
+  isUserAdmin,
 }: {
   voc: ISharedVocabulary;
-
+  isUserAdmin: boolean;
   userId: string;
 }) => {
   const [list, setList] = useState(voc.list);
@@ -60,6 +61,7 @@ export const VocabularyCard = ({
           voc={voc}
           isUserCreator={voc.creator.creatorId === userId}
           userId={userId}
+          isUserAdmin={isUserAdmin}
         />
         <div>
           {list.map((item, ind) => (

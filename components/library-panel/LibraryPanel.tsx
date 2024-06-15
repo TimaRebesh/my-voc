@@ -2,7 +2,6 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { VocabularyCard } from './vocabulary-card/VocabularyCard';
-import { PlusIcon } from 'lucide-react';
 import { IUser } from '@/lib/database/models/user.model';
 import { ITopic } from '@/lib/database/models/topic.model';
 import { ISharedVocabulary } from '@/lib/database/models/shared-vocabulary.model';
@@ -41,7 +40,6 @@ export const LibraryPanel = ({
     searchTimeoutRef.current = id;
   };
 
-  const shareMyVocabulary = () => {};
 
   if (vocabularies.length < 1)
     return (
@@ -65,6 +63,7 @@ export const LibraryPanel = ({
       <VocabularyCardList
         data={searchText ? filteredVocs : vocabularies}
         userId={user._id}
+        isUserAdmin={!!user.isAdmin}
       />
 
       <ShareMyVoc user={user} topic={topic} />
@@ -75,17 +74,18 @@ export const LibraryPanel = ({
 const VocabularyCardList = ({
   data,
   userId,
+  isUserAdmin,
 }: {
   data: ISharedVocabulary[];
   userId: string;
+  isUserAdmin: boolean;
 }) => {
   return (
     <div className="flex-1 overflow-y-auto px-10 pb-10">
       {data.map((voc) => (
-        <VocabularyCard key={voc._id} voc={voc} userId={userId} />
+        <VocabularyCard key={voc._id} voc={voc} userId={userId} isUserAdmin={isUserAdmin} />
       ))}
     </div>
   );
 };
 
-// className='mt-10 mx-auto w-full max-w-xl flex justify-center items-center flex-col gap-2 px-4'

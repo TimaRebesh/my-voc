@@ -137,25 +137,6 @@ button {
   outline: none;
 }
 
-/* input[type='color'],
-input[type='date'],
-input[type='datetime'],
-input[type='datetime-local'],
-input[type='email'],
-input[type='month'],
-input[type='number'],
-input[type='password'],
-input[type='search'],
-input[type='tel'],
-input[type='text'],
-input[type='time'],
-input[type='url'],
-input[type='week'],
-select:focus,
-textarea {
-  font-size: 16px;
-} */
-
 .voc_card {
   @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding pb-1 mb-4 backdrop-blur-lg backdrop-filter md:w-[360px] w-full h-fit;
 }

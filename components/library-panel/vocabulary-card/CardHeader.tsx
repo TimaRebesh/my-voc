@@ -15,10 +15,12 @@ export const CardHeader = ({
   voc,
   userId,
   isUserCreator,
+  isUserAdmin
 }: {
   voc: ISharedVocabulary;
   userId: string;
   isUserCreator: boolean;
+  isUserAdmin: boolean;
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
@@ -40,7 +42,7 @@ export const CardHeader = ({
   const deleteVoc = async () => {
     try {
       await deleteSharedVocabulary(voc._id, AppRouterPath.LIBRARY);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   return (
@@ -59,18 +61,6 @@ export const CardHeader = ({
         </div>
 
         <div className="add_btn">
-          {isUserCreator && (
-            <Confirmation
-              title="Delete this vocabulary?"
-              description={`This will permanently delete '${voc.name}' from the shared library`}
-              submitText="Delete"
-              onSubmit={deleteVoc}
-              submitClassName="bg-destructive"
-            >
-              <Trash2Icon width={18} className="text-primary" />
-            </Confirmation>
-          )}
-
           {!isUserCreator &&
             (isProcessing ? (
               <PreloaderCircle />
@@ -84,6 +74,19 @@ export const CardHeader = ({
                 <CopyIcon width={18} className="text-primary" />
               </Confirmation>
             ))}
+
+          {(isUserCreator || isUserAdmin) && (
+            <Confirmation
+              title="Delete this vocabulary?"
+              description={`This will permanently delete '${voc.name}' from the shared library`}
+              submitText="Delete"
+              onSubmit={deleteVoc}
+              submitClassName="bg-destructive"
+            >
+              <Trash2Icon width={18} className="text-primary" />
+            </Confirmation>
+          )}
+
         </div>
       </div>
       <p className="break-words px-2 ">{voc.description ?? ''}</p>

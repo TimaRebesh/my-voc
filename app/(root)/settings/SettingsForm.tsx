@@ -207,6 +207,7 @@ export const SettingsForm = ({ user }: { user: User; }) => {
                 <FormControl>
                   <Input type="text" {...field} />
                 </FormControl>
+                {user.isAdmin && <p className='text-[12px] text-destructive'>you are the administrator</p>}
                 <div className="relative">
                   <FormMessage className="absolute" />
                 </div>
