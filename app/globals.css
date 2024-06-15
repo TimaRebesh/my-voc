@@ -139,7 +139,7 @@ button {
 
 input,
 textarea {
-  touch-action: manipulation;
+  font-size: 16px;
 }
 
 .voc_card {
