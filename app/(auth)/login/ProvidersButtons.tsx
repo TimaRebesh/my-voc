@@ -12,9 +12,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Preloader } from "@/components/ui/preloader";
 
-export const ProvidersButtons = () =>
-// { loading }: { loading: () => void; }
-{
+export const ProvidersButtons = () => {
   const [providers, setProviders] = useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
@@ -36,7 +34,7 @@ export const ProvidersButtons = () =>
   return (
     <>
       <Button
-        className="w-full h-10"
+        className="w-full h-10 bg-secondary border-[1px] border-primary text-primary"
         disabled={!providers?.google || loading}
         onClick={onGoogleLogin}
       >
@@ -48,11 +46,6 @@ export const ProvidersButtons = () =>
           className="rounded-full object-contain pr-2"
         />
         Login with Google
-        {/* {loading ? (
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      ) : (
-        <ArrowRightIcon className="ml-2 h-4" />
-      )} */}
       </Button>
       <Preloader isLoading={loading} />
     </>

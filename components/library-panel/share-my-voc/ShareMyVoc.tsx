@@ -28,7 +28,7 @@ import { IUser } from '@/lib/database/models/user.model';
 import { ISharedVocCreator } from '@/lib/database/models/shared-vocabulary.model';
 import { CreatorButton } from '@/components/creator-button/CreatorButton';
 
-export const ShareMyVoc = ({ user, topic }: { user: IUser; topic: ITopic }) => {
+export const ShareMyVoc = ({ user, topic }: { user: IUser; topic: ITopic; }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [name, setName] = useState('');
@@ -41,9 +41,12 @@ export const ShareMyVoc = ({ user, topic }: { user: IUser; topic: ITopic }) => {
   }, [selectedId]);
 
   const onOpenChange = (open: boolean) => {
-    setName('');
-    setSelectedId('');
-    setDescription('');
+    if (!open) {
+      setIsOpen(false);
+      setName('');
+      setSelectedId('');
+      setDescription('');
+    }
   };
 
   const onSave = async () => {
@@ -61,7 +64,7 @@ export const ShareMyVoc = ({ user, topic }: { user: IUser; topic: ITopic }) => {
         AppRouterPath.LIBRARY
       );
       setIsOpen(false);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -114,10 +117,9 @@ export const ShareMyVoc = ({ user, topic }: { user: IUser; topic: ITopic }) => {
         </div>
 
         <DialogFooter className="w-full">
-          <DialogClose onClick={() => console.log('dfdff')}>
+          <DialogClose>
             <CustomButton
               variant="secondary"
-              onClick={() => setIsOpen(false)}
               className="w-20 mr-4"
             >
               Cancel
