@@ -1,5 +1,4 @@
 import { UserMenu } from './user-menu/UserMenu';
-import { auth } from '@/utils/authOptions';
 import { HeaderLabel } from './header-label/HeaderLabel';
 import { GoToMenu } from './go-to-menu/GoToMenu';
 import { VocabularyName } from './vocabulary-name/VocabularyName';
@@ -7,9 +6,7 @@ import { getTopicByUserId } from '@/lib/actions/topics.actions';
 import { IUser } from '@/lib/database/models/user.model';
 import { ITopic } from '@/lib/database/models/topic.model';
 
-export async function Header() {
-  const session = await auth();
-  const user = JSON.parse(JSON.stringify(session!.user)) as IUser;
+export async function Header({ user }: { user: IUser; }) {
   const topic = (await getTopicByUserId(user._id)) as ITopic;
   const currentTopicName =
     topic.topicList.find((t) => t._id === topic.studyID)?.name ?? '';
