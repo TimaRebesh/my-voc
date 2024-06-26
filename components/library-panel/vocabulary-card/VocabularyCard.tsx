@@ -1,6 +1,6 @@
 'use client';
 
-import { Preloader } from "@/components/ui/preloader";
+import { Preloader } from '@/components/ui/preloader';
 import { useRef, useState } from 'react';
 import { ItemView } from './ItemView';
 import { CardHeader } from './CardHeader';
@@ -74,7 +74,7 @@ export const VocabularyCard = ({
         </div>
         <div
           onClick={onShow}
-          className="flex item-center justify-center w-full"
+          className="flex item-center justify-center w-full cursor-pointer"
         >
           {!isLoading && <div>{isShown ? 'hide' : 'more'}</div>}
           {isLoading && <Preloader />}

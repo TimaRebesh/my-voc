@@ -11,7 +11,7 @@ type WordViewProps = {
 export const WordView = ({ word, edit }: WordViewProps) => {
   return (
     <div
-      className="flex p-2 border border-gray-200 hover:border-gray-500 rounded-lg"
+      className="flex p-2 border border-gray-100 hover:border-gray-500 rounded-lg"
       onClick={() => edit()}
     >
       <ProgressBar word={word} />
@@ -26,13 +26,15 @@ function WordComponent({ word }: { word: Word }) {
       {word.repeated.prioritized && (
         <StarIcon className="absolute right-0 text-star" fill="currentColor" />
       )}
-      <p className="text-original font-semibold">{word.original}</p>
-      <p className="text-translated font-semibold">{word.translated}</p>
+      <p className="text-original font-semibold break-all">{word.original}</p>
+      <p className="text-translated font-semibold break-all">
+        {word.translated}
+      </p>
       <div className="flex flex-wrap">
         {word.another.map((an, ind) => (
           <div
             key={an + ind}
-            className="border rounded-full text-[8px] border-gray-400 py-[1px] px-1 mr-1"
+            className="border rounded-full text-[8px] border-gray-400 py-[1px] px-1 mr-1 break-all"
           >
             {an.length > 50 ? `${an.slice(0, 50)}...` : an}
           </div>

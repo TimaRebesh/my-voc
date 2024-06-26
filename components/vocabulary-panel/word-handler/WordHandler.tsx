@@ -89,7 +89,7 @@ export const WordHandler = ({
         </DialogHeader>
 
         <div className="flex flex-col gap-4 justify-start items-start">
-          <div className="w-full">
+          <div className="w-full mt-4">
             <Label>Original</Label>
             <Input
               value={original}

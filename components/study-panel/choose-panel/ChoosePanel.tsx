@@ -116,18 +116,20 @@ export default function ChoosePanel(props: ChooseProps) {
       />
       <div
         ref={buttonsGroupRef}
-        className="flex flex-col space-y-2  w-full m-auto relative items-center justify-center"
+        className="flex flex-col space-y-2  w-full m-auto relative items-center justify-center sm:max-w-96"
         onKeyDown={keyDown}
       >
         {props.optionalWords.map((o, order) => (
           <Button
-            className={cn('h-14 w-full', buttonStatus(o.id))}
+            className={cn('btn break-all', buttonStatus(o.id))}
             key={o.id}
             id={order.toString()}
             onClick={() => !chosenID && check(o.id)}
             style={{ pointerEvents: !!chosenID ? 'none' : 'auto' }}
           >
-            {props.mode === 'original' ? o['translated'] : o['original']}
+            <p className="truncate w-96">
+              {props.mode === 'original' ? o['translated'] : o['original']}
+            </p>
           </Button>
         ))}
         <div className="w-full pt-8">

@@ -59,7 +59,7 @@ const SettingsFormSchema = z.object({
   [ConfigFields.LIMIT_NEW]: z.number(),
 });
 
-export const SettingsForm = ({ user }: { user: User; }) => {
+export const SettingsForm = ({ user }: { user: User }) => {
   const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingsFormSchema>>({
@@ -207,7 +207,11 @@ export const SettingsForm = ({ user }: { user: User; }) => {
                 <FormControl>
                   <Input type="text" {...field} />
                 </FormControl>
-                {user.isAdmin && <p className='text-[12px] text-destructive'>you are the administrator</p>}
+                {user.isAdmin && (
+                  <p className="text-[12px] text-destructive">
+                    you are the administrator
+                  </p>
+                )}
                 <div className="relative">
                   <FormMessage className="absolute" />
                 </div>

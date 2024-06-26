@@ -86,7 +86,7 @@ export const VocabularyView = ({
           no words. Your vocabulary is empty
         </p>
       )}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto sm:mx-4">
         {filteredWords.map((word: Word, index) => (
           <WordView
             key={word.original + index}

@@ -9,8 +9,8 @@ export function StudyingWord(props: {
 }) {
   return (
     <>
-      <div className="flex justify-center p-4 w-full border border-primary rounded-[5px]">
-        <p>
+      <div className="flex justify-center p-4 w-full border border-primary rounded-[5px] sm:max-w-96">
+        <p className="break-all">
           {props.mode === 'original'
             ? props.studyWord.original
             : props.studyWord.translated}

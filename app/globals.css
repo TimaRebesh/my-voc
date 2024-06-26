@@ -138,7 +138,11 @@ button {
 }
 
 .voc_card {
-  @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding pb-1 mb-4 backdrop-blur-lg backdrop-filter md:w-[360px] w-full h-fit;
+  @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding pb-1 mb-4 backdrop-blur-lg backdrop-filter  w-full h-fit;
+}
+
+.btn {
+  @apply w-full sm:h-12;
 }
 
 .add_btn {

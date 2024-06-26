@@ -19,7 +19,7 @@ import {
 import { TooltipWrapper } from '@/components/ui/tooltip-wrapper';
 import { Editor } from '../editor/Editor';
 import { Creator } from '../creator/Creator';
-import { Preloader } from "@/components/ui/preloader";
+import { Preloader } from '@/components/ui/preloader';
 import { IVocabulary } from '@/lib/database/models/vocabulary.model';
 import { AppRouterPath } from '@/constants';
 import { ITopic } from '@/lib/database/models/topic.model';
@@ -50,14 +50,14 @@ export const VocabularySelector = ({
   };
 
   return (
-    <div className="flex w-full items-center">
+    <div className="flex items-center w-full sm:max-w-96 sm:ml-2">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full justify-between mr-4 pl-2"
+            className=" justify-between mr-4 pl-2 w-full"
           >
             {currentVoc.name}
           </Button>

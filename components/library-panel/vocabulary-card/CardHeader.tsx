@@ -15,7 +15,7 @@ export const CardHeader = ({
   voc,
   userId,
   isUserCreator,
-  isUserAdmin
+  isUserAdmin,
 }: {
   voc: ISharedVocabulary;
   userId: string;
@@ -42,7 +42,7 @@ export const CardHeader = ({
   const deleteVoc = async () => {
     try {
       await deleteSharedVocabulary(voc._id, AppRouterPath.LIBRARY);
-    } catch (err) { }
+    } catch (err) {}
   };
 
   return (
@@ -86,10 +86,9 @@ export const CardHeader = ({
               <Trash2Icon width={18} className="text-primary" />
             </Confirmation>
           )}
-
         </div>
       </div>
-      <p className="break-words px-2 ">{voc.description ?? ''}</p>
+      <p className="break-words px-2">{voc.description ?? ''}</p>
     </>
   );
 };

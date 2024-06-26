@@ -27,8 +27,16 @@ import { AppRouterPath, VocabularyFields } from '@/constants';
 import { IUser } from '@/lib/database/models/user.model';
 import { ISharedVocCreator } from '@/lib/database/models/shared-vocabulary.model';
 import { CreatorButton } from '@/components/creator-button/CreatorButton';
+import { TooltipWrapper } from '@/components/ui/tooltip-wrapper';
+import { Button } from '@/components/ui/button';
 
-export const ShareMyVoc = ({ user, topic }: { user: IUser; topic: ITopic }) => {
+export const ShareMyVocButton = ({
+  user,
+  topic,
+}: {
+  user: IUser;
+  topic: ITopic;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [name, setName] = useState('');
@@ -70,7 +78,14 @@ export const ShareMyVoc = ({ user, topic }: { user: IUser; topic: ITopic }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger>
-        <CreatorButton onClick={() => setIsOpen(true)} />
+        <TooltipWrapper text="create new word">
+          <div
+            className="bg-original text-white hover:bg-success-hover px-2 border rounded-sm"
+            onClick={() => setIsOpen(true)}
+          >
+            Share your vocabulary
+          </div>
+        </TooltipWrapper>
       </DialogTrigger>
       <DialogContent
         className="w-full"

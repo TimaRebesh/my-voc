@@ -10,7 +10,7 @@ import {
 import { BuiltInProviderType } from 'next-auth/providers/index';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { Preloader } from "@/components/ui/preloader";
+import { Preloader } from '@/components/ui/preloader';
 
 export const ProvidersButtons = () => {
   const [providers, setProviders] = useState<Record<

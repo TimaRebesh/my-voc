@@ -16,7 +16,7 @@ import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { Input } from '@/components/ui/input';
-import { Preloader } from "@/components/ui/preloader";
+import { Preloader } from '@/components/ui/preloader';
 import { checkLoginCredentials } from '@/lib/actions/user.actions';
 
 enum LoginFormInputs {

@@ -63,7 +63,7 @@ export const Creator = ({ open, close, setIsProcessing, userId }: Props) => {
         </DialogHeader>
 
         <div className="flex flex-col gap-4 justify-start items-start">
-          <div className="w-full">
+          <div className="w-full mt-4">
             <Label>Name</Label>
             <Input
               value={name}
