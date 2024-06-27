@@ -18,6 +18,7 @@ import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Preloader } from '@/components/ui/preloader';
 import { createUser } from '@/lib/actions/user.actions';
+import { InputPassword } from '@/components/ui/input-password';
 
 enum RegisterFormInputs {
   NAME = 'name',
@@ -133,7 +134,7 @@ export function RegisterForm() {
               <FormItem className="flex flex-col">
                 <FormLabel className="text-primary">Password</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <InputPassword {...field} />
                 </FormControl>
                 <div className="relative h-4">
                   <FormMessage className="absolute" />
@@ -150,7 +151,7 @@ export function RegisterForm() {
               <FormItem className="flex flex-col">
                 <FormLabel className="text-primary">Confirm password</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <InputPassword {...field} />
                 </FormControl>
                 <div className="relative h-4">
                   <FormMessage className="absolute" />

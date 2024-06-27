@@ -18,6 +18,7 @@ import { signIn } from 'next-auth/react';
 import { Input } from '@/components/ui/input';
 import { Preloader } from '@/components/ui/preloader';
 import { checkLoginCredentials } from '@/lib/actions/user.actions';
+import { InputPassword } from '@/components/ui/input-password';
 
 enum LoginFormInputs {
   EMAIL = 'email',
@@ -97,7 +98,7 @@ export const LoginForm = () => {
               <FormItem className="flex flex-col">
                 <FormLabel className="text-primary">Password</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <InputPassword {...field} />
                 </FormControl>
                 <div className="relative h-4">
                   <FormMessage className="absolute" />
