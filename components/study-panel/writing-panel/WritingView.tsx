@@ -43,7 +43,7 @@ export function WritingView({
         studyWord={studyWord}
         config={config}
       />
-      <div className="flex flex-col space-y-2 w-full m-auto relative items-center justify-center">
+      <div className="flex flex-col space-y-2 w-full m-auto relative items-center justify-center sm:max-w-96">
         <Input
           ref={inputRef}
           type="text"

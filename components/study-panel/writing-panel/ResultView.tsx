@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Word } from '@/lib/database/models/vocabulary.model';
 import { CheerInterface } from '@/utils/hooks';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 type ResultViesProps = {
   currentWord: Word;
@@ -17,12 +17,25 @@ export function ResultView({
   next,
   cheerControl,
 }: ResultViesProps) {
-  const nextButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    nextButtonRef.current?.focus();
-    currentWord.original === result && cheerControl.setCheer();
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        click();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
   }, [result]);
+
+  useEffect(() => {
+    if (currentWord.original === result) {
+      cheerControl.setCheer();
+    }
+  }, [result, currentWord, cheerControl]);
 
   const click = () => {
     next();
@@ -41,9 +54,7 @@ export function ResultView({
 
       <Button
         className="w-40"
-        ref={nextButtonRef}
-        onClick={next}
-        onKeyDown={(e) => ['Enter'].includes(e.key) && click()}
+        onClick={click}
       >
         Next
       </Button>

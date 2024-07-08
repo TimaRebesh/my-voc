@@ -1,7 +1,7 @@
 'use client';
 import { IUser } from '@/lib/database/models/user.model';
 import { useState } from 'react';
-import { Check, PencilIcon, SquarePlusIcon } from 'lucide-react';
+import { Check, ChevronsUpDown, PencilIcon, SquarePlusIcon } from 'lucide-react';
 import { cn, handleError } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -60,6 +60,7 @@ export const VocabularySelector = ({
             className=" justify-between mr-4 pl-2 w-full"
           >
             {currentVoc.name}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0">
