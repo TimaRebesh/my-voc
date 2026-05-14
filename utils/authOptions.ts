@@ -57,10 +57,7 @@ export const authOptions: NextAuthOptions = {
     }),
     CredentialsProvider({
       name: 'credentials',
-      credentials: {
-        email: {},
-        password: {},
-      },
+      credentials: { email: {}, password: {} },
       async authorize(credentials, req) {
         try {
           const user = await login(credentials);
@@ -74,16 +71,14 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       if (profile && account?.provider === 'google') {
-        signInWithGoogle(user);
+        await signInWithGoogle(user);
       }
       return true;
     },
     async session({ session, trigger, newSession }) {
       await connectToDB();
       if (session?.user?.email) {
-        const sessionUser = await User.findOne({
-          email: session.user.email,
-        });
+        const sessionUser = await User.findOne({ email: session.user.email });
         if (sessionUser) {
           session.user._id = sessionUser._id.toString();
           session.user.name = sessionUser.name;

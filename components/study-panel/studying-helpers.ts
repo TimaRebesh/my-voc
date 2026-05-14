@@ -50,26 +50,31 @@ export const checkIsWordNew = (word: Word) =>
   getWordProgress(word) < MAX_NUMBER_DEFINING_NEW;
 
 export const prepareListToStudy = (list: Word[], limitAll: number) => {
-  const prioritizedWords: Word[] = [];
-  const nonPrioritizedWords: Word[] = [];
-  // Separate prioritized and non-prioritized words using a standard for loop
-  for (let i = 0; i < list.length; i++) {
-    const word = list[i];
-    if (!checkIsWordNew(word)) {
-      if (word.repeated[RepeatedConst.PRIORITIZED]) {
-        prioritizedWords.push(word);
-      } else {
-        nonPrioritizedWords.push(word);
-      }
-    }
-  }
+  const sortByRepeatPriority = (a: Word, b: Word) => {
+    const progressDiff = getWordProgress(a) - getWordProgress(b);
 
-  nonPrioritizedWords.sort((a, b) => b.lastRepeat - a.lastRepeat);
+    if (progressDiff !== 0) {
+      return progressDiff;
+    }
+
+    return a.lastRepeat - b.lastRepeat;
+  };
+
+  const learnedWords = list.filter((word) => !checkIsWordNew(word));
+
+  const prioritizedWords = learnedWords
+    .filter((word) => word.repeated[RepeatedConst.PRIORITIZED])
+    .sort(sortByRepeatPriority);
+
+  const nonPrioritizedWords = learnedWords
+    .filter((word) => !word.repeated[RepeatedConst.PRIORITIZED])
+    .sort(sortByRepeatPriority);
 
   let combo = [...prioritizedWords, ...nonPrioritizedWords];
 
-  if (combo.length > limitAll) combo = combo.slice(0, limitAll);
+  if (combo.length > limitAll) {
+    combo = combo.slice(0, limitAll);
+  }
 
-  const shuffledData = shuffle(combo);
-  return shuffledData;
+  return shuffle(combo);
 };
