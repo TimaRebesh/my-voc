@@ -1,23 +1,22 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/toaster';
 import Provider from '@/components/provider/Provider';
-import type { Viewport } from 'next';
-
-export const viewport: Viewport = {
-  maximumScale: 1,
-  userScalable: false,
-};
+import { Toaster } from '@/components/ui/toaster';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'My voc',
   description: 'My vocabulary',
-  viewport:
-    'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function GlobalLayout({

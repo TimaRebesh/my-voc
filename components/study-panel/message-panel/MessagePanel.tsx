@@ -1,7 +1,9 @@
+import type { ReactNode } from 'react';
+
 type MessagePanelProps = {
-  messages: (string | JSX.Element)[];
+  messages: ReactNode[];
   legend?: string;
-  children?: JSX.Element;
+  children?: ReactNode;
 };
 
 export default function MessagePanel({

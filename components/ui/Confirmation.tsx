@@ -10,6 +10,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { cn } from '@/lib/utils';
+import type { ReactNode } from 'react';
 
 export const Confirmation = ({
   title = 'Are you absolutely sure?',
@@ -21,12 +22,12 @@ export const Confirmation = ({
   children,
 }: {
   title?: string;
-  description?: string | JSX.Element;
+  description?: string | ReactNode;
   cancelText?: string;
   submitText?: string;
   submitClassName?: string;
   onSubmit: () => void;
-  children: JSX.Element;
+  children: ReactNode;
 }) => {
   return (
     <div className="py-10">

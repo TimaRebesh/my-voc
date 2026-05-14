@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { buttonVariants } from './button';
 import { cn } from '@/lib/utils';
 
@@ -12,17 +12,17 @@ export const CustomButton = ({
 }: {
   className?: string;
   variant?:
-    | 'default'
-    | 'destructive'
-    | 'outline'
-    | 'secondary'
-    | 'ghost'
-    | 'link'
-    | null;
+  | 'default'
+  | 'destructive'
+  | 'outline'
+  | 'secondary'
+  | 'ghost'
+  | 'link'
+  | null;
   size?: 'default' | 'sm' | 'lg' | 'icon' | null | undefined;
   onClick?: () => void;
   disabled?: boolean;
-  children: JSX.Element | string;
+  children: ReactNode;
 }) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (disabled) {
@@ -38,7 +38,7 @@ export const CustomButton = ({
       className={cn(
         buttonVariants({ variant, size, className }),
         disabled &&
-          'opacity-50 cursor-auto hover:bg-primary hover:text-primary-foreground'
+        'opacity-50 cursor-auto hover:bg-primary hover:text-primary-foreground'
       )}
     >
       {children}

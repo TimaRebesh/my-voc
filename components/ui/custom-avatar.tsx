@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { TooltipWrapper } from './tooltip-wrapper';
 
 interface CustomAvatarProps {
   src?: string;
   size?: number;
-  fallback?: string | JSX.Element;
+  fallback?: string | ReactNode;
   tooltipText?: string;
   className?: string;
 }

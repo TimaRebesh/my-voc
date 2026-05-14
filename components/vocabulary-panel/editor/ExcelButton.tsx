@@ -1,10 +1,11 @@
 import { CustomButton } from '@/components/ui/custom-button';
 import Image from 'next/image';
+import { ReactNode } from 'react';
 
 type ExcelButtonProps = {
   text: string;
   onClick: () => void;
-  children?: JSX.Element;
+  children?: ReactNode;
 };
 
 export const ExcelButton = (props: ExcelButtonProps) => {
