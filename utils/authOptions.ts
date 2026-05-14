@@ -16,7 +16,7 @@ const login = async (
   credentials: Record<'email' | 'password', string> | undefined
 ) => {
   try {
-    connectToDB();
+    await connectToDB();
     const user = await User.findOne({ email: credentials!.email });
 
     if (!user) {

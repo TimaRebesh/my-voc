@@ -29,7 +29,6 @@
     "@uploadthing/react": "^7.3.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "cmdk": "^1.1.1",
     "exceljs": "^4.4.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^1.16.0",
