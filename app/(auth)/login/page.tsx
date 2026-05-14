@@ -18,7 +18,6 @@ export default async function () {
           <h2 className="font-bold mr-2">Log</h2>
           <span>In</span>
         </div>
-        test
         <LoginForm />
         <Link href="/register">
           {"Don't have an account?   "}
