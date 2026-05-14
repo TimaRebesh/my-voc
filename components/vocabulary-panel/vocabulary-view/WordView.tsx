@@ -1,6 +1,6 @@
 import { MAX_NUMBER_DEFINING_NEW } from '@/constants';
 import { Word } from '@/lib/database/models/vocabulary.model';
-import { cn } from '@/lib/utils';
+import { cn, getWordProgress } from '@/lib/utils';
 import { StarIcon } from 'lucide-react';
 
 type WordViewProps = {
@@ -20,7 +20,7 @@ export const WordView = ({ word, edit }: WordViewProps) => {
   );
 };
 
-function WordComponent({ word }: { word: Word }) {
+function WordComponent({ word }: { word: Word; }) {
   return (
     <div className="flex-1 flex-coll relative">
       {word.repeated.prioritized && (
@@ -44,12 +44,18 @@ function WordComponent({ word }: { word: Word }) {
   );
 }
 
-function ProgressBar({ word }: { word: Word }) {
-  const progressStatus =
-    word.repeated.original + word.repeated.translated + word.repeated.wrote;
+function ProgressBar({ word }: { word: Word; }) {
+  const progressStatus = getWordProgress(word);
+  const isLearned = progressStatus > MAX_NUMBER_DEFINING_NEW;
 
   return (
-    <div className="mt-auto pr-2">
+    <div className="relative mt-auto pr-3">
+      {isLearned && (
+        <div className="absolute -top-3 left-1 flex h-5 min-w-5 -translate-x-1/2 items-center justify-center rounded-full bg-original px-1 text-[9px] font-semibold text-white shadow-sm">
+          {progressStatus}
+        </div>
+      )}
+
       {Array.from(Array(MAX_NUMBER_DEFINING_NEW).keys())
         .map((el) => (
           <div
@@ -58,7 +64,7 @@ function ProgressBar({ word }: { word: Word }) {
               'w-2 h-[6px] mb-[2px] bg-gray-300',
               progressStatus >= el + 1 ? 'bg-original opacity-50' : ''
             )}
-          ></div>
+          />
         ))
         .reverse()}
     </div>

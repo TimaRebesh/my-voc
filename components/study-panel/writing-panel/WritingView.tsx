@@ -14,6 +14,7 @@ type WritingViewProps = {
   onChange: (value: string) => void;
   isHint: boolean;
   config: IConfigurations;
+  showProgressBadge?: boolean;
 };
 
 export function WritingView({
@@ -21,6 +22,7 @@ export function WritingView({
   onChange,
   isHint,
   config,
+  showProgressBadge,
 }: WritingViewProps) {
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,6 +44,7 @@ export function WritingView({
         mode={RepeatedConst.TRANSLATED}
         studyWord={studyWord}
         config={config}
+        showProgressBadge={showProgressBadge}
       />
       <div className="flex flex-col space-y-2 w-full m-auto relative items-center justify-center sm:max-w-96">
         <Input

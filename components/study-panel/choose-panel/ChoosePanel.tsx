@@ -18,6 +18,7 @@ type ChooseProps = {
   noNewNumber: number;
   config: IConfigurations;
   cheerControl: CheerInterface;
+  showProgressBadge?: boolean;
 };
 
 export default function ChoosePanel(props: ChooseProps) {
@@ -122,6 +123,7 @@ export default function ChoosePanel(props: ChooseProps) {
         mode={props.mode}
         studyWord={props.studyWord}
         config={props.config}
+        showProgressBadge={props.showProgressBadge}
       />
       <div
         ref={buttonsGroupRef}

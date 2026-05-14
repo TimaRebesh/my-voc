@@ -175,6 +175,7 @@ export const RepeatPanel = ({ vocabulary, user }: Props) => {
           noNewNumber={MAX_NUMBER_DEFINING_NEW}
           config={user.configuration}
           cheerControl={cheerControl}
+          showProgressBadge
         />
       ) : (
         <WritingPanel
@@ -183,6 +184,7 @@ export const RepeatPanel = ({ vocabulary, user }: Props) => {
           isHint={user.configuration.hints}
           config={user.configuration}
           cheerControl={cheerControl}
+          showProgressBadge
         />
       );
     else return <Preloader />;
