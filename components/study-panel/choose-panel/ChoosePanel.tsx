@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { IConfigurations } from '@/lib/database/models/user.model';
 import { Button } from '@/components/ui/button';
 import { StudyingWord } from '../studying-word/StudyingWord';
-import { cn } from '@/lib/utils';
+import { cn, getWordProgress } from '@/lib/utils';
+import { LEARNED_WORD_CHEER } from '@/utils/hooks';
 import { isMobile } from '../studying-helpers';
 import { CheerInterface } from '@/utils/hooks';
 import { RepeatedConst } from '@/constants';
@@ -66,7 +67,15 @@ export default function ChoosePanel(props: ChooseProps) {
 
   const check = (id: string) => {
     setChosenID(id);
-    id === props.studyWord.id && props.cheerControl.setCheer();
+
+    if (id === props.studyWord.id) {
+      const willBeLearned =
+        getWordProgress(props.studyWord) + 1 === props.noNewNumber;
+
+      props.cheerControl.setCheer(
+        willBeLearned ? LEARNED_WORD_CHEER : undefined
+      );
+    }
   };
 
   const next = () => {
@@ -86,7 +95,7 @@ export default function ChoosePanel(props: ChooseProps) {
       else
         (
           (buttonsGroupRef.current as HTMLDivElement).children[
-            elFocusID + 1
+          elFocusID + 1
           ] as HTMLButtonElement
         ).focus();
     }
@@ -95,13 +104,13 @@ export default function ChoosePanel(props: ChooseProps) {
       if (elFocusID > 0)
         (
           (buttonsGroupRef.current as HTMLDivElement).children[
-            elFocusID - 1
+          elFocusID - 1
           ] as HTMLButtonElement
         ).focus();
       else
         (
           (buttonsGroupRef.current as HTMLDivElement).children[
-            props.optionalWords.length - 1
+          props.optionalWords.length - 1
           ] as HTMLButtonElement
         ).focus();
     }

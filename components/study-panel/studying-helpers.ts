@@ -31,10 +31,6 @@ export const defineOptionalSet = (
   return shuffle(words);
 };
 
-export const setCheer = (currentWord: Word) => {
-  const progress = getWordProgress(currentWord) + 1;
-  return progress === MAX_NUMBER_DEFINING_NEW ? 'stydied' : 'cheer';
-};
 
 export const hideCongrats = () => 'nextWord';
 
