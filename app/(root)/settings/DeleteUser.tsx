@@ -1,7 +1,7 @@
 import { Confirmation } from '@/components/ui/Confirmation';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/components/ui/use-toast';
-import { uploadThingUrl } from '@/constants';
+import { uploadThingUrls } from '@/constants';
 import { deleteUser } from '@/lib/actions/user.actions';
 import { signOut } from 'next-auth/react';
 import React, { useState } from 'react';
@@ -22,7 +22,7 @@ export const DeleteUser = React.memo(
     const onDelete = async () => {
       setSaving(true);
       // delete avatar
-      if (avatar?.includes(uploadThingUrl)) {
+      if (avatar && uploadThingUrls.some((url) => avatar.includes(url))) {
         const response = await fetch('api/uploadthing', {
           method: 'DELETE',
           headers: {
