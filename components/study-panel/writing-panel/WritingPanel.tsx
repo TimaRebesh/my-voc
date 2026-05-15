@@ -12,6 +12,8 @@ type WritingProps = {
   isHint: boolean;
   config: IConfigurations;
   cheerControl: CheerInterface;
+  showProgressBadge?: boolean;
+
 };
 
 export default function WritingPanel({
@@ -20,6 +22,7 @@ export default function WritingPanel({
   isHint,
   config,
   cheerControl,
+  showProgressBadge,
 }: WritingProps) {
   const [result, setResult] = useState('');
 
@@ -41,6 +44,7 @@ export default function WritingPanel({
           onChange={check}
           isHint={isHint}
           config={config}
+          showProgressBadge={showProgressBadge}
         />
       ) : (
         <ResultView

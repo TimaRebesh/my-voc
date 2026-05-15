@@ -33,7 +33,7 @@ export async function selectTopic(
       throw new Error('Topic not found');
     }
     topic[TopicsFields.STUDY_ID] = vocabularyId;
-    topic.save();
+    await topic.save();
 
     revalidatePath(path);
   } catch (error) {

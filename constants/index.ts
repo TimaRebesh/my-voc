@@ -53,7 +53,7 @@ export enum ThemeValues {
   SYSTEM = 'system',
 }
 
-export const uploadThingUrl = 'https://utfs.io';
+export const uploadThingUrls = ['https://utfs.io', 'ufs.sh'];
 
 export const MAX_NUMBER_DEFINING_NEW = 6;
 

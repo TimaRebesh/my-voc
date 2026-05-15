@@ -1,7 +1,10 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
+import { MAX_NUMBER_DEFINING_NEW } from '@/constants';
 import { Word } from '@/lib/database/models/vocabulary.model';
-import { CheerInterface } from '@/utils/hooks';
+import { getWordProgress } from '@/lib/utils';
+import { CheerInterface, LEARNED_WORD_CHEER } from '@/utils/hooks';
 import { useEffect } from 'react';
 
 type ResultViesProps = {
@@ -17,7 +20,6 @@ export function ResultView({
   next,
   cheerControl,
 }: ResultViesProps) {
-
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
@@ -26,6 +28,7 @@ export function ResultView({
     };
 
     document.addEventListener('keydown', handleKeyPress);
+
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
@@ -33,7 +36,10 @@ export function ResultView({
 
   useEffect(() => {
     if (currentWord.original === result) {
-      cheerControl.setCheer();
+      const willBeLearned =
+        getWordProgress(currentWord) + 1 === MAX_NUMBER_DEFINING_NEW;
+
+      cheerControl.setCheer(willBeLearned ? LEARNED_WORD_CHEER : undefined);
     }
   }, [result, currentWord, cheerControl]);
 
@@ -45,17 +51,15 @@ export function ResultView({
   return (
     <>
       <p className="text-primary text-2xl my-10">{currentWord.original}</p>
+
       {result !== currentWord.original && (
         <>
-          <p className="">{currentWord.translated}</p>
+          <p>{currentWord.translated}</p>
           <p className="italic line-through text-label my-4">{result}</p>
         </>
       )}
 
-      <Button
-        className="w-40"
-        onClick={click}
-      >
+      <Button className="w-40" onClick={click}>
         Next
       </Button>
     </>

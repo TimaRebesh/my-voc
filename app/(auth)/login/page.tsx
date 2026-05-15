@@ -18,12 +18,14 @@ export default async function () {
           <h2 className="font-bold mr-2">Log</h2>
           <span>In</span>
         </div>
-        test2
+
         <LoginForm />
+
         <Link href="/register">
           {"Don't have an account?   "}
           <b className="blue_gradient">Register</b>
         </Link>
+
         <div className="flex items-center justify-between">
           <Separator className="shrink" />
           <span className="text-sm mx-6 text-gray-400 whitespace-nowrap">
@@ -31,7 +33,9 @@ export default async function () {
           </span>
           <Separator className="shrink" />
         </div>
+
         <ProvidersButtons />
+
         <p className="text-sm text-gray-400 whitespace-nowrap">
           Created By: <span className="p-semibold-14">Timothy Rebesh</span>
         </p>

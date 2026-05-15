@@ -8,7 +8,7 @@ import {
   ConfigFields,
   ThemeValues,
   UserFields,
-  uploadThingUrl,
+  uploadThingUrls,
 } from '@/constants';
 import { User } from 'next-auth';
 import { useEffect, useState } from 'react';
@@ -59,7 +59,7 @@ const SettingsFormSchema = z.object({
   [ConfigFields.LIMIT_NEW]: z.number(),
 });
 
-export const SettingsForm = ({ user }: { user: User }) => {
+export const SettingsForm = ({ user }: { user: User; }) => {
   const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingsFormSchema>>({
@@ -117,14 +117,14 @@ export const SettingsForm = ({ user }: { user: User }) => {
         if (!uploadedAvatar) {
           return;
         }
-        uploadedAvatarUrl = uploadedAvatar[0].url;
+        uploadedAvatarUrl = uploadedAvatar[0].ufsUrl ?? uploadedAvatar[0].url;
       }
       // check if avatar value is empty
       if (form.watch(UserFields.AVATAR) === '') {
         uploadedAvatarUrl = '';
       }
       // deleting previous avatar
-      if (prevUrlAvatar?.includes(uploadThingUrl)) {
+      if (prevUrlAvatar && uploadThingUrls.some((url) => prevUrlAvatar.includes(url))) {
         const response = await fetch('api/uploadthing', {
           method: 'DELETE',
           headers: {

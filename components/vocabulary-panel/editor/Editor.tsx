@@ -58,7 +58,7 @@ export const Editor = ({
       if (onlyImported) {
         list = importedVoc;
       } else {
-        list = [...list, ...importedVoc];
+        list = [...importedVoc, ...list];
       }
     }
     try {

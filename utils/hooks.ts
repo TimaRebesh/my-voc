@@ -1,5 +1,8 @@
 'use client';
+
 import { useState } from 'react';
+
+export const LEARNED_WORD_CHEER = 'Congrats, you learned a new word';
 
 export const useCheer = () => {
   const cheers = [
@@ -13,8 +16,8 @@ export const useCheer = () => {
 
   const [cheer, setCheerValue] = useState('');
 
-  const setCheer = () => {
-    setCheerValue(cheers[Math.floor(Math.random() * cheers.length)]);
+  const setCheer = (message?: string) => {
+    setCheerValue(message ?? cheers[Math.floor(Math.random() * cheers.length)]);
   };
 
   const clearCheer = () => setCheerValue('');
@@ -28,6 +31,6 @@ export const useCheer = () => {
 
 export interface CheerInterface {
   cheer: string;
-  setCheer: () => void;
+  setCheer: (message?: string) => void;
   clearCheer: () => void;
 }
