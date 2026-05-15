@@ -6,6 +6,8 @@ import { auth } from '@/utils/authOptions';
 import { getAllSharedVocabularies } from '@/lib/actions/shared-vocabulary.actions';
 import { ISharedVocabulary } from '@/lib/database/models/shared-vocabulary.model';
 
+export const dynamic = 'force-dynamic';
+
 export default async function LibraryPage() {
   const sharedVocabularies =
     (await getAllSharedVocabularies()) as ISharedVocabulary[];
